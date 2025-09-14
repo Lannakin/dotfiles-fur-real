@@ -1,0 +1,326 @@
+#!/usr/bin/env bash
+#
+# config for herbstluftwm
+
+###   LOG FILES   ###
+##  herbstluftwm's log file  ##
+LOG="$HOME/LOGS/herbstluftwm.log"
+
+## other apps' log files  ##
+CONKY=              "$HOME/LOGS/herbstluftwm-conky.log"
+KEYBINDMANAGER=     "$HOME/LOGS/herbstluftwm-sxhkd.log"
+NOTIFICATIONDAEMON= "$HOME/LOGS/herbstluftwm-dunst.log"
+STATUSBAR=          "$HOME/LOGS/herbstluftwm-polybar.log"
+DISPLAY=            "$HOME/LOGS/herbstluftwm-xrandr.log"
+
+POLYBAR_HEIGHT=20
+
+echo "---  herbstluftwm launching ---" &> $LOG
+
+hc() {
+    herbstclient "$@"  &>>$LOG
+}
+
+hc emit_hook reload
+
+################
+#   KEYBINDS   #
+################
+
+hc keyunbind --all   # remove all existing keybindings
+
+###   MODIFIER SWAP   ###
+
+Mod=Mod1    # Use alt as the main modifier
+# Mod=Mod4   # Use the super key as the main modifier -- xbindkeys will fuck this up
+# xmodmap:
+# shift       Shift_L,  Shift_R
+# lock        Caps_Lock
+# control     Control_L, Control_R
+# mod1        Alt_L, Alt_R, Meta_L
+# mod2        Num_Lock
+# mod3        ISO_Level5_Shift
+# mod4        Super_L, Super_R
+# mod5        ISO_Level3_Shift
+
+###   MOUSE BINDS   ###
+hc mouseunbind --all   # remove all existing keybindings
+
+hc mousebind $Mod-Button1        move
+hc mousebind $Mod-Button2        zoom
+hc mousebind $Mod-Button3        resize
+
+###   WINDOW MANAGEMENT   ###
+hc keybind $Mod-Shift-q          quit     # quit hlswm
+hc keybind $Mod-Shift-r          reload   # reload hlswm
+hc keybind $Mod-Shift-c          close    # close focused window or frame
+
+# hc keybind $Mod-Alt-t            spawn "${TERMINAL:-xterm}"   # open terminal
+
+###   CYCLE FOCUS   ###
+hc keybind $Mod-BackSpace        cycle_monitor
+hc keybind $Mod-Tab              cycle_all +1
+hc keybind $Mod-Shift-Tab        cycle_all -1
+hc keybind $Mod-c                cycle
+# hc keybind $Mod-i                jumpto urgent
+
+###   MOVEMENT -- FOCUSED CLIENT   ###
+# tiling and floating mode
+hc keybind $Mod-Left             focus left
+hc keybind $Mod-Down             focus down
+hc keybind $Mod-Up               focus up
+hc keybind $Mod-Right            focus right
+
+###   MOVEMENT -- CLIENTS   ###
+# moving clients between frames in tiling and floating mode
+hc keybind $Mod-Shift-Left       shift left
+hc keybind $Mod-Shift-Down       shift down
+hc keybind $Mod-Shift-Up         shift up
+hc keybind $Mod-Shift-Right      shift right
+
+###   FRAME SPLITTING   ###
+# create an empty frame at location of focused monitor
+hc keybind $Mod-i                split    bottom    0.5
+hc keybind $Mod-o                split    right     0.5
+
+hc keybind $Mod-Control-space    split    explode    # let the current frame explode into subframes
+
+###   RESIZING   ###
+# resizes frames and floating clients
+resizestep=0.01
+hc keybind $Mod-Control-Left     resize left +$resizestep
+hc keybind $Mod-Control-Down     resize down +$resizestep
+hc keybind $Mod-Control-Up       resize up +$resizestep
+hc keybind $Mod-Control-Right    resize right +$resizestep
+
+###   LAYOUT   ###
+hc keybind $Mod-f                floating toggle    # per focused FRAME
+hc keybind $Mod-l                fullscreen toggle  # per focused
+hc keybind $Mod-t                pseudotile toggle  # per focused
+hc keybind $Mod-r                remove             # removes frame, merges contents with neighboring; per focused
+
+hc keybind $Mod-Shift-f          set_attr clients.focus.floating toggle   # toggle floating on focused
+hc keybind $Mod-Shift-d          set_attr clients.focus.decorated toggle  # toggle decorations on focused
+
+
+###   MINIMIZING   ###
+hc keybind $Mod-Shift-m          set_attr clients.focus.minimized true    # minimizes focused window
+hc keybind $Mod-Control-m        jumpto last-minimized                    # will jump to minimized windows sequentially and unminimize them
+
+# The following unminimizes all minimized clients
+hc keybind $Mod-Ctrl-Shift-m                 \
+   substitute FOCUS "tags.focus.name"        \
+   foreach CLIENT clients.                   \
+     sprintf MINATT "%c.minimized" CLIENT    \
+     sprintf TAGATT "%c.tag" CLIENT and      \
+       , compare MINATT "=" "true"           \
+       , compare TAGATT "=" FOCUS            \
+       , set_attr MINATT false
+
+###   LAYOUT SAVE & RECALL   ###
+# hc keybind $Mod-Control-k        spawn $HOME/.config/herbstluftwm/scripts/save-layout.sh
+# hc keybind $Mod-Control-comma    spawn $HOME/.config/herbstluftwm/scripts/recall-layout.sh
+
+###   LAYOUT SAVE & RECALL VIA DMENU   ###
+# NOTE: BAR APPEARS AT TOP OF SCREEN
+hc keybind $Mod-Control-k        spawn $HOME/.config/herbstluftwm/scripts/herbstluftwm-save-tree.sh save
+hc keybind $Mod-Control-comma    spawn $HOME/.config/herbstluftwm/scripts/herbstluftwm-save-tree.sh load
+
+###   SCREENSHOT SELECTION   ###
+hc keybind $Mod-Shift-s          spawn scrot -s "$HOME/Pictures/herbstluftwm_screenshots/screenshot_%Y-%m-%d_%H.%M.%S.png" -e 'xclip -selection clipboard -t image/png -i $f'
+
+###   TAGS   ###
+tag_names=( {0..7} )
+tag_keys=( {0..7} 0 )
+
+hc rename default "${tag_names[0]}" || true
+for i in "${!tag_names[@]}" ; do
+    hc add "${tag_names[$i]}"
+    key="${tag_keys[$i]}"
+    if [ -n "$key" ] ; then
+        hc keybind "$Mod-$key" use_index "$i"
+        hc keybind "$Mod-Shift-$key" move_index "$i"
+    fi
+done
+
+###   CYCLE TAGS   ###
+hc keybind $Mod-period           use_index +1 --skip-visible
+hc keybind $Mod-comma            use_index -1 --skip-visible
+
+# The following cycles through the available layouts within a frame, but skips
+# layouts, if the layout change wouldn't affect the actual window positions.
+# I.e. if there are two windows within a frame, the grid layout is skipped.
+hc keybind $Mod-space                                                           \
+            or , and . compare tags.focus.curframe_wcount = 2                   \
+                     . cycle_layout +1 vertical horizontal max vertical grid    \
+               , cycle_layout +1
+
+#############
+#   THEME   #
+#############
+# #002B36 #586E75 #839496 #EEE8D5 #B58900 #DC322F #6C71C4 #2AA198 #B8D8D6
+# #073642 #657B83 #93A1A1 #FDF6E3 #CB4B16 #D33682 #268bC2 #859900 #C5E7E5
+
+hc attr theme.tiling.reset    1
+hc attr theme.floating.reset  1
+
+###   FRAME STYLE   ###
+hc set frame_border_active_color    '#CB4B16dd'
+hc set frame_border_normal_color    '#657B83cc'
+hc set frame_bg_normal_color        '#C5E7E5FF'
+hc set frame_bg_active_color        '#B8D8D6FF'
+hc set frame_bg_transparent          on
+hc set frame_transparent_width       1
+hc set frame_gap                     4
+hc set frame_padding                 0
+hc set frame_border_width            1
+hc set show_frame_decorations        'focused'
+#hc set tight_decorations             true
+
+###   WINDOW STYLE   ###
+hc set window_gap                   1
+hc set smart_window_surroundings    on
+hc set smart_frame_surroundings     on
+hc set mouse_recenter_gap           0
+
+###   TITLE BAR STYLE   ###
+hc attr theme.title_height              14
+hc attr theme.title_when                'one_tab'
+hc attr theme.title_font                'Px437 Compaq Port3:pixelsize=12'  # example using Xft
+# hc attr theme.title_font              '-*-fixed-medium-r-*-*-13-*-*-*-*-*-*-*' for standard bitmap
+hc attr theme.title_depth               2  # space below the title's baseline
+hc attr theme.active.color              '#B8D8D6'
+hc attr theme.title_color               '#002B36'
+hc attr theme.normal.color              '#FDF6E3dd'
+hc attr theme.urgent.color              '#CB4B16dd'
+hc attr theme.tab_color                 '#EEE8D5dd'
+hc attr theme.active.tab_color          '#B8D8D6dd'
+hc attr theme.active.tab_outer_color    '#C5E7E5dd'
+hc attr theme.active.tab_title_color    '#002B36'
+hc attr theme.normal.title_color        '#657B83'
+hc attr theme.inner_width               0
+hc attr theme.inner_color               '#93A1A1'
+hc attr theme.border_width              1
+hc attr theme.floating.border_width     1
+hc attr theme.floating.outer_width      1
+hc attr theme.floating.outer_color      '#839496'
+hc attr theme.active.inner_color        '#CB4B16'
+hc attr theme.urgent.inner_color        '#D33682'
+hc attr theme.normal.inner_color        '#C5E7E5'
+hc attr theme.background_color          '#93A1A1bb'
+hc attr theme.tiling.outer_width        1
+
+# copy inner color to outer_color
+for state in active urgent normal ; do
+    hc substitute C theme.${state}.inner_color \
+        attr theme.${state}.outer_color C
+done
+
+#############
+#   RULES   #
+#############
+
+hc unrule -F
+
+hc rule focus=on # normally focus new clients
+hc rule floatplacement=smart
+
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)'        floating=on
+hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG'                         focus=on floating=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)'    manage=off
+hc rule fixedsize                                                       floating=on
+
+hc set tree_style '╾│ ├└╼─┐'
+
+hc rule title='Font Forge'                  floating=on
+hc rule title='Font Information.*'          floating=on
+hc rule title='Spectacle'                   floating=on
+hc rule class='zenity'                      floating=on
+hc rule class~'[Cc]onky'                    manage=off
+hc rule class~'[Gg]alculator'               floating=on
+hc rule class='[Ss]pectacle'                manage=off
+hc rule class='[Ss]crot'                    manage=off
+
+hc rule class=Keybindings                   floating=on
+hc rule class=Music                         floating=on
+# hc rule class=Scratchpad                    floating=on
+hc rule class=Sysinfo                       floating=on
+hc rule class~'[Gg]pick'                    floating=on
+hc rule class=Thunderbird title='Edit Item' floating=on # tag=7
+
+# hc rule instance=sys tag=1
+# hc rule instance=work tag=2
+# hc rule instance=com tag=3 floating=on
+# hc rule instance=tj tag=3
+# hc rule instance=komala tag=5
+# hc rule instance=home tag=6
+# hc rule instance=tj-laptop tag=6
+
+
+# unlock, just to be sure
+hc unlock
+
+################
+#   MONITORS   #
+################
+
+# xrandr -q | grep " connected" | cut -d ' ' -f1
+
+###   DEFINE MONITOR SIZES AND POSITIONS   ###
+# hc list_monitors --no-disjoin
+
+echo "[INFO] Initializing monitors..." &>> $LOG
+
+hc set_monitors 2560x1440+0+0 3440x1440+2560+0 2560x1440+6000+0 &>> $LOG
+
+hc add_monitor 2560x1440+0+0    0 left      #&>> $LOG
+hc add_monitor 3440x1440+2560+0 1 primary   #&>> $LOG
+hc add_monitor 2560x1440+6000+0 2 right     #&>> $LOG
+
+hc pad 0 "" "" "" ""
+hc pad 1 "" "" "" ""
+hc pad 2 "" "" "" ""
+
+# hc list_monitors
+###   DEFINE BEHAVIOR   ###
+hc set focus_crosses_monitor_boundaries    1
+hc set swap_monitors_to_get_tag            1
+
+############################
+#   AUTOSTART OTHER APPS   #
+############################
+# echo -n >$LOG &
+
+sxhkd -c $HOME/.config/herbstluftwm/sxhkdrc & &>> $KEYBINDMANAGER # $LOG
+echo "[INFO] starting sxhkd using $HOME/.config/herbstluftwm/sxhkdrc"  &>> $LOG
+
+input-remapper-control --config-dir $HOME/.config/input-remapper-2/ --command autoload &
+echo "[INFO] setting input-remapper-control --config-dir $HOME/.config/input-remapper-2/ --command autoload"  &>>$LOG
+
+dunstctl reload $HOME/.config/herbstluftwm/dunstrc & &>> $NOTIFICATIONDAEMON # $LOG
+echo "[INFO] reloading dunst using $HOME/.config/herbstluftwm/dunstrc"  &>> $LOG
+
+# hc pad 2 "" "" 26 ""
+# $HOME/.config/polybar/launch.sh &
+# echo "[INFO] starting polybar using $HOME/.config/polybar/launch.sh"  &>>$LOG
+
+# hc pad 2 ($POLYBAR_HEIGHT+4) "" (POLYBAR_HEIGHT+4) ""
+$HOME/.config/herbstluftwm/scripts/herbstluftwm-start.sh --polybar # &>> $STATUSBAR # $LOG
+echo "[INFO] starting polybar using herbstluftwm-start.sh --polybar"  &>> $LOG
+
+xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00 & &>> $DISPLAY
+echo "[INFO] setting xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00"  &>> $LOG
+
+xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary & &>> $DISPLAY
+echo "[INFO] setting xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary"  &>> $LOG
+
+xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00 & &>> $DISPLAY
+echo "[INFO] setting xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00"  &>> $LOG
+
+xwallpaper  --zoom $HOME/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png &
+echo "[INFO] setting xwallpaper  --zoom $HOME/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png"  &>> $LOG
+
+$HOME/.config/herbstluftwm/scripts/herbstluftwm-start.sh --conky &
+echo "[INFO] starting conky using herbstluftwm-start.sh --conky"  &>> $LOG
+
+echo "---  herbstluftwm end of autostart file ---"  &>> $LOG

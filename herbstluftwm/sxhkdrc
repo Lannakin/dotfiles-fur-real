@@ -1,0 +1,45 @@
+#  sxhkdrc
+
+#   SXHKD CTL
+#================================================================================
+
+# make sxhkd reload its configuration files:
+# just kidding, this seems not to work with herbstluftwm running
+super + Escape
+    pkill -USR1 -x sxhkd
+
+# AUDIO
+#================================================================================
+
+XF86AudioRaiseVolume
+    pactl set-sink-volume @DEFAULT_SINK@ +1%
+
+XF86AudioLowerVolume
+    pactl set-sink-volume @DEFAULT_SINK@ -1%
+
+XF86AudioPlay
+    mpc toggle
+
+XF86AudioPrev
+    mpc prev
+
+XF86AudioNext
+    mpc next
+
+#   APPLICATIONS
+#================================================================================
+
+# terminal emulator
+ctrl + t
+    kitty
+
+# program launcher; must specify as _L b/c support
+Super_L; @Super_L
+    $HOME/.config/rofi/launchers/type-1/launcher.sh
+
+#   HERBSTLUFTWM
+#================================================================================
+
+# toggle dual head on focused monitor
+alt + shift + o
+    $HOME/.config/herbstluftwm/scripts/toggledualhead.sh

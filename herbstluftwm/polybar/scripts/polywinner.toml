@@ -1,0 +1,31 @@
+# Maximum bar size, in characters
+# Does not take the sizes of the left and right delimiters into account
+max_bar_size = 65
+
+left_side_delimiter = "| "
+right_side_delimiter = " |"
+window_separator = " | "
+
+# Options:
+# upper - converts window names to full uppercase
+# lower - converts window names to full lowercase
+# "upper" and "lower" settings might display odd behavior with non-ASCII glyphs
+# window_name_case = "lower"
+
+# Format strings for customizing the look of the bar
+# See https://github.com/polybar/polybar/wiki/Formatting for documentation
+# There should be a {} between format tags, which will be where the window name will be inserted
+# Format tag brackets should be doubled for escaping, e.g. { -> {{ , } -> }}
+# Just experiment with it if this explanation is too hard to parse, and remember, you can use
+# "polybar-msg cmd restart" to restart your polybar.
+active_window_format = "%{{F#250F0B}}%{{+u}}%{{u#ECB3B2}}{}%{{-u}}%{{F-}}"
+inactive_window_format = "%{{F#250F0B}}{}%{{F-}}"
+separator_format = "%{{F#250F0B}}{}%{{F-}}"
+left_side_delimiter_format = "%{{F#250F0B}}{}%{{F-}}"
+right_side_delimiter_format = "%{{F#250F0B}}{}%{{F-}}"
+
+# Use an empty string to exclude window from the bar:
+# "from" = ""
+# Case-sensitive. Windows are renamed before window_name_case is applied.
+[renames]
+# "from" = "to"
