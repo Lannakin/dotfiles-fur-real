@@ -1,4 +1,4 @@
 ## Current Theme
 
-type="$HOME/.config/rofi/applets/type-2"
-style='style-1.rasi'
+export type="${HOME}/.config/rofi/applets/type-2"
+export style='style-1.rasi'

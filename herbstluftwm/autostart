@@ -7,11 +7,12 @@
 LOG="$HOME/LOGS/herbstluftwm.log"
 
 ## other apps' log files  ##
-CONKY=              "$HOME/LOGS/herbstluftwm-conky.log"
-KEYBINDMANAGER=     "$HOME/LOGS/herbstluftwm-sxhkd.log"
-NOTIFICATIONDAEMON= "$HOME/LOGS/herbstluftwm-dunst.log"
-STATUSBAR=          "$HOME/LOGS/herbstluftwm-polybar.log"
-DISPLAY=            "$HOME/LOGS/herbstluftwm-xrandr.log"
+CONKY="${HOME}/LOGS/herbstluftwm-conky.log"
+KEYBINDMANAGER="${HOME}/LOGS/herbstluftwm-sxhkd.log"
+NOTIFICATIONDAEMON="${HOME}/LOGS/herbstluftwm-dunst.log"
+STATUSBAR="${HOME}/LOGS/herbstluftwm-polybar.log"
+XRANDRLOG="${HOME}/LOGS/herbstluftwm-xrandr.log"
+# INPUTREMAPPER="${HOME}LOGS/input-remapper.log"
 
 POLYBAR_HEIGHT=20
 
@@ -269,17 +270,17 @@ hc unlock
 ###   DEFINE MONITOR SIZES AND POSITIONS   ###
 # hc list_monitors --no-disjoin
 
-echo "[INFO] Initializing monitors..." &>> $LOG
+echo "[INFO] Initializing monitors..." &>> "${LOG}"
 
-hc set_monitors 2560x1440+0+0 3440x1440+2560+0 2560x1440+6000+0 &>> $LOG
+hc set_monitors 2560x1440+0+0 3440x1440+2560+0 2560x1440+6000+0 &>> "${LOG}"
 
 hc add_monitor 2560x1440+0+0    0 left      #&>> $LOG
 hc add_monitor 3440x1440+2560+0 1 primary   #&>> $LOG
 hc add_monitor 2560x1440+6000+0 2 right     #&>> $LOG
 
-hc pad 0 "" "" "" ""
-hc pad 1 "" "" "" ""
-hc pad 2 "" "" "" ""
+hc pad 0 "" "" "${POLYBAR_HEIGHT}" ""
+hc pad 1 "" "" "${POLYBAR_HEIGHT}" ""
+hc pad 2 "" "${POLYBAR_HEIGHT}" "${POLYBAR_HEIGHT}" ""
 
 # hc list_monitors
 ###   DEFINE BEHAVIOR   ###
@@ -291,36 +292,42 @@ hc set swap_monitors_to_get_tag            1
 ############################
 # echo -n >$LOG &
 
-sxhkd -c $HOME/.config/herbstluftwm/sxhkdrc & &>> $KEYBINDMANAGER # $LOG
-echo "[INFO] starting sxhkd using $HOME/.config/herbstluftwm/sxhkdrc"  &>> $LOG
+# killall -q sxhkd
+#     echo "[INFO] using 'pkill -x sxhkd', hopefully sxhkd terminates and restarts!" &> "${KEYBINDMANAGER}"
+#     ## wait for all SXHKD processes to terminate ##
+#     while pgrep -u "${UID}" -x sxhkd >/dev/null;
+#       do sleep 1;
+#       done
 
-input-remapper-control --config-dir $HOME/.config/input-remapper-2/ --command autoload &
-echo "[INFO] setting input-remapper-control --config-dir $HOME/.config/input-remapper-2/ --command autoload"  &>>$LOG
+# sxhkd -c "${HOME}/.config/herbstluftwm/sxhkdrc" &>> "${KEYBINDMANAGER}" & # $LOG
+# echo "[INFO] starting sxhkd using ${HOME}/.config/herbstluftwm/sxhkdrc"  &>> "${LOG}"
 
-dunstctl reload $HOME/.config/herbstluftwm/dunstrc & &>> $NOTIFICATIONDAEMON # $LOG
-echo "[INFO] reloading dunst using $HOME/.config/herbstluftwm/dunstrc"  &>> $LOG
+"${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --sxhkd &
+echo "[INFO] starting sxhkd using herbstluftwm-start.sh --sxhkd"  &>> "${LOG}"
 
-# hc pad 2 "" "" 26 ""
-# $HOME/.config/polybar/launch.sh &
-# echo "[INFO] starting polybar using $HOME/.config/polybar/launch.sh"  &>>$LOG
+dunstctl reload "${HOME}/.config/herbstluftwm/dunstrc" &>> "${NOTIFICATIONDAEMON}" & # $LOG
+echo "[INFO] reloading dunst using ${HOME}/.config/herbstluftwm/dunstrc"  &>> "${LOG}"
 
-# hc pad 2 ($POLYBAR_HEIGHT+4) "" (POLYBAR_HEIGHT+4) ""
-$HOME/.config/herbstluftwm/scripts/herbstluftwm-start.sh --polybar # &>> $STATUSBAR # $LOG
-echo "[INFO] starting polybar using herbstluftwm-start.sh --polybar"  &>> $LOG
 
-xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00 & &>> $DISPLAY
-echo "[INFO] setting xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00"  &>> $LOG
+"${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --polybar # &>> $STATUSBAR # $LOG
+echo "[INFO] starting polybar using herbstluftwm-start.sh --polybar"  &>> "${LOG}"
 
-xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary & &>> $DISPLAY
-echo "[INFO] setting xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary"  &>> $LOG
+xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00 &> "${XRANDRLOG}" &
+echo "[INFO] setting xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00"  &>> "${LOG}"
 
-xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00 & &>> $DISPLAY
-echo "[INFO] setting xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00"  &>> $LOG
+xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary &>> "${XRANDRLOG}" &
+echo "[INFO] setting xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary"  &>> "${LOG}"
 
-xwallpaper  --zoom $HOME/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png &
-echo "[INFO] setting xwallpaper  --zoom $HOME/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png"  &>> $LOG
+xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00 &>> "${XRANDRLOG}" &
+echo "[INFO] setting xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00"  &>> "${LOG}"
+
+xwallpaper  --zoom "${HOME}/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png" &
+echo "[INFO] setting xwallpaper  --zoom \"${HOME}/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png\""  &>> "${LOG}"
 
 $HOME/.config/herbstluftwm/scripts/herbstluftwm-start.sh --conky &
-echo "[INFO] starting conky using herbstluftwm-start.sh --conky"  &>> $LOG
+echo "[INFO] starting conky using herbstluftwm-start.sh --conky"  &>> "${LOG}"
 
-echo "---  herbstluftwm end of autostart file ---"  &>> $LOG
+"input-remapper-redirector.sh"
+echo "[INFO] setting input-remapper-control --config-dir ${HOME}/.config/input-remapper-2/ --command autoload"  &>> "${LOG}"
+
+echo "---  herbstluftwm end of autostart file ---"  &>> "${LOG}"

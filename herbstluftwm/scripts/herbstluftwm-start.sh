@@ -8,6 +8,8 @@
 HERBSTLUFTWM="$HOME/.config/herbstluftwm"      # base directory for the Window Manager
 HERBSTLUFTWM_POLYBAR="$HERBSTLUFTWM/polybar/herbstluftwm-polybar.sh"
 HERBSTLUFTWM_CONKY="$HERBSTLUFTWM/conky/herbstluftwm-conky.sh"
+## sxhkd log ##
+KEYBINDMANAGER="${HOME}/LOGS/sxhkd.log"
 
 ## define path for this script to log to ##
 # BTW we're sending it to the Window Manager's log; directory name is in CAPS because I AM DERANGED and named it in CAPS
@@ -21,10 +23,10 @@ LOG="$HOME/LOGS/herbstluftwm.log"
 ## return "Invalid input." in STDERR (standard error; diagnostic output. it is not limited to errors) ##
 # syntax for this scenario: getopt [options] -o|--options optstring [options] [--] parameters
 # IDK: does it need to be 'filenameofscript.sh' or can it be 'nameofscript'?
-vars=$(getopt -o chp --long conky,help,polybar -n 'herbstluftwm-start.sh' -- "$@")
-  if [ $? -ne 0 ] ; then                                        # $?    = the value returning exit code of input for herbsluftwm-start -arg --longarg
+vars=$(getopt -o chps --long conky,help,polybar,sxhkd -n 'herbstluftwm-start.sh' -- "$@")
+  if [ $? -ne 0 ] ; then                                          # $?    = the value returning exit code of input for herbsluftwm-start -arg --longarg
     echo "herbstluftwm-start: [ERROR] invalid option(s)." >&2 ;   # -ne 0 = "not equal to" 0
-    exit 1 ;                                                    # non-zero exit codes indicate error and terminate script
+    exit 1 ;                                                      # non-zero exit codes indicate error and terminate script
   fi
 # echo "herbstluftwm-start: [DEBUG] GETOPT P0 completed." &>> $LOG
 
@@ -41,6 +43,7 @@ eval set -- "$vars"   # eval = tells shell to run another round of shell expansi
 ### initialize GETOPT variables by setting them to an initialized value ###
 CONKY=false
 POLYBAR=false
+SXHKD=false
 HELP=false
 # echo "herbstluftwm-start: [DEBUG] GETOPT P1.1 completed." &>> $LOG
 
@@ -59,20 +62,38 @@ while true; do    # while this statement returns 1, execute...
         done
       ## start conky configs...##
       echo "herbstluftwm-start: [INFO] conky initiating..." &>> $LOG     # output "message" to this log
-      $HERBSTLUFTWM_CONKY &
+      "${HERBSTLUFTWM_CONKY}" &
       echo "herbstluftwm-start: [INFO] conky initiated." &>> $LOG
+      # trunk-ignore(shellcheck/SC2034)
       CONKY=true    # set GETOPT variable for CONKY to TRUE so that this loop ends
       shift
       ;;
     -p | --polybar)
       ## start polybar config... ##
       # my herbstluftwm polybar already has killall and wait
-      $HERBSTLUFTWM_POLYBAR &
+      "${HERBSTLUFTWM_POLYBAR}" &
       echo "herbstluftwm-start: [INFO] polybar initiating..." &>> $LOG
+      # trunk-ignore(shellcheck/SC2034)
       POLYBAR=true
       shift
       ;;
+    -s | --sxhkd)
+      ## murder all SXHKD processes ##
+      killall -q sxhkd
+      ## wait for all SXHKD processes to terminate ##
+      while pgrep -u $UID -x sxhkd >/dev/null;
+        # echo "[INFO] starting sxhkd using ${HOME}/.config/herbstluftwm/sxhkdrc"  &>> "${LOG}"
+        do sleep 1;
+        done
+      ## start SXHKD config...##
+      sxhkd -c "${HOME}/.config/herbstluftwm/sxhkdrc" &>> "${KEYBINDMANAGER}" &
+      echo "[INFO] starting sxhkd using ${HOME}/.config/herbstluftwm/sxhkdrc"  &>> "${LOG}"
+      # trunk-ignore(shellcheck/SC2034)
+      SXHKD=true    # set GETOPT variable for SXHKD to TRUE so that this loop ends
+      shift
+      ;;
     -h | --help)
+      # trunk-ignore(shellcheck/SC2034)
       HELP=true
       echo "herbstluftwm-start: [INFO] no help / usage written yet. :)" &>> $LOG
       shift

@@ -1,8 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
+#
 # ASCII Bar Generator for Conky
 # Creates │ character progress bars for system monitoring
 #
-# Almost entirely written by Claude
+# Written bly Claude in nearly its entirety
 #
 # NOTE: conky.conf's % numbers are not synchronized with the bars.
 # file path below for my reference

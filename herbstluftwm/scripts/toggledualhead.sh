@@ -1,26 +1,21 @@
 #!/usr/bin/env bash
+#
+# source: https://github.com/herbstluftwm/herbstluftwm/tree/master/scripts
 
 # Splits the currently focused monitor into two monitors displayed side by side
-# Running this on a split monitor joins the two monitor halfs again.
-
-LOG="$HOME/LOGS/herbstluftwm.log"
+# Running this on a splitted monitor joins the two monitor halfs again.
 
 hc() {
     herbstclient "$@"
-    echo "[DEBUG] attempting to toggle dual head..." &>> $LOG
 }
 
 array2rect() {
-    printf "%dx%d%+d%+d" $3 $4 $1 $2  &>> $LOG
+    printf "%dx%d%+d%+d" $3 $4 $1 $2
 }
-
-echo "[DEBUG] dual head P0." &>> $LOG
 
 idx=$(hc get_attr monitors.focus.index)
 
-my_orig_rect=$(get_attr monitors.contentGeometry)
-
-if orig=$(hc get_attr monitors.${idx}.my_orig_rect 2> /dev/null ) ; then &>> $LOG
+if orig=$(hc get_attr monitors.${idx}.my_orig_rect 2> /dev/null ) ; then
     # give original size and remove all other monitors without the leader flag
     rect=$(array2rect $orig)
     mon_cnt=$(hc get_attr monitors.count)
@@ -29,8 +24,7 @@ if orig=$(hc get_attr monitors.${idx}.my_orig_rect 2> /dev/null ) ; then &>> $LO
             X move_monitor $idx "$rect"
             X remove_attr monitors.${idx}.my_orig_rect
             X or
-    ) &>> $LOG
-    echo "[DEBUG] dual head P1." &>> $LOG
+    )
     for ((i=0 ; i < mon_cnt ; i++ )) ; do
         # find the other monitor half and remove it
         [ $i != $idx ] &&
@@ -39,9 +33,7 @@ if orig=$(hc get_attr monitors.${idx}.my_orig_rect 2> /dev/null ) ; then &>> $LO
                     ∧ remove_monitor $i
         )
     done
-    echo "[DEBUG] dual head P2." &>> $LOG
-    hc "${cmd[@]}" > /dev/null 2> /dev/null &>> $LOG
-    echo "[DEBUG] dual head P3." &>> $LOG
+    hc "${cmd[@]}" > /dev/null 2> /dev/null
 else
     # split original rectangle of the monitor into a left and a right half
     orig=( $(hc monitor_rect $i) ) || exit 1
@@ -77,5 +69,4 @@ for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
     "$panelcmd" $monitor &
 done
-
 

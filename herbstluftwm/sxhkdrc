@@ -1,11 +1,11 @@
 #  sxhkdrc
-
+#
 #   SXHKD CTL
 #================================================================================
 
 # make sxhkd reload its configuration files:
 # just kidding, this seems not to work with herbstluftwm running
-super + Escape
+super + alt + Escape
     pkill -USR1 -x sxhkd
 
 # AUDIO

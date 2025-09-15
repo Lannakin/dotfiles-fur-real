@@ -1,12 +1,12 @@
-#!/bin/sh
-# via https://github.com/juacq97/hlwm-save-tree/blob/main/hlwm-save-tree
+#!/usr/bin/env bash
+# source: https://github.com/juacq97/hlwm-save-tree/blob/main/hlwm-save-tree
 
 # Set the directory variable
-dir=$HOME/.config/herbstluftwm/layouts
-LOG=$HOME/LOGS/herbstluftwm.log
+dir="${HOME}/.config/herbstluftwm/layouts"
+LOG="${HOME}/LOGS/herbstluftwm.log"
 
 SAVE () {
-    echo "herbstluftwm-save-tree: [DEBUG] opening save menu..." &>> $LOG
+    echo "herbstluftwm-save-tree: [DEBUG] opening save menu..." &>> "${LOG}"
     name=$(echo "" | dmenu -p "Save layout as:")
     echo "$name"
     if [[ $name == "" ]]; then
@@ -16,7 +16,7 @@ SAVE () {
     # Saving layout
     layout=$(herbstclient dump)
     echo "herbstclient load '$layout'" > "$dir/$name"
-``
+
     # # Saving windows configurations
     # for id in $(herbstclient foreach C clients. echo C|grep -oE '0x[0-9a-fA-F]*') ; do
 	# client="clients.${id}"
@@ -35,7 +35,7 @@ SAVE () {
     #         )
 	# fi
 	# echo herbstclient rule once "${rule[@]}" "# $id" >> "$dir/$name"
-	# echo herbstclient apply_tmp_rule --all "${rule[@]}" "# $id" >> "$dir/$name"
+	# echo herbstclient apply_tmp_r`ule --all "${rule[@]}" "# $id" >> "$dir/$name"
     # done
 }
 
@@ -49,17 +49,17 @@ LOAD () {
 
 case $1 in
     "save")
-      echo "herbstluftwm-save-tree: [INFO] saving profile..." &>> $LOG
+      echo "herbstluftwm-save-tree: [INFO] saving profile..." &>> "${LOG}"
       SAVE
-      echo "herbstluftwm-save-tree: [INFO] profile $name saved." &>> $LOG
+      echo "herbstluftwm-save-tree: [INFO] profile ${name} saved." &>> "${LOG}"
       ;;
     "load")
-      echo "herbstluftwm-save-tree: [DEBUG] loading profile..." &>> $LOG
+      echo "herbstluftwm-save-tree: [DEBUG] loading profile..." &>> "${LOG}"
       LOAD
-      echo "herbstluftwm-save-tree: [DEBUG] profile $name loaded." &>> $LOG
+      echo "herbstluftwm-save-tree: [DEBUG] profile ${name} loaded." &>> "${LOG}"
       ;;
     *)
       echo Error
-      echo "herbstluftwm-save-tree: [ERROR] invalid input or command." &>> $LOG
+      echo "herbstluftwm-save-tree: [ERROR] invalid input or command." &>> "${LOG}"
       ;;
 esac

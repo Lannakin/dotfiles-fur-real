@@ -21,7 +21,8 @@ hi dir default default
 set window playlist
 
 " Set the windows to show at startup
-set windows help,library,browse,playlist
+" valid: browse console directory help library lists outputs playlist windows
+set windows help,library,lists,playlist
 
 " Stop playing music when we quit
 set stoponquit
