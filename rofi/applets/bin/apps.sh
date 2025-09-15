@@ -9,9 +9,9 @@
 ##  - the working directory (bin)
 ##	- the parent directory (applets)
 ##	- rofi's directory (rofi)
-WORKINGDIR=$( cd "$(dirname "${BASH_SOURCE[0]}")" || exit ; pwd -P )
-PARENTDIR=$(builtin cd "${WORKINGDIR}" || exit ; pwd)
-ROFIDIR=$(builtin cd "${PARENTDIR}" || exit ; pwd)
+WORKINGDIR=$( cd "$(dirname "${BASH_SOURCE[0]}")" || { echo "[ERROR] cd failed on WORKINGDIR."; exit 1; } ; pwd -P )
+PARENTDIR=$(builtin cd "${WORKINGDIR}" || { echo "[ERROR] cd failed on PARENTDIR."; exit 1; } ; pwd)
+ROFIDIR=$(builtin cd "${PARENTDIR}" || { echo "[ERROR] cd failed on ROFIDIR."; exit 1; } ; pwd)
 
 # Import Current Theme
 source "${ROFIDIR}/applets/shared/theme.bash"

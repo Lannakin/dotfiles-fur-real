@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+#
 # A simple script for window maximization and window switching.
 # Running this the first time script will:
 #
@@ -15,6 +15,9 @@ set -e
 #
 # If you call this script with "grid", then you obtain a window switcher,
 # similar to that of Mac OS X.
+
+set -e
+
 mode=${1:-max} # just some valid layout algorithm name
 
 layout=$(herbstclient dump)
