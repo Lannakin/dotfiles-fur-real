@@ -6,20 +6,20 @@
 ## Applets : Brightness
 
 # Import Current Theme
-source "$HOME"/.config/rofi/applets/shared/theme.bash
-theme="$type/$style"
+source "${HOME}/.config/rofi/applets/shared/theme.bash"
+theme="${type}"/"${style}"
 
 # Brightness Info
-backlight="$(printf "%.0f\n" `light -G`)"
+backlight="$(printf "%.0f\n" $(light -G))"
 card="`light -L | grep 'backlight' | head -n1 | cut -d'/' -f3`"
 
-if [[ $backlight -ge 0 ]] && [[ $backlight -le 29 ]]; then
+if [[ ${backlight} -ge 0 ]] && [[ ${backlight} -le 29 ]]; then
     level="Low"
-elif [[ $backlight -ge 30 ]] && [[ $backlight -le 49 ]]; then
+elif [[ ${backlight} -ge 30 ]] && [[ ${backlight} -le 49 ]]; then
     level="Optimal"
-elif [[ $backlight -ge 50 ]] && [[ $backlight -le 69 ]]; then
+elif [[ ${backlight} -ge 50 ]] && [[ ${backlight} -le 69 ]]; then
     level="High"
-elif [[ $backlight -ge 70 ]] && [[ $backlight -le 100 ]]; then
+elif [[ ${backlight} -ge 70 ]] && [[ ${backlight} -le 100 ]]; then
     level="Peak"
 fi
 
@@ -92,16 +92,20 @@ run_cmd() {
 # Actions
 chosen="$(run_rofi)"
 case ${chosen} in
-    $option_1)
+    "${option_1}")
 		run_cmd --opt1
         ;;
-    $option_2)
+    "${option_2}")
 		run_cmd --opt2
         ;;
-    $option_3)
+    "${option_3}")
 		run_cmd --opt3
         ;;
-    $option_4)
+    "${option_4}")
 		run_cmd --opt4
         ;;
+	*)
+	echo "[ERROR] Invalid run_cmd purrameters selected."
+	exit 1
+	;;
 esac

@@ -5,15 +5,15 @@
 ############################
 ###    GETOPT PHASE 0    ###
 ## specify shortcut variables in a more conveniently compact location ##
-HERBSTLUFTWM="$HOME/.config/herbstluftwm"      # base directory for the Window Manager
-HERBSTLUFTWM_POLYBAR="$HERBSTLUFTWM/polybar/herbstluftwm-polybar.sh"
-HERBSTLUFTWM_CONKY="$HERBSTLUFTWM/conky/herbstluftwm-conky.sh"
+HERBSTLUFTWM="${HOME}/.config/herbstluftwm"      # base directory for the Window Manager
+HERBSTLUFTWM_POLYBAR="${HERBSTLUFTWM}/polybar/herbstluftwm-polybar.sh"
+HERBSTLUFTWM_CONKY="${HERBSTLUFTWM}/conky/herbstluftwm-conky.sh"
 ## sxhkd log ##
-KEYBINDMANAGER="${HOME}/LOGS/sxhkd.log"
+KEYBINDMANAGER="${HOME}/LOGS/herbstluftwm-sxhkd.log"
 
 ## define path for this script to log to ##
 # BTW we're sending it to the Window Manager's log; directory name is in CAPS because I AM DERANGED and named it in CAPS
-LOG="$HOME/LOGS/herbstluftwm.log"
+LOG="${HOME}/LOGS/herbstluftwm.log"
 
 # echo "herbstluftwm-start: [DEBUG] GETOPT P0 completed." &>> $LOG
 
@@ -78,8 +78,8 @@ while true; do    # while this statement returns 1, execute...
       shift
       ;;
     -s | --sxhkd)
-      ## murder all SXHKD processes ##
-      killall -q sxhkd
+      ## murder SXHKD processes ##
+      pkill -USR1 -x sxhkd
       ## wait for all SXHKD processes to terminate ##
       while pgrep -u $UID -x sxhkd >/dev/null;
         # echo "[INFO] starting sxhkd using ${HOME}/.config/herbstluftwm/sxhkdrc"  &>> "${LOG}"
@@ -95,18 +95,18 @@ while true; do    # while this statement returns 1, execute...
     -h | --help)
       # trunk-ignore(shellcheck/SC2034)
       HELP=true
-      echo "herbstluftwm-start: [INFO] no help / usage written yet. :)" &>> $LOG
+      echo "herbstluftwm-start: [INFO] no help / usage written yet. :)" &>> "${LOG}"
       shift
       ;;
     --)
       shift
-      # echo "herbstluftwm-start: [DEBUG] we did it we reached the -- break of P2!" &>> $LOG
+      # echo "herbstluftwm-start: [DEBUG] we did it we reached the -- break of P2!" &>> "${LOG}"
       break
       ;;
     *)
-      echo "herbstluftwm-start: [ERROR] Invalid argument!" &>> $LOG
+      echo "herbstluftwm-start: [ERROR] Invalid argument!" &>> "${LOG}"
       exit 1
       ;;
   esac
 done
-# echo "herbstluftwm-start: [DEBUG] GETOPT P2 completed, EOF." &>> $LOG
+echo "herbstluftwm-start: [DEBUG] GETOPT P2 completed, EOF." &>> "${LOG}"

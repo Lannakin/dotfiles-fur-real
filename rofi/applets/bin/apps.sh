@@ -9,9 +9,27 @@
 ##  - the working directory (bin)
 ##	- the parent directory (applets)
 ##	- rofi's directory (rofi)
-WORKINGDIR=$( cd "$(dirname "${BASH_SOURCE[0]}")" || { echo "[ERROR] cd failed on WORKINGDIR."; exit 1; } ; pwd -P )
-PARENTDIR=$(builtin cd "${WORKINGDIR}" || { echo "[ERROR] cd failed on PARENTDIR."; exit 1; } ; pwd)
-ROFIDIR=$(builtin cd "${PARENTDIR}" || { echo "[ERROR] cd failed on ROFIDIR."; exit 1; } ; pwd)
+WORKINGDIR=$(
+	cd "$(dirname "${BASH_SOURCE[0]}")" || {
+		echo "[ERROR] cd failed on WORKINGDIR."
+		exit 1
+	}
+	pwd -P
+)
+PARENTDIR=$(
+	builtin cd "${WORKINGDIR}" || {
+		echo "[ERROR] cd failed on PARENTDIR."
+		exit 1
+	}
+	pwd
+)
+ROFIDIR=$(
+	builtin cd "${PARENTDIR}" || {
+		echo "[ERROR] cd failed on ROFIDIR."
+		exit 1
+	}
+	pwd
+)
 
 # Import Current Theme
 source "${ROFIDIR}/applets/shared/theme.bash"
@@ -21,10 +39,10 @@ theme="${type}/${style}"
 prompt='Applications'
 mesg="Installed Packages : $(pacman -Q | wc -l) (pacman)"
 
-if [[ ( "${theme}" == *'type-1'* ) || ( "${theme}" == *'type-3'* ) || ( "${theme}" == *'type-5'* ) ]]; then
+if [[ (${theme} == *'type-1'*) || (${theme} == *'type-3'*) || (${theme} == *'type-5'*) ]]; then
 	list_col='1'
 	list_row='6'
-elif [[ ( "${theme}" == *'type-2'* ) || ( "${theme}" == *'type-4'* ) ]]; then
+elif [[ (${theme} == *'type-2'*) || (${theme} == *'type-4'*) ]]; then
 	list_col='6'
 	list_row='1'
 fi
@@ -39,7 +57,7 @@ setting_cmd='xfce4-settings-manager'
 
 # Options
 layout=$(cat ${theme} | grep 'USE_ICON' | cut -d'=' -f2)
-if [[ "${layout}" == 'NO' ]]; then
+if [[ ${layout} == 'NO' ]]; then
 	option_1=" Terminal <span weight='light' size='small'><i>(${term_cmd})</i></span>"
 	option_2=" Files <span weight='light' size='small'><i>(${file_cmd})</i></span>"
 	option_3=" Editor <span weight='light' size='small'><i>(${text_cmd})</i></span>"
@@ -73,17 +91,17 @@ run_rofi() {
 
 # Execute Command
 run_cmd() {
-	if [[ "$1" == '--opt1' ]]; then
+	if [[ $1 == '--opt1' ]]; then
 		${term_cmd}
-	elif [[ "$1" == '--opt2' ]]; then
+	elif [[ $1 == '--opt2' ]]; then
 		${file_cmd}
-	elif [[ "$1" == '--opt3' ]]; then
+	elif [[ $1 == '--opt3' ]]; then
 		${text_cmd}
-	elif [[ "$1" == '--opt4' ]]; then
+	elif [[ $1 == '--opt4' ]]; then
 		${web_cmd}
-	elif [[ "$1" == '--opt5' ]]; then
+	elif [[ $1 == '--opt5' ]]; then
 		${music_cmd}
-	elif [[ "$1" == '--opt6' ]]; then
+	elif [[ $1 == '--opt6' ]]; then
 		${setting_cmd}
 	fi
 }
@@ -91,25 +109,26 @@ run_cmd() {
 # Actions
 chosen="$(run_rofi)"
 case "${chosen}" in
-    "${option_1}")
-		run_cmd --opt1
-        ;;
-    "${option_2}")
-		run_cmd --opt2
-        ;;
-    "${option_3}")
-		run_cmd --opt3
-        ;;
-    "${option_4}")
-		run_cmd --opt4
-        ;;
-    "${option_5}")
-		run_cmd --opt5
-        ;;
-    "${option_6}")
-		run_cmd --opt6
-        ;;
-	*)
-		exit 1
-		;;
+"${option_1}")
+	run_cmd --opt1
+	;;
+"${option_2}")
+	run_cmd --opt2
+	;;
+"${option_3}")
+	run_cmd --opt3
+	;;
+"${option_4}")
+	run_cmd --opt4
+	;;
+"${option_5}")
+	run_cmd --opt5
+	;;
+"${option_6}")
+	run_cmd --opt6
+	;;
+*)
+	echo "[ERROR] Invalid run_cmd purrameters selected."
+	exit 1
+	;;
 esac

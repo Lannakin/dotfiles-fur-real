@@ -1,0 +1,11 @@
+{
+    "Lua.diagnostics.globals": [
+        "int",
+        "float",
+        "Command",
+        "ya",
+        "cx",
+        "ui",
+        "Tab"
+    ]
+}

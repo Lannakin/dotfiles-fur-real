@@ -4,6 +4,7 @@ layouts/*
 LOGS/*
 powermenu/*
 applets/type*
+yazi/plugins/*
 
 ##  unused folders and assets
 unused/

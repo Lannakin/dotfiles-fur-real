@@ -130,5 +130,9 @@ case ${chosen} in
     $option_5)
 		run_cmd --opt5
         ;;
+	*)
+		echo "[ERROR] Invalid run_cmd purrameters selected."
+		exit 1
+		;;
 esac
 

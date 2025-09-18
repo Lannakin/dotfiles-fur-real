@@ -35,7 +35,7 @@ ctrl + t
 
 # program launcher; must specify as _L b/c support
 Super_L; @Super_L
-   ${HOME}/.config/rofi/launchers/type-1/launcher.sh
+    ${HOME}/.config/rofi/launchers/type-1/launcher.sh
 
 super + shift + s
     maim --select --format=png "${HOME}"/Pictures/herbstluftwm_screenshots/screenshot$(date +%s).png | xclip -selection clipboard -t image/png
