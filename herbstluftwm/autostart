@@ -5,6 +5,7 @@
 ###   LOG FILES   ###
 ##  herbstluftwm's log file  ##
 LOG="${HOME}/LOGS/herbstluftwm.log"
+
 # send the entirety of autostart's execution to the log
 exec > "${LOG}" 2>&1
 
@@ -12,11 +13,11 @@ echo "---  herbstluftwm launching ---"
 
 ## other apps' log files  ##
 CONKY="${HOME}/LOGS/herbstluftwm-conky.log"
-# KEYBINDMANAGER="${HOME}/LOGS/herbstluftwm-sxhkd.log"
 NOTIFICATIONDAEMON="${HOME}/LOGS/herbstluftwm-dunst.log"
 STATUSBAR="${HOME}/LOGS/herbstluftwm-polybar.log"
 XRANDRLOG="${HOME}/LOGS/herbstluftwm-xrandr.log"
 # INPUTREMAPPER="${HOME}LOGS/input-remapper.log"
+# KEYBINDMANAGER="${HOME}/LOGS/herbstluftwm-sxhkd.log"
 
 # screenshot output
 #FILE=${HOME}/Pictures/herbstluftwm_screenshots/screenshot$(date +%s).png
@@ -42,7 +43,7 @@ hc keyunbind --all   # remove all existing keybindings
 ###   MODIFIER SWAP   ###
 
 Mod=Mod1    # Use alt as the main modifier
-super=Mod4
+# super=Mod4
 # xmodmap:
 # shift=Shift_L,  Shift_R
 # lock      Caps_Lock
@@ -125,13 +126,13 @@ hc keybind "${Mod}"-comma  or , substitute PREV tags.focus.my_previous_tag use P
                           , use_index +1 --skip-visible
 
 # unminimize all minimized clients on the current tag
-hc keybind "${Mod}"-Ctrl-Shift-m             \
-   substitute FOCUS "tags.focus.name"        \
-   foreach CLIENT clients.                   \
-     sprintf MINATT "%c.minimized" CLIENT    \
-     sprintf TAGATT "%c.tag" CLIENT and      \
-       , compare MINATT "=" "true"           \
-       , compare TAGATT "=" FOCUS            \
+hc keybind "${Mod}"-Ctrl-Shift-m \
+   substitute FOCUS "tags.focus.name" \
+   foreach CLIENT clients. \
+     sprintf MINATT "%c.minimized" CLIENT \
+     sprintf TAGATT "%c.tag" CLIENT and \
+       , compare MINATT "=" "true" \
+       , compare TAGATT "=" FOCUS \
        , set_attr MINATT false
 
 ###   LAYOUT SAVE & RECALL   ###
@@ -187,15 +188,15 @@ for i in "${!tag_keys[@]}" ; do
     # the first command is: check that we are on monitor 3 and can switch to tag "${monitor1_tags[$i]}"
     # if only one of these two steps fail, try the second one (and so one).
     # The setup for two monitors is as follows:
-    hc keybind "${Mod}-${key}"                                                          \
-        or CASE and . compare monitors.focus.index = 0 . use "${monitor1_tags[${i}]}"   \
-           CASE and . compare monitors.focus.index = 1 . use "${monitor2_tags[${i}]}"   \
-           CASE and . compare monitors.focus.index = 2 . use "${monitor3_tags[${i}]}"   \
+    hc keybind "${Mod}-${key}" \
+        or CASE and . compare monitors.focus.index = 0 . use "${monitor1_tags[${i}]}" \
+           CASE and . compare monitors.focus.index = 1 . use "${monitor2_tags[${i}]}" \
+           CASE and . compare monitors.focus.index = 2 . use "${monitor3_tags[${i}]}" \
            CASE use "${auxilliary_tags[${i}]}"
-    hc keybind "${Mod}-Shift-${key}"                                                    \
-        or CASE and . compare monitors.focus.index = 0 . move "${monitor1_tags[${i}]}"  \
-           CASE and . compare monitors.focus.index = 1 . move "${monitor2_tags[${i}]}"  \
-           CASE and . compare monitors.focus.index = 2 . move "${monitor3_tags[${i}]}"  \
+    hc keybind "${Mod}-Shift-${key}" \
+        or CASE and . compare monitors.focus.index = 0 . move "${monitor1_tags[${i}]}" \
+           CASE and . compare monitors.focus.index = 1 . move "${monitor2_tags[${i}]}" \
+           CASE and . compare monitors.focus.index = 2 . move "${monitor3_tags[${i}]}" \
            CASE move "${auxilliary_tags[${i}]}"
 done
 
@@ -222,7 +223,7 @@ define-tag-cycle "${auxilliary_tags[@]}"
 # cycle through tags
 # check whether the current tag as a custom "next tag" configured
 # if yes, jump to that one, otherwise fall back to ordinary use_index +1
-hc keybind "${Mod}"-period or , substitute NEXT tags.focus.my_next_tag use NEXT     \
+hc keybind "${Mod}"-period or , substitute NEXT tags.focus.my_next_tag use NEXT \
                           , use_index +1 --skip-visible
 hc keybind "${Mod}"-comma  or , substitute PREV tags.focus.my_previous_tag use PREV \
                           , use_index +1 --skip-visible
@@ -290,8 +291,7 @@ hc attr theme.tiling.outer_width        1
 
 # copy inner color to outer_color
 for state in active urgent normal ; do
-    hc substitute C theme."${state}".inner_color \
-        attr theme."${state}".outer_color C
+    hc substitute C theme."${state}".inner_color attr theme."${state}".outer_color C
 done
 
 #*******************#

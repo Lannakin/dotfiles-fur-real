@@ -22,25 +22,25 @@ mode=${1:-max} # just some valid layout algorithm name
 
 layout=$(herbstclient dump)
 cmd=(
-# remember which client is focused
-substitute FOCUS clients.focus.winid chain
-. lock
-. or : and # if there is more than one frame, then don't restore, but maximize again!
-           , compare tags.focus.frame_count = 1
-           # if the frame layout was switched manually, don't restore either
-           , compare tags.focus.tiling.root.algorithm = "$mode"
-           # if we have such a stored layout, then restore it, else maximize
-           , silent substitute STR tags.focus.my_unmaximized_layout load STR
-           # remove the stored layout
-           , remove_attr tags.focus.my_unmaximized_layout
-     : chain , silent new_attr string tags.focus.my_unmaximized_layout
-             # save the current layout in the attribute
-             , set_attr tags.focus.my_unmaximized_layout "$layout"
-             # force all windows into a single frame in max layout
-             , load "(clients $mode:0 )"
-# both load commands accidentally change the window focus, so restore the
-# window focus from before the "load" command
-. jumpto FOCUS
-. unlock
+  # remember which client is focused
+  substitute FOCUS clients.focus.winid chain
+  . lock
+  . or : and # if there is more than one frame, then don't restore, but maximize again!
+  compare tags.focus.frame_count=1
+  # if the frame layout was switched manually, don't restore either
+  compare tags.focus.tiling.root.algorithm="${mode}"
+  # if we have such a stored layout, then restore it, else maximize
+  silent substitute STR tags.focus.my_unmaximized_layout load STR
+  # remove the stored layout
+  remove_attr tags.focus.my_unmaximized_layout
+  : chain silent new_attr string tags.focus.my_unmaximized_layout
+  # save the current layout in the attribute
+  set_attr tags.focus.my_unmaximized_layout "${layout}"
+  # force all windows into a single frame in max layout
+  load "(clients ${mode}:0 )"
+  # both load commands accidentally change the window focus, so restore the
+  # window focus from before the "load" command
+  . jumpto FOCUS
+  . unlock
 )
 herbstclient "${cmd[@]}"

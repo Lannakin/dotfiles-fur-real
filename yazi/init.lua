@@ -1,6 +1,6 @@
 -- ~/.config/yazi/init.lua
 
--- full-border
+-- -- full-border
 require("full-border"):setup{
     type = ui.Border.PLAIN
 }

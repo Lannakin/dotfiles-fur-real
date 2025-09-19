@@ -10,7 +10,7 @@ sort_reverse 	 = false
 sort_dir_first = true
 sort_translit  = false
 linemode       = "none"
-show_hidden    = false
+show_hidden    = true
 show_symlink   = true
 scrolloff      = 5
 mouse_events   = [ "click", "scroll" ]
@@ -87,6 +87,31 @@ image_bound      = [ 5000, 5000 ]
 suppress_preload = false
 
 [plugin]
+# prepend_previewers = [
+
+#   { name = "*.csv", run = "duckdb" },
+#   { name = "*.tsv", run = "duckdb" },
+#   { name = "*.json", run = "duckdb" },
+#   { name = "*.parquet", run = "duckdb" },
+#   { name = "*.txt", run = "duckdb" },
+#   { name = "*.xlsx", run = "duckdb" },
+#   { name = "*.db", run = "duckdb" },
+#   { name = "*.duckdb", run = "duckdb" }
+#  { name = "*.md", run  = 'piper -- rich -j --left --panel=none --guides --line-numbers --force-terminal "$1"' }
+# ]
+# https://github.com/AnirudhG07/rich-preview.yazi
+# [[plugin.prepend_previewers]]
+# name = "*.md"
+# run  = 'piper -- rich -j --left --panel=rounded --guides --line-numbers --force-terminal "$1"'
+
+# prepend_preloaders = [
+#   { name = "*.csv", run = "duckdb", multi = false },
+#   { name = "*.tsv", run = "duckdb", multi = false },
+#   { name = "*.json", run = "duckdb", multi = false },
+#   { name = "*.parquet", run = "duckdb", multi = false },
+#   { name = "*.txt", run = "duckdb", multi = false },
+#   { name = "*.xlsx", run = "duckdb", multi = false }
+# ]
 fetchers = [
 	# Mimetype
 	{ id = "mime", name = "*", run = "mime", prio = "high" },
@@ -148,26 +173,6 @@ previewers = [
 	{ mime = "inode/empty", run = "empty" },
 	# Fallback
 	{ name = "*", run = "file" },
-]
-prepend_previewers = [
-  { name = "*.md", run  = 'piper -- rich -j --left --panel=none --guides --line-numbers --force-terminal "$1"' },
-  { name = "*.csv", run = "duckdb" },
-  { name = "*.tsv", run = "duckdb" },
-  { name = "*.json", run = "duckdb" },
-  { name = "*.parquet", run = "duckdb" },
-  { name = "*.txt", run = "duckdb" },
-  { name = "*.xlsx", run = "duckdb" },
-  { name = "*.db", run = "duckdb" },
-  { name = "*.duckdb", run = "duckdb" }
-]
-
-prepend_preloaders = [
-  { name = "*.csv", run = "duckdb", multi = false },
-  { name = "*.tsv", run = "duckdb", multi = false },
-  { name = "*.json", run = "duckdb", multi = false },
-  { name = "*.parquet", run = "duckdb", multi = false },
-  { name = "*.txt", run = "duckdb", multi = false },
-  { name = "*.xlsx", run = "duckdb", multi = false }
 ]
 
 [input]

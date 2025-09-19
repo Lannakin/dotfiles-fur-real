@@ -6,6 +6,12 @@
         "ya",
         "cx",
         "ui",
-        "Tab"
-    ]
+        "Tab",
+        "File",
+        "Url",
+        "Cha",
+        "rt"
+    ],
+    "editor.formatOnPaste": true,
+    "editor.detectIndentation": false
 }

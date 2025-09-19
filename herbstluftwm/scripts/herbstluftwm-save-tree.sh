@@ -2,20 +2,23 @@
 # source: https://github.com/juacq97/hlwm-save-tree/blob/main/hlwm-save-tree
 
 # Set the directory variable
-dir="${HOME}/.config/herbstluftwm/layouts"
+DIR="${HOME}/.config/herbstluftwm/layouts"
 LOG="${HOME}/LOGS/herbstluftwm.log"
 
+# log all output
+exec > "${LOG}" 2>&1
+
 SAVE () {
-    echo "herbstluftwm-save-tree: [DEBUG] opening save menu..." &>> "${LOG}"
+    echo "herbstluftwm-save-tree: [DEBUG] opening save menu..."
     name=$(echo "" | dmenu -p "Save layout as:")
-    echo "$name"
-    if [[ $name == "" ]]; then
+    echo "${name}"
+    if [[ ${name} == "" ]]; then
       exit 0;
     fi
 
     # Saving layout
     layout=$(herbstclient dump)
-    echo "herbstclient load '$layout'" > "$dir/$name"
+    echo "herbstclient load '${layout}'" > "${DIR}/${name}"
 
     # # Saving windows configurations
     # for id in $(herbstclient foreach C clients. echo C|grep -oE '0x[0-9a-fA-F]*') ; do
@@ -34,32 +37,32 @@ SAVE () {
 	# 	"index=$(herbstclient get_attr ${client}.parent_frame.index)"
     #         )
 	# fi
-	# echo herbstclient rule once "${rule[@]}" "# $id" >> "$dir/$name"
-	# echo herbstclient apply_tmp_r`ule --all "${rule[@]}" "# $id" >> "$dir/$name"
+	# echo herbstclient rule once "${rule[@]}" "# $id" >> "$DIR/$name"
+	# echo herbstclient apply_tmp_r`ule --all "${rule[@]}" "# $id" >> "$DIR/$name"
     # done
 }
 
 LOAD () {
-    sel=$(ls "$dir" | dmenu -p "Select layout:" -i -l 10)
-    if [[ $sel == "" ]]; then
+    sel=$(ls "${DIR}" | dmenu -p "Select layout:" -i -l 10)
+    if [[ ${sel} == "" ]]; then
       exit 0;
     fi
-    cat "$dir/$sel" | sh
+    cat "${DIR}/${sel}" | sh
 }
 
 case $1 in
     "save")
-      echo "herbstluftwm-save-tree: [INFO] saving profile..." &>> "${LOG}"
+      echo "herbstluftwm-save-tree: [INFO] saving profile..."
       SAVE
-      echo "herbstluftwm-save-tree: [INFO] profile ${name} saved." &>> "${LOG}"
+      echo "herbstluftwm-save-tree: [INFO] profile ${name} saved."
       ;;
     "load")
-      echo "herbstluftwm-save-tree: [DEBUG] loading profile..." &>> "${LOG}"
+      echo "herbstluftwm-save-tree: [DEBUG] loading profile..."
       LOAD
-      echo "herbstluftwm-save-tree: [DEBUG] profile ${name} loaded." &>> "${LOG}"
+      echo "herbstluftwm-save-tree: [DEBUG] profile ${name} loaded."
       ;;
     *)
       echo Error
-      echo "herbstluftwm-save-tree: [ERROR] invalid input or command." &>> "${LOG}"
+      echo "herbstluftwm-save-tree: [ERROR] invalid input or command."
       ;;
 esac

@@ -21,7 +21,7 @@ create_bar() {
     local length=$3
 
     # Calculate percentage and active segments
-    local percentage=$((current * 100 / max))
+#    local percentage=$((current * 100 / max))
     local active=$((current * length / max))
     local inactive=$((length - active))
 
@@ -49,11 +49,13 @@ get_cpu_usage() {
     local core=$1
 
     # Take first snapshot
-    local stats1=$(grep "^cpu$core " /proc/stat)
-    local user1=$(echo $stats1 | awk '{print $2}')
-    local nice1=$(echo $stats1 | awk '{print $3}')
-    local system1=$(echo $stats1 | awk '{print $4}')
-    local idle1=$(echo $stats1 | awk '{print $5}')
+    local stats1
+      stats1=$(grep "^cpu${core} " /proc/stat)
+    local user1
+      user1=$(echo "${stats1}" | awk '{print $2}')
+    local nice1=$(echo "${stats1}" | awk '{print $3}')
+    local system1=$(echo "${stats1}" | awk '{print $4}')
+    local idle1=$(echo "${stats1}" | awk '{print $5}')
     local total1=$((user1 + nice1 + system1 + idle1))
     local work1=$((user1 + nice1 + system1))
 
@@ -61,11 +63,11 @@ get_cpu_usage() {
     sleep 0.1
 
     # Take second snapshot
-    local stats2=$(grep "^cpu$core " /proc/stat)
-    local user2=$(echo $stats2 | awk '{print $2}')
-    local nice2=$(echo $stats2 | awk '{print $3}')
-    local system2=$(echo $stats2 | awk '{print $4}')
-    local idle2=$(echo $stats2 | awk '{print $5}')
+    local stats2=$(grep "^cpu${core} " /proc/stat)
+    local user2=$(echo "${stats2}" | awk '{print $2}')
+    local nice2=$(echo "${stats2}" | awk '{print $3}')
+    local system2=$(echo "${stats2}" | awk '{print $4}')
+    local idle2=$(echo "${stats2}" | awk '{print $5}')
     local total2=$((user2 + nice2 + system2 + idle2))
     local work2=$((user2 + nice2 + system2))
 
@@ -74,11 +76,11 @@ get_cpu_usage() {
     local work_diff=$((work2 - work1))
 
     local usage=0
-    if [ $total_diff -gt 0 ]; then
+    if [[ ${total_diff} -gt 0 ]]; then
         usage=$((work_diff * 100 / total_diff))
     fi
 
-    echo $usage
+    echo "${usage}"
 }
 
 # Function to get memory usage percentage
@@ -96,8 +98,8 @@ get_memory_usage() {
 # Function to get GPU usage (AMD)
 get_gpu_usage() {
     local gpu_file="/sys/class/drm/card1/device/gpu_busy_percent"
-    if [ -f "$gpu_file" ]; then
-        cat "$gpu_file" 2>/dev/null || echo "0"
+    if [[ -f "${gpu_file}" ]]; then
+        cat "${gpu_file}" 2>/dev/null || echo "0"
     else
         echo "0"
     fi
@@ -110,8 +112,8 @@ get_temp_bar() {
     local bar_length=${3:-22}
 
     local temp=0
-    if [ -f "$temp_source" ]; then
-        temp=$(($(cat "$temp_source" 2>/dev/null || echo "0") / 1000))
+    if [[ -f "${temp_source}" ]]; then
+        temp=$(($(cat "${temp_source}" 2>/dev/null || echo "0") / 1000))
     fi
 
     # Temperature thresholds (in Celsius)
@@ -119,15 +121,15 @@ get_temp_bar() {
     local critical_temp=85
 
     # Create bar with temperature-based coloring
-    local percentage=$((temp * 100 / max_temp))
+    # local percentage=$((temp * 100 / max_temp))
     local active=$((temp * bar_length / max_temp))
     local inactive=$((bar_length - active))
 
-    local bar_color="$COLOR_ACTIVE"
-    if [ $temp -ge $critical_temp ]; then
-        bar_color="$COLOR_CRITICAL"
-    elif [ $temp -ge $warning_temp ]; then
-        bar_color="$COLOR_WARNING"
+    local bar_color="${COLOR_ACTIVE}"
+    if [[ ${temp} -ge ${critical_temp} ]]; then
+        bar_color="${COLOR_CRITICAL}"
+    elif [[ ${temp} -ge ${warning_temp} ]]; then
+        bar_color="${COLOR_WARNING}"
     fi
 
     local bar=""
@@ -148,20 +150,20 @@ case "$1" in
     "cpu")
         # CPU core usage - get specific core number from $2
         core_num=${2:-1}
-        usage=$(get_cpu_usage $core_num)
-        create_bar $usage 100 22
+        usage=$(get_cpu_usage "${core_num}")
+        create_bar ${usage} 100 22
         ;;
 
     "memory")
         # Memory usage
         mem_usage=$(get_memory_usage)
-        create_bar $mem_usage 100 32
+        create_bar "${mem_usage}" 100 32
         ;;
 
     "gpu")
         # GPU usage
         gpu_usage=$(get_gpu_usage)
-        create_bar $gpu_usage 100 22
+        create_bar "${gpu_usage}" 100 22
         ;;
 
     "cpu_temp")
@@ -176,7 +178,7 @@ case "$1" in
 
     "test")
         # Test all functions
-        echo "CPU1: $(create_bar $(get_cpu_usage 1) 100 22)"
+        echo CPU1: $(create_bar "$(get_cpu_usage 1)" 100 22)
         echo "MEM:  $(create_bar $(get_memory_usage) 100 32)"
         echo "GPU:  $(create_bar $(get_gpu_usage) 100 22)"
         echo "CPUT: $(get_temp_bar "/sys/class/hwmon/hwmon2/temp1_input" 100 22)"
