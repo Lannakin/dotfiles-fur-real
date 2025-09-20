@@ -1,14 +1,10 @@
 ##  folders
-examples/
+**/unused/
 layouts/
 LOGS/
 powermenu/
 applets/type*
 yazi/plugins/
-.trunk/
-
-##  unused folders and assets
-unused/
 
 ##  binaries that I probably shouldn't post?
 polywinner
