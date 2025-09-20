@@ -3,7 +3,7 @@
 layouts/
 LOGS/
 powermenu/
-applets/type*
+applets/type*/
 yazi/plugins/
 
 ##  binaries that I probably shouldn't post?
