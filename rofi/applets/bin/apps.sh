@@ -37,23 +37,26 @@ WORKINGDIR=$(
   pwd -P
 )
 PARENTDIR=$(
-  builtin cd "${WORKINGDIR}" || {
+  builtin cd "${WORKINGDIR}"
+    cd .. || {
     echo "[ERROR] cd failed on PARENTDIR."
     exit 1
   }
   pwd
 )
 ROFIDIR=$(
-  builtin cd "${PARENTDIR}" || {
+  builtin cd "${PARENTDIR}"
+    cd .. || {
     echo "[ERROR] cd failed on ROFIDIR."
     exit 1
   }
   pwd
 )
+
 #==========================================#
 
 # Import Current Theme
-source "${ROFIDIR}/applets/shared/theme.bash"
+source "${ROFIDIR}/applets/shared/theme.sh"
 theme="${type}/${style}"
 
 # Theme Elements
@@ -72,8 +75,19 @@ fi
 # Options
 
 # pipe theme stuff separately to prevent masking
-mkfifo theme_combo
-mkfifo theme_icon
+theme_combo="/tmp/rofi_theme_combo"
+theme_icon="/tmp/rofi_theme_icon"
+
+if [[ ! -p ${theme_combo} ]]; then
+    mkfifo ${theme_combo}
+fi
+
+if [[ ! -p ${theme_icon} ]]; then
+    mkfifo ${theme_icon}
+fi
+
+# clean up the mkfifos
+trap "rm -f ${theme_combo} ${theme_icon}" EXIT
 
 cat "${theme}" >theme_combo &
 grep "USE_ICON" >theme_icon &
@@ -96,6 +110,9 @@ else
   option_5=""
   option_6=""
 fi
+
+rm theme_combo
+rm theme_icon
 
 # Rofi CMD
 rofi_cmd() {
@@ -156,3 +173,6 @@ case "${chosen}" in
   exit 1
   ;;
 esac
+
+# close the script when every other command executed through it has been closed
+exit

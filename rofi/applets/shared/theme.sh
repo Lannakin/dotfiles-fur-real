@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 ## Current Theme
 
 export type="${HOME}/.config/rofi/applets/type-2"
