@@ -33,5 +33,20 @@ use = "AnirudhG07/rich-preview"
 rev = "843c3fa"
 hash = "b4040931f0d2f9670ddb4923e55cd881"
 
+[[plugin.deps]]
+use = "wekauwau/yatline-modified-time"
+rev = "2d33471"
+hash = "8fa6028ef832b34cf32f4ee43cb0ae35"
+
+[[plugin.deps]]
+use = "wekauwau/yatline-created-time"
+rev = "7cd5e21"
+hash = "af416c7b3f928e38a513bdf465efffa9"
+
+[[plugin.deps]]
+use = "jaja360/yatline-hostname-username"
+rev = "448e8a1"
+hash = "9888b4708cb9fb7ecdac610f57d0389e"
+
 [flavor]
 deps = []

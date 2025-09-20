@@ -7,7 +7,7 @@
 LOG="${HOME}/LOGS/herbstluftwm.log"
 
 # send the entirety of autostart's execution to the log
-exec > "${LOG}" 2>&1
+exec >"${LOG}" 2>&1
 
 echo "---  herbstluftwm launching ---"
 
@@ -29,7 +29,7 @@ XRANDRLOG="${HOME}/LOGS/herbstluftwm-xrandr.log"
 POLYBAR_HEIGHT=20
 
 hc() {
-    herbstclient "$@"
+  herbstclient "$@"
 }
 
 hc emit_hook reload
@@ -38,11 +38,11 @@ hc emit_hook reload
 #   KEYBINDS SECTION   #
 #**********************#
 
-hc keyunbind --all   # remove all existing keybindings
+hc keyunbind --all # remove all existing keybindings
 
 ###   MODIFIER SWAP   ###
 
-Mod=Mod1    # Use alt as the main modifier
+Mod=Mod1 # Use alt as the main modifier
 # super=Mod4
 # xmodmap:
 # shift=Shift_L,  Shift_R
@@ -55,85 +55,88 @@ Mod=Mod1    # Use alt as the main modifier
 # mod5      ISO_Level3_Shift
 
 ###   MOUSE BINDS   ###
-hc mouseunbind --all  # remove all existing keybindings
+hc mouseunbind --all # remove all existing keybindings
 
-hc mousebind "${Mod}"-Button1        move
-hc mousebind "${Mod}"-Button2        zoom
-hc mousebind "${Mod}"-Button3        resize
+hc mousebind "${Mod}"-Button1 move   # use mouse to move a client or frame
+hc mousebind "${Mod}"-Button2 zoom   # honestly no idea, seems to just resize the frame as well
+hc mousebind "${Mod}"-Button3 resize # resize frame using middle click
 
 ###   WINDOW MANAGEMENT   ###
-hc keybind "${Mod}"-Shift-q          quit     # quit hlswm
-hc keybind "${Mod}"-Shift-r          reload   # reload hlswm
-hc keybind "${Mod}"-Shift-c          close    # close focused window or frame
-
-# hc keybind "${Mod}"-Alt-t            spawn "${TERMINAL:-xterm}"   # open terminal
+hc keybind "${Mod}"-Shift-q quit   # quit hlswm
+hc keybind "${Mod}"-Shift-r reload # reload hlswm
+hc keybind "${Mod}"-Shift-c close  # close focused window or frame
 
 ###   CYCLE FOCUS   ###
-hc keybind "${Mod}"-BackSpace        cycle_monitor
-hc keybind "${Mod}"-Tab              cycle_all +1
-hc keybind "${Mod}"-Shift-Tab        cycle_all -1
-hc keybind "${Mod}"-c                cycle
+hc keybind "${Mod}"-BackSpace cycle_monitor # cycle focus to next monitor
+hc keybind "${Mod}"-Tab cycle_all +1        # cycle focus to next frame on same monitor; forward 1
+hc keybind "${Mod}"-Shift-Tab cycle_all -1  # cycle focus to next frame on same monitor; backward 1
+hc keybind "${Mod}"-c cycle                 # cycle focus to next client in the same frame
 # hc keybind "${Mod}"-i                jumpto urgent
 
 ###   MOVEMENT -- FOCUSED CLIENT   ###
 # tiling and floating mode
-hc keybind "${Mod}"-Left             focus left
-hc keybind "${Mod}"-Down             focus down
-hc keybind "${Mod}"-Up               focus up
-hc keybind "${Mod}"-Right            focus right
+hc keybind "${Mod}"-Left focus left
+hc keybind "${Mod}"-Down focus down
+hc keybind "${Mod}"-Up focus up
+hc keybind "${Mod}"-Right focus right
 
 ###   MOVEMENT -- CLIENTS   ###
 # moving clients between frames in tiling and floating mode
-hc keybind "${Mod}"-Shift-Left       shift left
-hc keybind "${Mod}"-Shift-Down       shift down
-hc keybind "${Mod}"-Shift-Up         shift up
-hc keybind "${Mod}"-Shift-Right      shift right
+hc keybind "${Mod}"-Shift-Left shift left
+hc keybind "${Mod}"-Shift-Down shift down
+hc keybind "${Mod}"-Shift-Up shift up
+hc keybind "${Mod}"-Shift-Right shift right
 
 ###   FRAME SPLITTING   ###
 # create an empty frame at location of focused monitor
-hc keybind "${Mod}"-i                split    bottom    0.5
-hc keybind "${Mod}"-o                split    right     0.5
+hc keybind "${Mod}"-i split bottom 0.5 # split fovused frame vertically
+hc keybind "${Mod}"-o split right 0.5  # split focused frame horizontally
 
-hc keybind "${Mod}"-Control-space    split    explode    # let the current frame explode into subframes
+hc keybind "${Mod}"-Control-space split explode # explode current frame into subframes
 
 ###   RESIZING   ###
 # resizes frames and floating clients
 resizestep=0.01
-hc keybind "${Mod}"-Control-Left     resize left +"${resizestep}"
-hc keybind "${Mod}"-Control-Down     resize down +"${resizestep}"
-hc keybind "${Mod}"-Control-Up       resize up +"${resizestep}"
-hc keybind "${Mod}"-Control-Right    resize right +"${resizestep}"
+hc keybind "${Mod}"-Control-Left resize left +"${resizestep}"
+hc keybind "${Mod}"-Control-Down resize down +"${resizestep}"
+hc keybind "${Mod}"-Control-Up resize up +"${resizestep}"
+hc keybind "${Mod}"-Control-Right resize right +"${resizestep}"
 
 ###   LAYOUT   ###
-hc keybind "${Mod}"-f                floating toggle                          # per focused FRAME
-hc keybind "${Mod}"-l                fullscreen toggle                        # per focused
-hc keybind "${Mod}"-t                pseudotile toggle                        # per focused
-hc keybind "${Mod}"-r                remove                                   # removes frame, merges contents with neighboring; per focused# per focused CLIENT
+hc keybind "${Mod}"-f floating toggle   # per focused FRAME
+hc keybind "${Mod}"-l fullscreen toggle # per focused
+hc keybind "${Mod}"-t pseudotile toggle # per focused
+hc keybind "${Mod}"-r remove            # removes frame, merges contents with neighboring; per focused# per focused CLIENT
 
-hc keybind "${Mod}"-Shift-f          set_attr clients.focus.floating toggle   # toggle floating on focused CLIENT
-hc keybind "${Mod}"-Shift-d          set_attr clients.focus.decorated toggle  # toggle decorations on focused CLIENT
+hc keybind "${Mod}"-Shift-f set_attr clients.focus.floating toggle  # toggle floating on focused CLIENT
+hc keybind "${Mod}"-Shift-d set_attr clients.focus.decorated toggle # toggle decorations on focused CLIENT
+
+# toggle between grid and max tab layout
+hc keybind $super-Tab or , and . compare tags.focus.tiling.focused_frame.algorithm = max \
+  . chain - set_layout grid - attr theme.title_height 0 \
+  , chain - set_layout max - attr theme.title_height 17
 
 ###   MINIMIZING   ###
-hc keybind "${Mod}"-Shift-m          set_attr clients.focus.minimized true    # minimizes focused window
-hc keybind "${Mod}"-Control-m        jumpto last-minimized                    # will jump to minimized windows sequentially and unminimize them
+hc keybind "${Mod}"-Shift-m set_attr clients.focus.minimized true # minimizes focused window
+hc keybind "${Mod}"-Control-m jumpto last-minimized               # will jump to minimized windows sequentially and unminimize them
 
 # cycle through tags
 # check whether the current tag as a custom "next tag" configured;
 # if yes, jump to that one, otherwise fall back to ordinary use_index +1
-hc keybind "${Mod}"-period or , substitute NEXT tags.focus.my_next_tag use NEXT     \
-                          , use_index +1 --skip-visible
-hc keybind "${Mod}"-comma  or , substitute PREV tags.focus.my_previous_tag use PREV \
-                          , use_index +1 --skip-visible
+hc keybind "${Mod}"-period or , substitute NEXT tags.focus.my_next_tag use NEXT \
+  , use_index +1 --skip-visible
+hc keybind "${Mod}"-comma or , substitute PREV tags.focus.my_previous_tag use PREV \
+  , use_index +1 --skip-visible
 
 # unminimize all minimized clients on the current tag
 hc keybind "${Mod}"-Ctrl-Shift-m \
-   substitute FOCUS "tags.focus.name" \
-   foreach CLIENT clients. \
-     sprintf MINATT "%c.minimized" CLIENT \
-     sprintf TAGATT "%c.tag" CLIENT and \
-       , compare MINATT "=" "true" \
-       , compare TAGATT "=" FOCUS \
-       , set_attr MINATT false
+  substitute FOCUS "tags.focus.name" \
+  foreach CLIENT clients. \
+  sprintf MINATT "%c.minimized" CLIENT \
+  sprintf TAGATT "%c.tag" CLIENT and \
+  , compare MINATT "=" "true" \
+  , compare TAGATT "=" FOCUS \
+  , set_attr MINATT false
 
 ###   LAYOUT SAVE & RECALL   ###
 # hc keybind "${Mod}"-Control-k        spawn $HOME/.config/herbstluftwm/scripts/save-layout.sh
@@ -141,12 +144,13 @@ hc keybind "${Mod}"-Ctrl-Shift-m \
 
 ###   LAYOUT SAVE & RECALL VIA DMENU   ###
 # NOTE: BAR APPEARS AT TOP OF SCREEN
-hc keybind "${Mod}"-Control-k        spawn "${HOME}/.config/herbstluftwm/scripts/herbstluftwm-save-tree.sh" save
-hc keybind "${Mod}"-Control-comma    spawn "${HOME}/.config/herbstluftwm/scripts/herbstluftwm-save-tree.sh" load
+hc keybind "${Mod}"-Control-k spawn "${HOME}/.config/herbstluftwm/scripts/herbstluftwm-save-tree.sh" save
+hc keybind "${Mod}"-Control-comma spawn "${HOME}/.config/herbstluftwm/scripts/herbstluftwm-save-tree.sh" load
 
 ###   SCREENSHOT SELECTION   ###
 # hc keybind "${Mod}"-Shift-s          spawn maim --select --format=png "${FILE}" && xclip -selection clipboard -t image/png < "${FILE}"
-hc keybind "${Mod}"-Shift-s          spawn "${HOME}/.config/herbstluftwm/scripts/screenshot.sh"
+hc keybind "${Mod}"-Shift-s spawn "${HOME}/.config/herbstluftwm/scripts/screenshot.sh"
+# hc keybind "${Mod}"-Alt-t            spawn "${TERMINAL:-xterm}"   # open terminal
 
 ###   TAGS SECTION   ###
 
@@ -166,53 +170,53 @@ hc keybind "${Mod}"-Shift-s          spawn "${HOME}/.config/herbstluftwm/scripts
 
 ## per-monitor tag lists
 # NOTE: consider naming these tags something cooler like "HMI-1" or "VUI-1" etc
-monitor1_tags=( 1 )         # tag names for monitor 1
-monitor2_tags=( 2 )         # tag names for monitor 2
-monitor3_tags=( 3 )         # tag names for monitor 3
+monitor1_tags=(1) # tag names for monitor 1
+monitor2_tags=(2) # tag names for monitor 2
+monitor3_tags=(3) # tag names for monitor 3
 
-auxilliary_tags=( {4..8} )  # tag names for all other monitors
+auxilliary_tags=({4..8}) # tag names for all other monitors
 
-tag_keys=( {1..9} 0 )       # possible keys for use for tags
+tag_keys=({1..9} 0) # possible keys for use for tags
 
 # rename "default" tag to "monitor1_tags"; || return 1 if prior returns non-zero value
 hc rename default "${monitor1_tags[0]}" || true
 # for each tag pointed to by each monitor variable defined by above [@=all arguments]
-for tag in "${monitor1_tags[@]}" "${monitor2_tags[@]}" "${monitor3_tags[@]}" "${auxilliary_tags[@]}" ; do
-    hc try silent add "${tag}"
+for tag in "${monitor1_tags[@]}" "${monitor2_tags[@]}" "${monitor3_tags[@]}" "${auxilliary_tags[@]}"; do
+  hc try silent add "${tag}"
 done
 
-for i in "${!tag_keys[@]}" ; do
-    key="${tag_keys[${i}]}"
-    # the keybinding works as follows: the or executes the commands separated by
-    # CASE and stops executing them after the first of those succeeds.
-    # the first command is: check that we are on monitor 3 and can switch to tag "${monitor1_tags[$i]}"
-    # if only one of these two steps fail, try the second one (and so one).
-    # The setup for two monitors is as follows:
-    hc keybind "${Mod}-${key}" \
-        or CASE and . compare monitors.focus.index = 0 . use "${monitor1_tags[${i}]}" \
-           CASE and . compare monitors.focus.index = 1 . use "${monitor2_tags[${i}]}" \
-           CASE and . compare monitors.focus.index = 2 . use "${monitor3_tags[${i}]}" \
-           CASE use "${auxilliary_tags[${i}]}"
-    hc keybind "${Mod}-Shift-${key}" \
-        or CASE and . compare monitors.focus.index = 0 . move "${monitor1_tags[${i}]}" \
-           CASE and . compare monitors.focus.index = 1 . move "${monitor2_tags[${i}]}" \
-           CASE and . compare monitors.focus.index = 2 . move "${monitor3_tags[${i}]}" \
-           CASE move "${auxilliary_tags[${i}]}"
+for i in "${!tag_keys[@]}"; do
+  key="${tag_keys[${i}]}"
+  # the keybinding works as follows: the or executes the commands separated by
+  # CASE and stops executing them after the first of those succeeds.
+  # the first command is: check that we are on monitor 3 and can switch to tag "${monitor1_tags[$i]}"
+  # if only one of these two steps fail, try the second one (and so one).
+  # The setup for two monitors is as follows:
+  hc keybind "${Mod}-${key}" \
+    or CASE and . compare monitors.focus.index = 0 . use "${monitor1_tags[${i}]}" \
+    CASE and . compare monitors.focus.index = 1 . use "${monitor2_tags[${i}]}" \
+    CASE and . compare monitors.focus.index = 2 . use "${monitor3_tags[${i}]}" \
+    CASE use "${auxilliary_tags[${i}]}"
+  hc keybind "${Mod}-Shift-${key}" \
+    or CASE and . compare monitors.focus.index = 0 . move "${monitor1_tags[${i}]}" \
+    CASE and . compare monitors.focus.index = 1 . move "${monitor2_tags[${i}]}" \
+    CASE and . compare monitors.focus.index = 2 . move "${monitor3_tags[${i}]}" \
+    CASE move "${auxilliary_tags[${i}]}"
 done
 
 # cycle through tags
 # add additional information in order to cycle only through a monitor's tags
 # and not through all tags
 define-tag-cycle() {
-    local n=$#
-    local tags=( "$@" )
-    for i in "${!tags[@]}" ; do
-        local t="${tags[${i}]}"
-        hc chain , new_attr string tags.by-name."${t}".my_previous_tag \
-                 , set_attr tags.by-name."${t}".my_previous_tag "${tags[$(((i - 1 + n) % n))]}" \
-                 , new_attr string tags.by-name."${t}".my_next_tag \
-                 , set_attr tags.by-name."${t}".my_next_tag "${tags[$(((i + 1) % n))]}"
-    done
+  local n=$#
+  local tags=("$@")
+  for i in "${!tags[@]}"; do
+    local t="${tags[${i}]}"
+    hc chain , new_attr string tags.by-name."${t}".my_previous_tag \
+      , set_attr tags.by-name."${t}".my_previous_tag "${tags[$(((i - 1 + n) % n))]}" \
+      , new_attr string tags.by-name."${t}".my_next_tag \
+      , set_attr tags.by-name."${t}".my_next_tag "${tags[$(((i + 1) % n))]}"
+  done
 }
 
 define-tag-cycle "${monitor1_tags[@]}"
@@ -224,10 +228,9 @@ define-tag-cycle "${auxilliary_tags[@]}"
 # check whether the current tag as a custom "next tag" configured
 # if yes, jump to that one, otherwise fall back to ordinary use_index +1
 hc keybind "${Mod}"-period or , substitute NEXT tags.focus.my_next_tag use NEXT \
-                          , use_index +1 --skip-visible
-hc keybind "${Mod}"-comma  or , substitute PREV tags.focus.my_previous_tag use PREV \
-                          , use_index +1 --skip-visible
-
+  , use_index +1 --skip-visible
+hc keybind "${Mod}"-comma or , substitute PREV tags.focus.my_previous_tag use PREV \
+  , use_index +1 --skip-visible
 
 #*******************#
 #   THEME SECTION   #
@@ -235,63 +238,63 @@ hc keybind "${Mod}"-comma  or , substitute PREV tags.focus.my_previous_tag use P
 # #002B36 #586E75 #839496 #EEE8D5 #B58900 #DC322F #6C71C4 #2AA198 #B8D8D6
 # #073642 #657B83 #93A1A1 #FDF6E3 #CB4B16 #D33682 #268bC2 #859900 #C5E7E5
 
-hc set verbose                      true
-hc set wmname                       herbstluftwm
+hc set verbose true
+hc set wmname herbstluftwm
 
-hc attr theme.tiling.reset          1
-hc attr theme.floating.reset        1
+hc attr theme.tiling.reset 1
+hc attr theme.floating.reset 1
 
 ###   FRAME STYLE   ###
-hc set frame_border_active_color    '#CB4B16dd'
-hc set frame_border_normal_color    '#657B83cc'
-hc set frame_bg_normal_color        '#C5E7E5FF'
-hc set frame_bg_active_color        '#B8D8D6FF'
-hc set frame_bg_transparent         on
-hc set frame_transparent_width      1
-hc set frame_gap                    4
-hc set frame_padding                0
-hc set frame_border_width           1
-hc set show_frame_decorations       'nonempty'
+hc set frame_border_active_color '#CB4B16dd'
+hc set frame_border_normal_color '#657B83cc'
+hc set frame_bg_normal_color '#C5E7E5FF'
+hc set frame_bg_active_color '#B8D8D6FF'
+hc set frame_bg_transparent on
+hc set frame_transparent_width 1
+hc set frame_gap 4
+hc set frame_padding 0
+hc set frame_border_width 1
+hc set show_frame_decorations 'nonempty'
 #hc set tight_decorations           true
 
 ###   WINDOW STYLE   ###
-hc set window_gap                   1
-hc set gapless_grid                 true
-hc set smart_window_surroundings    on
-hc set smart_frame_surroundings     on
-hc set tabbed_max                   true
-hc set mouse_recenter_gap           0
+hc set window_gap 1
+hc set gapless_grid true
+hc set smart_window_surroundings on
+hc set smart_frame_surroundings on
+hc set tabbed_max true
+hc set mouse_recenter_gap 0
 
 ###   TITLE BAR STYLE   ###
-hc attr theme.title_height              14
-hc attr theme.title_when                'one_tab'
-hc attr theme.title_font                'Px437 Compaq Port3:pixelsize=12'       # for XFT fonts
+hc attr theme.title_height 14
+hc attr theme.title_when 'one_tab'
+hc attr theme.title_font 'Px437 Compaq Port3:pixelsize=12' # for XFT fonts
 # hc attr theme.title_font              '-*-fixed-medium-r-*-*-13-*-*-*-*-*-*-*' # for standard bitmap fonts
-hc attr theme.title_depth               2               # space below the title's baseline
-hc attr theme.active.color              '#B8D8D6'
-hc attr theme.title_color               '#002B36'
-hc attr theme.normal.color              '#FDF6E3dd'
-hc attr theme.urgent.color              '#CB4B16dd'
-hc attr theme.tab_color                 '#EEE8D5dd'
-hc attr theme.active.tab_color          '#B8D8D6dd'
-hc attr theme.active.tab_outer_color    '#C5E7E5dd'
-hc attr theme.active.tab_title_color    '#002B36'
-hc attr theme.normal.title_color        '#657B83'
-hc attr theme.inner_width               0
-hc attr theme.inner_color               '#93A1A1'
-hc attr theme.border_width              1
-hc attr theme.floating.border_width     1
-hc attr theme.floating.outer_width      1
-hc attr theme.floating.outer_color      '#839496'
-hc attr theme.active.inner_color        '#CB4B16'
-hc attr theme.urgent.inner_color        '#D33682'
-hc attr theme.normal.inner_color        '#C5E7E5'
-hc attr theme.background_color          '#93A1A1bb'
-hc attr theme.tiling.outer_width        1
+hc attr theme.title_depth 2 # space below the title's baseline
+hc attr theme.active.color '#B8D8D6'
+hc attr theme.title_color '#002B36'
+hc attr theme.normal.color '#FDF6E3dd'
+hc attr theme.urgent.color '#CB4B16dd'
+hc attr theme.tab_color '#EEE8D5dd'
+hc attr theme.active.tab_color '#B8D8D6dd'
+hc attr theme.active.tab_outer_color '#C5E7E5dd'
+hc attr theme.active.tab_title_color '#002B36'
+hc attr theme.normal.title_color '#657B83'
+hc attr theme.inner_width 0
+hc attr theme.inner_color '#93A1A1'
+hc attr theme.border_width 1
+hc attr theme.floating.border_width 1
+hc attr theme.floating.outer_width 1
+hc attr theme.floating.outer_color '#839496'
+hc attr theme.active.inner_color '#CB4B16'
+hc attr theme.urgent.inner_color '#D33682'
+hc attr theme.normal.inner_color '#C5E7E5'
+hc attr theme.background_color '#93A1A1bb'
+hc attr theme.tiling.outer_width 1
 
 # copy inner color to outer_color
-for state in active urgent normal ; do
-    hc substitute C theme."${state}".inner_color attr theme."${state}".outer_color C
+for state in active urgent normal; do
+  hc substitute C theme."${state}".inner_color attr theme."${state}".outer_color C
 done
 
 #*******************#
@@ -300,28 +303,28 @@ done
 
 hc unrule -F
 
-hc rule focus=on                        # normally focus new clients
+hc rule focus=on # normally focus new clients
 hc rule floatplacement=smart
 
-hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)'        floating=on
-hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG'                         focus=on floating=on
-hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)'    manage=off
-hc rule fixedsize                                                       floating=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
+hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on floating=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
+hc rule fixedsize floating=on
 
-hc rule title='Font Forge'                  floating=on
-hc rule title='Font Information.*'          floating=on
-hc rule title='Spectacle'                   floating=on
-hc rule class='zenity'                      floating=on
-hc rule class~'[Cc]onky'                    manage=off
-hc rule class~'[Gg]alculator'               floating=on
-hc rule class='[Ss]pectacle'                manage=off
-hc rule class='[Ss]crot'                    manage=off
+hc rule title='Font Forge' floating=on
+hc rule title='Font Information.*' floating=on
+hc rule title='Spectacle' floating=on
+hc rule class='zenity' floating=on
+hc rule class~'[Cc]onky' manage=off
+hc rule class~'[Gg]alculator' floating=on
+hc rule class='[Ss]pectacle' manage=off
+hc rule class='[Ss]crot' manage=off
 
-hc rule class=Keybindings                   floating=on
-hc rule class=Music                         floating=on
+hc rule class=Keybindings floating=on
+hc rule class=Music floating=on
 # hc rule class=Scratchpad                    floating=on
-hc rule class=Sysinfo                       floating=on
-hc rule class~'[Gg]pick'                    floating=on
+hc rule class=Sysinfo floating=on
+hc rule class~'[Gg]pick' floating=on
 hc rule class=Thunderbird title='Edit Item' floating=on # tag=7
 
 # hc rule instance=sys tag=1
@@ -336,7 +339,6 @@ hc set tree_style '╾│ ├└╼─┐'
 
 # unlock, just to be sure
 hc unlock
-
 
 #**********************#
 #   MONITORS SECTION   #
@@ -355,16 +357,15 @@ hc set_monitors 2560x1440+0+0 3440x1440+2560+0 2560x1440+6000+0
 # hc add_monitor 3440x1440+2560+0 1
 # hc add_monitor 2560x1440+6000+0 2
 
-
-hc pad 0 ""     ""                      "${POLYBAR_HEIGHT}"     ""
-hc pad 1 ""     ""                      "${POLYBAR_HEIGHT}"     ""
-hc pad 2 ""     "${POLYBAR_HEIGHT}"     "${POLYBAR_HEIGHT}"     ""
+hc pad 0 "" "" "${POLYBAR_HEIGHT}" ""
+hc pad 1 "" "" "${POLYBAR_HEIGHT}" ""
+hc pad 2 "" "${POLYBAR_HEIGHT}" "${POLYBAR_HEIGHT}" ""
 
 hc list_monitors --no-disjoin
 
 ###   DEFINE BEHAVIOR   ###
-hc set focus_crosses_monitor_boundaries    1
-hc set swap_monitors_to_get_tag            0
+hc set focus_crosses_monitor_boundaries 1
+hc set swap_monitors_to_get_tag 0
 
 #******************************#
 #   START OTHER APPS SECTION   #
@@ -383,26 +384,25 @@ hc set swap_monitors_to_get_tag            0
 "${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --sxhkd &
 echo "[INFO] starting sxhkd using herbstluftwm-start.sh --sxhkd"
 
-dunstctl reload "${HOME}/.config/herbstluftwm/dunstrc" &> "${NOTIFICATIONDAEMON}" & # ${LOG}
+dunstctl reload "${HOME}/.config/herbstluftwm/dunstrc" &>"${NOTIFICATIONDAEMON}" & # ${LOG}
 echo "[INFO] reloading dunst using ${HOME}/.config/herbstluftwm/dunstrc"
 
-
-"${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --polybar  &> "${STATUSBAR}" & # ${LOG}
+"${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --polybar &>"${STATUSBAR}" & # ${LOG}
 echo "[INFO] starting polybar using herbstluftwm-start.sh --polybar"
 
-xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00 &> "${XRANDRLOG}" &
+xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00 &>"${XRANDRLOG}" &
 echo "[INFO] setting xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00"
 
-xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary &>> "${XRANDRLOG}" &
+xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary &>>"${XRANDRLOG}" &
 echo "[INFO] setting xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary"
 
-xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00 &>> "${XRANDRLOG}" &
+xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00 &>>"${XRANDRLOG}" &
 echo "[INFO] setting xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00"
 
-xwallpaper  --zoom "${HOME}/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png" &
+xwallpaper --zoom "${HOME}/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png" &
 echo "[INFO] setting xwallpaper  --zoom \"${HOME}/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png\" "
 
-"${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --conky &> "${CONKY}" &
+"${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --conky &>"${CONKY}" &
 echo "[INFO] starting conky using herbstluftwm-start.sh --conky"
 
 "input-remapper-redirector.sh"

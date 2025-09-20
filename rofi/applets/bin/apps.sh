@@ -56,7 +56,7 @@ music_cmd='kitty -e vimpc'
 setting_cmd='xfce4-settings-manager'
 
 # Options
-layout=$(cat ${theme} | grep 'USE_ICON' | cut -d'=' -f2)
+layout=$(cat "${theme}" | grep 'USE_ICON' | cut -d'=' -f2)
 if [[ ${layout} == 'NO' ]]; then
 	option_1=" Terminal <span weight='light' size='small'><i>(${term_cmd})</i></span>"
 	option_2=" Files <span weight='light' size='small'><i>(${file_cmd})</i></span>"

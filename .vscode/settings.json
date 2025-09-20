@@ -1,16 +1,17 @@
 {
     "Lua.diagnostics.globals": [
-        "int",
-        "float",
-        "Command",
-        "ya",
-        "cx",
-        "ui",
-        "Tab",
-        "File",
-        "Url",
-        "Cha",
-        "rt"
+      "int",
+      "float",
+      "Command",
+      "ya",
+      "cx",
+      "ui",
+      "Tab",
+      "File",
+      "Url",
+      "Cha",
+      "rt",
+      "Yatline"
     ],
     "editor.formatOnPaste": true,
     "editor.detectIndentation": false
