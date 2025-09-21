@@ -5,7 +5,7 @@
 #
 # `chmod +x unminimize.sh` then call it or add it to `autostart`.
 
-Mod=${Mod:-Mod4}
+Mod=${Mod:-Mod1}
 Minimizekey=Shift-m
 Unminimizekey=Ctrl-m
 # get the absolute path of this script, to call it when minimizing
@@ -22,12 +22,12 @@ init() {
    hc silent new_attr uint my_minimized_counter 1
 
    # minimize current window
-   hc keybind "${Mod}"-$Minimizekey spawn "$SCRIPT_PATH" minimize
+   hc keybind "${Mod}"-"${Minimizekey}" spawn "$SCRIPT_PATH" minimize
 
    # unminimize last window of a tag
    # if the `my_minimized_age` attribute does not exist (i.e. the window has not been
    #  minimized with this script), use arbitrary order to unminimize
-   hc keybind "${Mod}"-$Unminimizekey mktemp string LASTCLIENTATT mktemp uint LASTAGEATT chain \
+   hc keybind "${Mod}"-"${Unminimizekey}" mktemp string LASTCLIENTATT mktemp uint LASTAGEATT chain \
      . set_attr LASTAGEATT 0 \
      . foreach CLIENT clients. and \
        , sprintf MINATT "%c.minimized" CLIENT \

@@ -66,10 +66,10 @@ theme_icon="/tmp/rofi_theme_icon"
 
 # if the pipe files don't exist, make them exist
 if [[ ! -p ${theme_combo} ]]; then
-    mkfifo ${theme_combo}
+    mkfifo "${theme_combo}"
 fi
 if [[ ! -p ${theme_icon} ]]; then
-    mkfifo ${theme_icon}
+    mkfifo "${theme_icon}"
 fi
 
 # clean up the mkfifos upon exit
@@ -119,7 +119,6 @@ rofi_cmd() {
     -theme-str 'textbox-prompt-colon {str: "";}' \
     -dmenu \
     -p "${prompt}" \
-    -mesg "${mesg}" \
     -markup-rows \
     -theme "${theme}"
 }
