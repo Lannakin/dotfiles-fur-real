@@ -12,7 +12,7 @@ KEYBINDMANAGER="${HOME}/LOGS/herbstluftwm-sxhkd.log"
 
 ## define path for this script to log to ##
 # BTW we're sending it to the Window Manager's log; directory name is in CAPS because I AM DERANGED and named it in CAPS
-LOG="${HOME}/LOGS/herbstluftwm.log"
+LOG="${HOME}/LOGS/herbstluftwm-start.log"
 exec >"${LOG}" 2>&1
 
 # echo "herbstluftwm-start: [DEBUG] GETOPT P0 completed."

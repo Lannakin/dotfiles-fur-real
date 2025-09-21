@@ -8,9 +8,6 @@
 LOG="${HOME}/LOGS/rofi.log"
 exec >"${LOG}" 2>&1
 
-# prevent masking via separating commands into a variables
-pacman_pkgs=$(pacman -Q)
-
 # CMDs (add your apps here)
 term_cmd="kitty"
 file_cmd="yazi"
@@ -29,6 +26,7 @@ setting_cmd="xfce4-settings-manager"
 #	 - the parent directory (applets)
 #	 - rofi's directory (rofi)
 
+# directory that this script is in
 WORKINGDIR=$(
   cd "$(dirname "${BASH_SOURCE[0]}")" || {
     echo "[ERROR] cd failed on WORKINGDIR."
@@ -36,6 +34,7 @@ WORKINGDIR=$(
   }
   pwd -P
 )
+# directory that the directory this script is in is in
 PARENTDIR=$(
   builtin cd "${WORKINGDIR}"
     cd .. || {
@@ -44,6 +43,8 @@ PARENTDIR=$(
   }
   pwd
 )
+# the directory that the directory that this script is in is in
+# presumably, that's the rofi directory
 ROFIDIR=$(
   builtin cd "${PARENTDIR}"
     cd .. || {
@@ -59,10 +60,27 @@ ROFIDIR=$(
 source "${ROFIDIR}/applets/shared/theme.sh"
 theme="${type}/${style}"
 
+# pipe theme stuff separately to prevent masking
+theme_combo="/tmp/rofi_theme_combo"
+theme_icon="/tmp/rofi_theme_icon"
+
+# if the pipe files don't exist, make them exist
+if [[ ! -p ${theme_combo} ]]; then
+    mkfifo ${theme_combo}
+fi
+if [[ ! -p ${theme_icon} ]]; then
+    mkfifo ${theme_icon}
+fi
+
+# clean up the mkfifos upon exit
+trap "rm -f ${theme_combo} ${theme_icon}" EXIT
+
+cat "${theme}" >theme_combo &
+grep "USE_ICON" >theme_icon &
+
 # Theme Elements
-prompt='Applications'
+prompt='Quick Launch'
 # mesg="Installed Packages : $(pacman -Q | wc -l) (pacman)"
-mesg="Installed Packages : $(wc -l "${pacman_pkgs}") (pacman)"
 
 if [[ (${theme} == *'type-1'*) || (${theme} == *'type-3'*) || (${theme} == *'type-5'*) ]]; then
   list_col='1'
@@ -74,25 +92,6 @@ fi
 
 # Options
 
-# pipe theme stuff separately to prevent masking
-theme_combo="/tmp/rofi_theme_combo"
-theme_icon="/tmp/rofi_theme_icon"
-
-if [[ ! -p ${theme_combo} ]]; then
-    mkfifo ${theme_combo}
-fi
-
-if [[ ! -p ${theme_icon} ]]; then
-    mkfifo ${theme_icon}
-fi
-
-# clean up the mkfifos
-trap "rm -f ${theme_combo} ${theme_icon}" EXIT
-
-cat "${theme}" >theme_combo &
-grep "USE_ICON" >theme_icon &
-
-#layout=$(cat "${theme}" | grep 'USE_ICON' | cut -d'=' -f2)
 # grab icons from the piped theme stuff
 layout=$(cut -d'=' -f2 theme_icon)
 if [[ ${layout} == 'NO' ]]; then

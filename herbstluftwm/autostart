@@ -12,11 +12,9 @@ exec >"${LOG}" 2>&1
 echo "---  herbstluftwm launching ---"
 
 ## other apps' log files  ##
-CONKY="${HOME}/LOGS/herbstluftwm-conky.log"
 NOTIFICATIONDAEMON="${HOME}/LOGS/herbstluftwm-dunst.log"
 STATUSBAR="${HOME}/LOGS/herbstluftwm-polybar.log"
-XRANDRLOG="${HOME}/LOGS/herbstluftwm-xrandr.log"
-# INPUTREMAPPER="${HOME}LOGS/input-remapper.log"
+# XRANDRLOG="${HOME}/LOGS/herbstluftwm-xrandr.log"
 # KEYBINDMANAGER="${HOME}/LOGS/herbstluftwm-sxhkd.log"
 
 # screenshot output
@@ -71,7 +69,7 @@ hc keybind "${Mod}"-BackSpace cycle_monitor # cycle focus to next monitor
 hc keybind "${Mod}"-Tab cycle_all +1        # cycle focus to next frame on same monitor; forward 1
 hc keybind "${Mod}"-Shift-Tab cycle_all -1  # cycle focus to next frame on same monitor; backward 1
 hc keybind "${Mod}"-c cycle                 # cycle focus to next client in the same frame
-# hc keybind "${Mod}"-i                jumpto urgent
+# hc keybind "${Mod}"-i jumpto urgent
 
 ###   MOVEMENT -- FOCUSED CLIENT   ###
 # tiling and floating mode
@@ -344,18 +342,13 @@ hc unlock
 #   MONITORS SECTION   #
 #**********************#
 
-# xrandr -q | grep " connected" | cut -d ' ' -f1
-
 ###   DEFINE MONITOR SIZES AND POSITIONS   ###
+# xrandr -q | grep " connected" | cut -d ' ' -f1
 # hc list_monitors --no-disjoin
 
 echo "[INFO] Initializing monitors..."
 
 hc set_monitors 2560x1440+0+0 3440x1440+2560+0 2560x1440+6000+0
-
-# hc add_monitor 2560x1440+0+0    0
-# hc add_monitor 3440x1440+2560+0 1
-# hc add_monitor 2560x1440+6000+0 2
 
 hc pad 0 "" "" "${POLYBAR_HEIGHT}" ""
 hc pad 1 "" "" "${POLYBAR_HEIGHT}" ""
@@ -371,38 +364,29 @@ hc set swap_monitors_to_get_tag 0
 #   START OTHER APPS SECTION   #
 #******************************#
 
-# killall -q sxhkd
-#     echo "[INFO] using 'pkill -x sxhkd', hopefully sxhkd terminates and restarts!" &> "${KEYBINDMANAGER}"
-#     ## wait for all SXHKD processes to terminate ##
-#     while pgrep -u "${UID}" -x sxhkd >/dev/null;
-#       do sleep 1;
-#       done
-
-# sxhkd -c "${HOME}/.config/herbstluftwm/sxhkdrc" &>> "${KEYBINDMANAGER}" & # $LOG
-# echo "[INFO] starting sxhkd using ${HOME}/.config/herbstluftwm/sxhkdrc"
 
 "${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --sxhkd &
 echo "[INFO] starting sxhkd using herbstluftwm-start.sh --sxhkd"
 
-dunstctl reload "${HOME}/.config/herbstluftwm/dunstrc" &>"${NOTIFICATIONDAEMON}" & # ${LOG}
+dunstctl reload "${HOME}/.config/herbstluftwm/dunstrc" &>"${NOTIFICATIONDAEMON}" &
 echo "[INFO] reloading dunst using ${HOME}/.config/herbstluftwm/dunstrc"
 
-"${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --polybar &>"${STATUSBAR}" & # ${LOG}
+"${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --polybar &>"${STATUSBAR}" &
 echo "[INFO] starting polybar using herbstluftwm-start.sh --polybar"
 
-xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00 &>"${XRANDRLOG}" &
+xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00 # >"${XRANDRLOG}" &
 echo "[INFO] setting xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00"
 
-xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary &>>"${XRANDRLOG}" &
+xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary # >>"${XRANDRLOG}" &
 echo "[INFO] setting xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary"
 
-xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00 &>>"${XRANDRLOG}" &
+xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00 # >>"${XRANDRLOG}" &
 echo "[INFO] setting xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00"
 
 xwallpaper --zoom "${HOME}/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png" &
 echo "[INFO] setting xwallpaper  --zoom \"${HOME}/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png\" "
 
-"${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --conky &>"${CONKY}" &
+"${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --conky
 echo "[INFO] starting conky using herbstluftwm-start.sh --conky"
 
 "input-remapper-redirector.sh"
