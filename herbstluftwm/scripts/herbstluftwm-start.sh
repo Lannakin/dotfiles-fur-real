@@ -74,11 +74,11 @@ while true; do # while this statement returns 1, execute...
     shift
     ;;
   -s | --sxhkd)
-  # set up sxhkd status fifo
-    sxhkd_fifo="/tmp/sxhkd_fifo"
-    if [[ ! -p "${sxhkd_fifo}" ]]; then
-      mkfifo "${sxhkd_fifo}"
-    fi
+    # set up sxhkd status fifo
+    # hlwm_sxhkd_fifo="/tmp/hlwm_sxhkd_fifo"
+    # if [[ ! -p "${hlwm_sxhkd_fifo}" ]]; then
+    #   mkfifo "${hlwm_sxhkd_fifo}"
+    # fi
     ## murder SXHKD processes ##
     pkill -x sxhkd
     ## wait for all SXHKD processes to terminate ##
@@ -88,10 +88,11 @@ while true; do # while this statement returns 1, execute...
     echo "herbstluftwm-start: [INFO] sxhkd initiating..."
     sleep 1
     ## start SXHKD config...##
-    sxhkd -c "${HOME}/.config/herbstluftwm/sxhkdrc" -s "${sxhkd_fifo}" &
+    sxhkd -c "${HOME}/.config/herbstluftwm/sxhkdrc" 2>"${KEYBINDMANAGER}"
+    dunstify 'sxhkd' 'reloading config ~/.config/herbstluftwm/sxhkdrc'
     echo "[INFO] starting sxhkd using ${HOME}/.config/herbstluftwm/sxhkdrc"
     # cat "${sxhkd_fifo}" >"${KEYBINDMANAGER}" &
-    trap "rm -f ${sxhkd_fifo}" EXIT
+    # trap 'rm -f ${hlwm_sxhkd_fifo}' EXIT
     SXHKD=true # set GETOPT variable for SXHKD to TRUE so that this loop ends
     shift
     ;;

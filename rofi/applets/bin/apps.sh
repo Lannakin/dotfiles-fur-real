@@ -73,7 +73,7 @@ if [[ ! -p ${theme_icon} ]]; then
 fi
 
 # clean up the mkfifos upon exit
-trap "rm -f ${theme_combo} ${theme_icon}" EXIT
+trap 'rm -f ${theme_combo} ${theme_icon}' EXIT
 
 cat "${theme}" >theme_combo &
 grep "USE_ICON" >theme_icon &

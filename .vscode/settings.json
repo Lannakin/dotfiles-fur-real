@@ -10,5 +10,6 @@
     "editor.detectIndentation": false,
     "Lua.diagnostics.disable": [
       "undefined-doc-name"
-    ]
+    ],
+    "bashIde.explainshellEndpoint": "ost:5000\","
 }

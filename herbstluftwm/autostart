@@ -2,7 +2,10 @@
 #
 # config for herbstluftwm
 
-###   LOG FILES   ###
+#***********************#
+#   LOG FILES SECTION   #
+#***********************#
+
 ##  herbstluftwm's log file  ##
 LOG="${HOME}/LOGS/herbstluftwm.log"
 
@@ -41,7 +44,7 @@ hc keyunbind --all # remove all existing keybindings
 ###   MODIFIER SWAP   ###
 
 Mod=Mod1 # Use alt as the main modifier
-# super=Mod4
+Super=Mod4
 # xmodmap:
 # shift=Shift_L,  Shift_R
 # lock      Caps_Lock
@@ -110,25 +113,14 @@ hc keybind "${Mod}"-Shift-f set_attr clients.focus.floating toggle  # toggle flo
 hc keybind "${Mod}"-Shift-d set_attr clients.focus.decorated toggle # toggle decorations on focused CLIENT
 
 # toggle between grid and max tab layout
-hc keybind $super-Tab or , and . compare tags.focus.tiling.focused_frame.algorithm = max \
-  . chain - set_layout grid - attr theme.title_height 0 \
-  , chain - set_layout max - attr theme.title_height 17
+hc keybind "${Mod}"-Ctrl-m spawn "${HOME}/.config/herbstluftwm/scripts/maximize.sh"
 
 ###   MINIMIZING   ###
 hc keybind "${Mod}"-Shift-m set_attr clients.focus.minimized true # minimizes focused window
 hc keybind "${Mod}"-Control-m jumpto last-minimized               # will jump to minimized windows sequentially and unminimize them
 
-# cycle through tags
-# check whether the current tag as a custom "next tag" configured;
-# if yes, jump to that one, otherwise fall back to ordinary use_index +1
-hc keybind "${Mod}"-period or , substitute NEXT tags.focus.my_next_tag use NEXT \
-  , use_index +1 --skip-visible
-hc keybind "${Mod}"-comma or , substitute PREV tags.focus.my_previous_tag use PREV \
-  , use_index +1 --skip-visible
-
 # unminimize all minimized clients on the current tag
-hc keybind "${Mod}"-Ctrl-Shift-m \
-  substitute FOCUS "tags.focus.name" \
+hc keybind "${Mod}"-Ctrl-Shift-m substitute FOCUS "tags.focus.name" \
   foreach CLIENT clients. \
   sprintf MINATT "%c.minimized" CLIENT \
   sprintf TAGATT "%c.tag" CLIENT and \
@@ -150,7 +142,9 @@ hc keybind "${Mod}"-Control-comma spawn "${HOME}/.config/herbstluftwm/scripts/he
 hc keybind "${Mod}"-Shift-s spawn "${HOME}/.config/herbstluftwm/scripts/screenshot.sh"
 # hc keybind "${Mod}"-Alt-t            spawn "${TERMINAL:-xterm}"   # open terminal
 
-###   TAGS SECTION   ###
+#******************#
+#   TAGS SECTION   #
+#******************#
 
 ## monitor-agnostic tag lists
 # tag_names=( {0..7} )
