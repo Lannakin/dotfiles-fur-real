@@ -23,7 +23,7 @@ exec >"${LOG}" 2>&1
 ## return "Invalid input." in STDERR (standard error; diagnostic output. it is not limited to errors) ##
 # syntax for this scenario: getopt [options] -o|--options optstring [options] [--] parameters
 # IDK: does it need to be 'filenameofscript.sh' or can it be 'nameofscript'?
-vars=$(getopt -o chps --long conky,help,polybar,sxhkd -n 'herbstluftwm-start.sh' -- "$@")
+vars=$(getopt -o chps --long conky,help,polybar,sxhkd -n "herbstluftwm-start.sh" -- "$@")
 
 # echo "herbstluftwm-start: [DEBUG] GETOPT P0 completed."
 
@@ -74,15 +74,24 @@ while true; do # while this statement returns 1, execute...
     shift
     ;;
   -s | --sxhkd)
+  # set up sxhkd status fifo
+    sxhkd_fifo="/tmp/sxhkd_fifo"
+    if [[ ! -p "${sxhkd_fifo}" ]]; then
+      mkfifo "${sxhkd_fifo}"
+    fi
     ## murder SXHKD processes ##
-    pkill -USR1 -x sxhkd
+    pkill -x sxhkd
     ## wait for all SXHKD processes to terminate ##
     while pgrep -u "${UID}" -x sxhkd >/dev/null; do
       sleep 1
     done
+    echo "herbstluftwm-start: [INFO] sxhkd initiating..."
+    sleep 1
     ## start SXHKD config...##
-    sxhkd -c "${HOME}/.config/herbstluftwm/sxhkdrc" &>>"${KEYBINDMANAGER}" &
+    sxhkd -c "${HOME}/.config/herbstluftwm/sxhkdrc" -s "${sxhkd_fifo}" &
     echo "[INFO] starting sxhkd using ${HOME}/.config/herbstluftwm/sxhkdrc"
+    # cat "${sxhkd_fifo}" >"${KEYBINDMANAGER}" &
+    trap "rm -f ${sxhkd_fifo}" EXIT
     SXHKD=true # set GETOPT variable for SXHKD to TRUE so that this loop ends
     shift
     ;;
@@ -102,6 +111,8 @@ while true; do # while this statement returns 1, execute...
     ;;
   esac
 done
+
+exit
 
 # if [[ ${OPTIND} -eq 1 ]]; then                          # $?    = the value returning exit code of input for herbsluftwm-start -arg --longarg
 #   shift $((OPTIND - 1))

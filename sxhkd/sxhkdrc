@@ -6,7 +6,7 @@
 # make sxhkd reload its configuration files:
 # just kidding, this seems not to work with herbstluftwm running
 super + alt + Escape
-    pkill -USR1 -x sxhkd
+    pkill -x sxhkd
 
 # AUDIO
 #================================================================================
@@ -20,11 +20,8 @@ XF86AudioLowerVolume
 XF86AudioPlay
     mpc toggle
 
-XF86AudioPrev
-    mpc prev
-
-XF86AudioNext
-    mpc next
+XF86Audio{Prev,Next}
+	mpc -q {prev,next}
 
 #   APPLICATIONS
 #================================================================================
@@ -37,7 +34,7 @@ ctrl + t
 Super_L; @Super_L
     ${HOME}/.config/rofi/launchers/type-1/launcher.sh
 
-alt + super + a
+super + a
     ${HOME}/.config/rofi/applets/bin/apps.sh
 
 super + shift + s

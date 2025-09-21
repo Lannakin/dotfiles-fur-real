@@ -4,7 +4,7 @@ max_bar_size = 65
 
 left_side_delimiter = "| "
 right_side_delimiter = " |"
-window_separator = " | "
+window_separator = " . "
 
 # Options:
 # upper - converts window names to full uppercase
@@ -18,11 +18,11 @@ window_separator = " | "
 # Format tag brackets should be doubled for escaping, e.g. { -> {{ , } -> }}
 # Just experiment with it if this explanation is too hard to parse, and remember, you can use
 # "polybar-msg cmd restart" to restart your polybar.
-active_window_format = "%{{F#250F0B}}%{{+u}}%{{u#ECB3B2}}{}%{{-u}}%{{F-}}"
-inactive_window_format = "%{{F#250F0B}}{}%{{F-}}"
-separator_format = "%{{F#250F0B}}{}%{{F-}}"
-left_side_delimiter_format = "%{{F#250F0B}}{}%{{F-}}"
-right_side_delimiter_format = "%{{F#250F0B}}{}%{{F-}}"
+active_window_format = "%{{B#FDF6E3}}%{{F#042623}}%{{+u}}%{{u#CB4B16}} {} %{{-u}}%{{B- F-}}"
+inactive_window_format = "%{{B#C5E7E5}}%{{F#657B83}}{}%{{B- F-}}"
+separator_format = "%{{B#C5E7E5}}%{{F#93A1A1}}{}%{{B- F-}}"
+left_side_delimiter_format = "%{{B#C5E7E5}}%{{F#93A1A1}}{}%{{B- F-}}"
+right_side_delimiter_format = "%{{B#C5E7E5}}%{{F#93A1A1}}{}%{{B- F-}}"
 
 # Use an empty string to exclude window from the bar:
 # "from" = ""
