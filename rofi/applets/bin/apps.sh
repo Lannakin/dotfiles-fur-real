@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# shellcheck source=/home/lannakin/LA-repos/dotfiles.herbstluftwm/rofi/applets/shared/theme.sh
 ## Author  : Aditya Shakya (adi1090x)
 ## Github  : @adi1090x
 #
@@ -58,7 +58,7 @@ ROFIDIR=$(
 
 # Import Current Theme
 source "${ROFIDIR}/applets/shared/theme.sh"
-theme="${type}/${style}"
+export theme="${type}/${style}"
 
 # pipe theme stuff separately to prevent masking
 theme_combo="/tmp/rofi_theme_combo"

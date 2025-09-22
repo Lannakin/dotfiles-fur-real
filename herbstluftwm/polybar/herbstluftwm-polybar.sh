@@ -20,7 +20,7 @@ killall -q polybar  # note: check ipc
 echo "herbstluftwm-polybar: [INFO] SIGKILL ALL sent."
 
 ## wait for all POLYBAR processes to terminate ##
-while pgrep -u $UID -x polybar >/dev/null;
+while pgrep -u "${UID}" -x polybar >/dev/null;
   do sleep 1;
 done
 

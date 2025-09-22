@@ -1,4 +1,4 @@
-#  sxhkdrc
+# sxhkdrc
 #
 #   SXHKD CTL
 #================================================================================
@@ -32,17 +32,17 @@ ctrl + t
 
 # program launcher; must specify as _L b/c support
 Super_L; @Super_L
-    ${HOME}/.config/rofi/launchers/type-1/launcher.sh
+    "${HOME}/.config/rofi/launchers/type-1/launcher.sh"
 
 super + a
-    ${HOME}/.config/rofi/applets/bin/apps.sh
+    "${HOME}/.config/rofi/applets/bin/apps.sh"
 
 super + shift + s
-    maim --select --format=png "${HOME}"/Pictures/herbstluftwm_screenshots/screenshot$(date +%s).png | xclip -selection clipboard -t image/png
+    maim --select --format=png "${HOME}"/Pictures/herbstluftwm_screenshots/screenshot"$(date +%s)".png | xclip -selection clipboard -t image/png
 
 #   HERBSTLUFTWM
 #================================================================================
 
 # toggle dual head on focused monitor
 alt + shift + o
-    ${HOME}/.config/herbstluftwm/scripts/toggledualhead.sh
+    "${HOME}/.config/herbstluftwm/scripts/toggledualhead.sh"
