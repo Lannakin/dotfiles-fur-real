@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 #
 # herbstluftwm setup's temporary environment variables
 
@@ -6,17 +6,19 @@
 #   LOG FILES SECTION   #
 #***********************#
 
-HERBSTLUFTWMLOG="${HOME}/LOGS/herbstluftwm.log"
-NOTIFICATIONDAEMONLOG="${HOME}/LOGS/herbstluftwm-dunst.log"
-STATUSBARLOG="${HOME}/LOGS/herbstluftwm-polybar.log"
-XRANDRLOG="${HOME}/LOGS/herbstluftwm-xrandr.log"
-KEYBINDMANAGERLOG="${HOME}/LOGS/herbstluftwm-sxhkd.log"
+export HERBSTLUFTWMLOG="${HOME}/LOGS/herbstluftwm.log"
+export NOTIFICATIONDAEMONLOG="${HOME}/LOGS/herbstluftwm-dunst.log"
+export STATUSBARLOG="${HOME}/LOGS/herbstluftwm-polybar.log"
+export XRANDRLOG="${HOME}/LOGS/herbstluftwm-xrandr.log"
+export KEYBINDMANAGERLOG="${HOME}/LOGS/herbstluftwm-sxhkd.log"
 
 #******************************#
 #   SECTION GLOBAL VARIABLES   #
 #******************************#
 
-STATUSBARHEIGHT=20
+export STATUSBARHEIGHT=20
 
-SCREENSHOTOUTPUT="${HOME}"/Pictures/herbstluftwm_screenshots/screenshot"$(date +%s)".png
+# split to avoid masking return values
+SCREENSHOTDATE="$(date +%s)"
+export SCREENSHOTOUTPUT="${HOME}"/Pictures/herbstluftwm_screenshots/screenshot"${SCREENSHOTDATE}".png
 

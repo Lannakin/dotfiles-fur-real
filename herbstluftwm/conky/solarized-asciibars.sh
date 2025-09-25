@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
 #
+# $HOME/.config/herbstluftwm/conky/solarized-asciibars.sh
+#
 # ASCII Bar Generator for Conky
 # Creates │ character progress bars for system monitoring
 #
 # Written bly Claude in nearly its entirety
-#
-# NOTE: conky.conf's % numbers are not synchronized with the bars.
-# file path below for my reference
-# $HOME/.config/herbstluftwm/conky/solarized-asciibars.sh
+
 
 # Color definitions (Conky format)
-COLOR_ACTIVE="\${color a8c200}"    # #a8c200
+COLOR_ACTIVE="\${color a8c200}"    # #A8C200
 COLOR_INACTIVE="\${color EEE8D5}"  # #EEE8D5
+
+COLOR_WARNING="\${color B58900}"   # #B58900
+COLOR_CRITICAL="\${color CB4B16}"  # #CB4B16
+
 
 # Function to create ASCII bar
 # Usage: create_bar <current_value> <max_value> <bar_length> [warning_threshold] [critical_threshold]
@@ -50,12 +53,15 @@ get_cpu_usage() {
 
     # Take first snapshot
     local stats1
-      stats1=$(grep "^cpu${core} " /proc/stat)
+        stats1=$(grep "^cpu${core} " /proc/stat)
     local user1
-      user1=$(echo "${stats1}" | awk '{print $2}')
-    local nice1=$(echo "${stats1}" | awk '{print $3}')
-    local system1=$(echo "${stats1}" | awk '{print $4}')
-    local idle1=$(echo "${stats1}" | awk '{print $5}')
+        user1=$(echo "${stats1}" | awk '{print $2}')
+    local nice1
+        nice1=$(echo "${stats1}" | awk '{print $3}')
+    local system1
+        system1=$(echo "${stats1}" | awk '{print $4}')
+    local idle1
+        idle1=$(echo "${stats1}" | awk '{print $5}')
     local total1=$((user1 + nice1 + system1 + idle1))
     local work1=$((user1 + nice1 + system1))
 
@@ -63,11 +69,16 @@ get_cpu_usage() {
     sleep 0.1
 
     # Take second snapshot
-    local stats2=$(grep "^cpu${core} " /proc/stat)
-    local user2=$(echo "${stats2}" | awk '{print $2}')
-    local nice2=$(echo "${stats2}" | awk '{print $3}')
-    local system2=$(echo "${stats2}" | awk '{print $4}')
-    local idle2=$(echo "${stats2}" | awk '{print $5}')
+    local stats2
+        stats2=$(grep "^cpu${core} " /proc/stat)
+    local user2
+        user2=$(echo "${stats2}" | awk '{print $2}')
+    local nice2
+        nice2=$(echo "${stats2}" | awk '{print $3}')
+    local system2
+        system2=$(echo "${stats2}" | awk '{print $4}')
+    local idle2
+        idle2=$(echo "${stats2}" | awk '{print $5}')
     local total2=$((user2 + nice2 + system2 + idle2))
     local work2=$((user2 + nice2 + system2))
 
@@ -126,11 +137,11 @@ get_temp_bar() {
     local inactive=$((bar_length - active))
 
     local bar_color="${COLOR_ACTIVE}"
-    # if [[ ${temp} -ge ${critical_temp} ]]; then
-    #     bar_color="${COLOR_CRITICAL}"
-    # elif [[ ${temp} -ge ${warning_temp} ]]; then
-    #     bar_color="${COLOR_WARNING}"
-    # fi
+    if [[ ${temp} -ge ${critical_temp} ]]; then
+        bar_color="${COLOR_CRITICAL}"
+    elif [[ ${temp} -ge ${warning_temp} ]]; then
+        bar_color="${COLOR_WARNING}"
+    fi
 
     local bar=""
     for ((i=0; i<active; i++)); do
@@ -153,13 +164,16 @@ case "$1" in
         usage=$(get_cpu_usage "${core_num}")
         create_bar "${usage}" 100 22
         ;;
-
+    "cpu_usage")
+        core_num=${2:-1}
+        usage=$(get_cpu_usage "${core_num}")
+        echo "${usage}"
+        ;;
     "memory")
         # Memory usage
         mem_usage=$(get_memory_usage)
         create_bar "${mem_usage}" 100 32
         ;;
-
     "gpu")
         # GPU usage
         gpu_usage=$(get_gpu_usage)
