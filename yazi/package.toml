@@ -48,5 +48,25 @@ use = "jaja360/yatline-hostname-username"
 rev = "448e8a1"
 hash = "9888b4708cb9fb7ecdac610f57d0389e"
 
+[[plugin.deps]]
+use = "boydaihungst/file-extra-metadata"
+rev = "116a460"
+hash = "e65cd1dea5feb9ca58c33b870ca3070"
+
+[[plugin.deps]]
+use = "saumyajyoti/omp"
+rev = "41f7e89"
+hash = "79c7c499488da445c97cc8eb252c3b2a"
+
+[[plugin.deps]]
+use = "imsi32/yatline-gruvbox"
+rev = "1ce46eb"
+hash = "1a087e707ba0512106408144eeb3e50a"
+
+[[plugin.deps]]
+use = "Ape/open-with-cmd"
+rev = "433cf30"
+hash = "86e0312b01bc5762813c6c1d0517f073"
+
 [flavor]
 deps = []

@@ -126,11 +126,11 @@ get_temp_bar() {
     local inactive=$((bar_length - active))
 
     local bar_color="${COLOR_ACTIVE}"
-    if [[ ${temp} -ge ${critical_temp} ]]; then
-        bar_color="${COLOR_CRITICAL}"
-    elif [[ ${temp} -ge ${warning_temp} ]]; then
-        bar_color="${COLOR_WARNING}"
-    fi
+    # if [[ ${temp} -ge ${critical_temp} ]]; then
+    #     bar_color="${COLOR_CRITICAL}"
+    # elif [[ ${temp} -ge ${warning_temp} ]]; then
+    #     bar_color="${COLOR_WARNING}"
+    # fi
 
     local bar=""
     for ((i=0; i<active; i++)); do
@@ -151,7 +151,7 @@ case "$1" in
         # CPU core usage - get specific core number from $2
         core_num=${2:-1}
         usage=$(get_cpu_usage "${core_num}")
-        create_bar ${usage} 100 22
+        create_bar "${usage}" 100 22
         ;;
 
     "memory")
@@ -173,16 +173,16 @@ case "$1" in
 
     "gpu_temp")
         # GPU temperature (adjust path as needed)
-        get_temp_bar "/sys/class/hwmon/hwmon8/temp2_input" 100 22
+        get_temp_bar "/sys/class/hwmon/hwmon5/temp1_input" 100 22
         ;;
 
     "test")
         # Test all functions
-        echo CPU1: $(create_bar "$(get_cpu_usage 1)" 100 22)
-        echo "MEM:  $(create_bar $(get_memory_usage) 100 32)"
-        echo "GPU:  $(create_bar $(get_gpu_usage) 100 22)"
+        echo "CPU1: $(create_bar "$(get_cpu_usage 1)" 100 22)"
+        echo "MEM:  $(create_bar "$(get_memory_usage)" 100 32)"
+        echo "GPU:  $(create_bar "$(get_gpu_usage)" 100 22)"
         echo "CPUT: $(get_temp_bar "/sys/class/hwmon/hwmon2/temp1_input" 100 22)"
-        echo "GPUT: $(get_temp_bar "/sys/class/hwmon/hwmon8/temp2_input" 100 22)"
+        echo "GPUT: $(get_temp_bar "/sys/class/hwmon/hwmon5/temp1_input" 100 22)"
         ;;
 
     *)

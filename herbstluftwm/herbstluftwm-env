@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+#
+# herbstluftwm setup's temporary environment variables
+
+#***********************#
+#   LOG FILES SECTION   #
+#***********************#
+
+HERBSTLUFTWMLOG="${HOME}/LOGS/herbstluftwm.log"
+NOTIFICATIONDAEMONLOG="${HOME}/LOGS/herbstluftwm-dunst.log"
+STATUSBARLOG="${HOME}/LOGS/herbstluftwm-polybar.log"
+XRANDRLOG="${HOME}/LOGS/herbstluftwm-xrandr.log"
+KEYBINDMANAGERLOG="${HOME}/LOGS/herbstluftwm-sxhkd.log"
+
+#******************************#
+#   SECTION GLOBAL VARIABLES   #
+#******************************#
+
+STATUSBARHEIGHT=20
+
+SCREENSHOTOUTPUT="${HOME}"/Pictures/herbstluftwm_screenshots/screenshot"$(date +%s)".png
+

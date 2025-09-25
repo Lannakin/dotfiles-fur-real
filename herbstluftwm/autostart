@@ -2,9 +2,9 @@
 #
 # config for herbstluftwm
 
-#***********************#
-#   LOG FILES SECTION   #
-#***********************#
+#*****************#
+#   LOG SECTION   #
+#*****************#
 
 ##  herbstluftwm's log file  ##
 LOG="${HOME}/LOGS/herbstluftwm.log"
@@ -12,22 +12,22 @@ LOG="${HOME}/LOGS/herbstluftwm.log"
 # send the entirety of autostart's execution to the log
 exec >"${LOG}" 2>&1
 
+# source container for more global variables
+source "/home/lannakin/LA-repos/dotfiles.herbstluftwm/herbstluftwm/herbstluftwm-env"
+
+# print sourced variables
+echo "[DEBUG] HERBSTLUFTWMLOG is ${HERBSTLUFTWMLOG}"
+echo "[DEBUG] NOTIFICATIONDAEMONLOG is ${NOTIFICATIONDAEMONLOG}"
+echo "[DEBUG] STATUSBARLOG is ${STATUSBARLOG}"
+echo "[DEBUG] XRANDRLOG is ${XRANDRLOG}"
+echo "[DEBUG] KEYBINDMANAGERLOG is ${KEYBINDMANAGERLOG}"
+echo "[DEBUG] STATUSBARHEIGHT is ${STATUSBARHEIGHT}"
+
+#*********************#
+#   STARTUP SECTION   #
+#*********************#
+
 echo "---  herbstluftwm launching ---"
-
-## other apps' log files  ##
-NOTIFICATIONDAEMON="${HOME}/LOGS/herbstluftwm-dunst.log"
-STATUSBAR="${HOME}/LOGS/herbstluftwm-polybar.log"
-# XRANDRLOG="${HOME}/LOGS/herbstluftwm-xrandr.log"
-# KEYBINDMANAGER="${HOME}/LOGS/herbstluftwm-sxhkd.log"
-
-# screenshot output
-#FILE=${HOME}/Pictures/herbstluftwm_screenshots/screenshot$(date +%s).png
-
-#******************************#
-#   GLOBAL VARIABLES SECTION   #
-#******************************#
-
-POLYBAR_HEIGHT=20
 
 hc() {
   herbstclient "$@"
@@ -44,7 +44,7 @@ hc keyunbind --all # remove all existing keybindings
 ###   MODIFIER SWAP   ###
 
 Mod=Mod1 # Use alt as the main modifier
-Super=Mod4
+# Super=Mod4
 # xmodmap:
 # shift=Shift_L,  Shift_R
 # lock      Caps_Lock
@@ -275,6 +275,7 @@ hc attr theme.normal.title_color '#657B83'
 hc attr theme.inner_width 0
 hc attr theme.inner_color '#93A1A1'
 hc attr theme.border_width 1
+hc attr theme.active.border_width 1
 hc attr theme.floating.border_width 1
 hc attr theme.floating.outer_width 1
 hc attr theme.floating.outer_color '#839496'
@@ -344,10 +345,11 @@ echo "[INFO] Initializing monitors..."
 
 hc set_monitors 2560x1440+0+0 3440x1440+2560+0 2560x1440+6000+0
 
-hc pad 0 "" "" "${POLYBAR_HEIGHT}" ""
-hc pad 1 "" "" "${POLYBAR_HEIGHT}" ""
-hc pad 2 "" "${POLYBAR_HEIGHT}" "${POLYBAR_HEIGHT}" ""
+hc pad 0 "" "" "${STATUSBARHEIGHT}" ""
+hc pad 1 "" "" "${STATUSBARHEIGHT}" ""
+hc pad 2 "" "${STATUSBARHEIGHT}" "${STATUSBARHEIGHT}" ""
 
+# output settings to log, in case display layout seems wrong
 hc list_monitors --no-disjoin
 
 ###   DEFINE BEHAVIOR   ###
@@ -358,27 +360,26 @@ hc set swap_monitors_to_get_tag 0
 #   START OTHER APPS SECTION   #
 #******************************#
 
-
 "${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --sxhkd &
 echo "[INFO] starting sxhkd using herbstluftwm-start.sh --sxhkd"
 
-dunstctl reload "${HOME}/.config/herbstluftwm/dunstrc" &>"${NOTIFICATIONDAEMON}" &
+dunstctl reload "${HOME}/.config/herbstluftwm/dunstrc" &>"${NOTIFICATIONDAEMONLOG}" &
 echo "[INFO] reloading dunst using ${HOME}/.config/herbstluftwm/dunstrc"
 
-"${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --polybar &>"${STATUSBAR}" &
+"${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --polybar &>"${STATUSBARLOG}" &
 echo "[INFO] starting polybar using herbstluftwm-start.sh --polybar"
 
-xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00 # >"${XRANDRLOG}" &
+xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00  &>>"${XRANDRLOG}" &
 echo "[INFO] setting xrandr --output DisplayPort-0 --mode 2560x1440 --rate 60.00"
 
-xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary # >>"${XRANDRLOG}" &
+xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary  &>>"${XRANDRLOG}" &
 echo "[INFO] setting xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144.00 --primary"
 
-xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00 # >>"${XRANDRLOG}" &
+xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00  &>>"${XRANDRLOG}" &
 echo "[INFO] setting xrandr --output DisplayPort-2 --mode 2560x1440 --rate 60.00"
 
 xwallpaper --zoom "${HOME}/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png" &
-echo "[INFO] setting xwallpaper  --zoom \"${HOME}/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png\" "
+echo "[INFO] setting xwallpaper  --zoom \"${HOME}/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png\""
 
 "${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --conky
 echo "[INFO] starting conky using herbstluftwm-start.sh --conky"

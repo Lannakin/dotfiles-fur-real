@@ -1,8 +1,10 @@
 ##  folders
-**/unused/
-layouts/
+.vscode/
 LOGS/
+
+**/unused/
 powermenu/
+layouts/
 # applets/type*/
 yazi/plugins/
 
@@ -13,3 +15,5 @@ polywinner
 herbstluftwm.code-workspace
 .stow-local-ignore
 .stowrc
+.envrc
+.emmyrc.json

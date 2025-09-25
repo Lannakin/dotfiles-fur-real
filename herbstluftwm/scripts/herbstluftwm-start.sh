@@ -15,7 +15,7 @@ KEYBINDMANAGER="${HOME}/LOGS/herbstluftwm-sxhkd.log"
 LOG="${HOME}/LOGS/herbstluftwm-start.log"
 exec >"${LOG}" 2>&1
 
-# echo "herbstluftwm-start: [DEBUG] GETOPT P0 completed."
+# echo "herbstluftwm-start|debug: GETOPT P0 completed."
 
 ############################
 ###    GETOPT PHASE 0    ###
@@ -25,7 +25,7 @@ exec >"${LOG}" 2>&1
 # IDK: does it need to be 'filenameofscript.sh' or can it be 'nameofscript'?
 vars=$(getopt -o chps --long conky,help,polybar,sxhkd -n "herbstluftwm-start.sh" -- "$@")
 
-# echo "herbstluftwm-start: [DEBUG] GETOPT P0 completed."
+# echo "herbstluftwm-start|debug: GETOPT P0 completed."
 
 ############################
 ###   GETOPT PHASE 1.0   ###
@@ -34,16 +34,16 @@ eval set -- "${vars}"
 # eval = tells shell to run another round of shell expansions
 # set  = this is a set of parameters
 # --   = break out of this iterational loop
-# echo "herbstluftwm-start: [DEBUG] GETOPT P1.0 completed."
+# echo "herbstluftwm-start|debug: GETOPT P1.0 completed."
 
 ############################
 ###   GETOPT PHASE 1.1   ###
 ## initialize GETOPT variables by setting them to an initialized value ##
-export CONKY=false
-export POLYBAR=false
-export SXHKD=false
-export HELP=false
-# echo "herbstluftwm-start: [DEBUG] GETOPT P1.1 completed."
+export CONKY_RUNCHECK=false
+export POLYBAR_RUNCHECK=false
+export SXHKD_RUNCHECK=false
+export HELP_RUNCHECK=false
+# echo "herbstluftwm-start|debug: GETOPT P1.1 completed."
 
 ############################
 ###   GETOPT PHASE 2.0   ###
@@ -59,18 +59,18 @@ while true; do # while this statement returns 1, execute...
       sleep 1
     done
     ## start conky configs...##
-    echo "herbstluftwm-start: [INFO] conky initiating..." # output "message" to this log
+    echo "herbstluftwm-start|info: conky initiating..." # output "message" to this log
     "${HERBSTLUFTWM_CONKY}" &
-    echo "herbstluftwm-start: [INFO] conky initiated."
-    CONKY=true # set GETOPT variable for CONKY to TRUE so that this loop ends
+    echo "herbstluftwm-start|info: conky initiated."
+    CONKY_RUNCHECK=true # set GETOPT variable for CONKY to TRUE so that this loop ends
     shift
     ;;
   -p | --polybar)
     ## start polybar config... ##
     # my herbstluftwm polybar already has killall and wait
     "${HERBSTLUFTWM_POLYBAR}" &
-    echo "herbstluftwm-start: [INFO] polybar initiating..."
-    POLYBAR=true
+    echo "herbstluftwm-start|info: polybar initiating..."
+    POLYBAR_RUNCHECK=true
     shift
     ;;
   -s | --sxhkd)
@@ -85,7 +85,7 @@ while true; do # while this statement returns 1, execute...
     while pgrep -u "${UID}" -x sxhkd >/dev/null; do
       sleep 1
     done
-    echo "herbstluftwm-start: [INFO] sxhkd initiating..."
+    echo "herbstluftwm-start|info: sxhkd initiating..."
     sleep 1
     ## start SXHKD config...##
     sxhkd -c "${HOME}/.config/herbstluftwm/sxhkdrc" 2>"${KEYBINDMANAGER}"
@@ -93,21 +93,21 @@ while true; do # while this statement returns 1, execute...
     echo "[INFO] starting sxhkd using ${HOME}/.config/herbstluftwm/sxhkdrc"
     # cat "${sxhkd_fifo}" >"${KEYBINDMANAGER}" &
     # trap 'rm -f ${hlwm_sxhkd_fifo}' EXIT
-    SXHKD=true # set GETOPT variable for SXHKD to TRUE so that this loop ends
+    SXHKD_RUNCHECK=true # set GETOPT variable for SXHKD to TRUE so that this loop ends
     shift
     ;;
   -h | --help)
-    HELP=true
-    echo "herbstluftwm-start: [INFO] no help / usage written yet. :)"
+    HELP_RUNCHECK=true
+    echo "herbstluftwm-start|info: no help / usage written yet. :)"
     shift
     ;;
   --)
     shift
-    # echo "herbstluftwm-start: [DEBUG] we did it we reached the -- break of P2!"
+    # echo "herbstluftwm-start|debug: we did it we reached the -- break of P2!"
     break
     ;;
   *)
-    echo "herbstluftwm-start: [ERROR] Invalid argument!"
+    echo "herbstluftwm-start|error: Invalid argument!"
     exit 1
     ;;
   esac
@@ -117,8 +117,8 @@ exit
 
 # if [[ ${OPTIND} -eq 1 ]]; then                          # $?    = the value returning exit code of input for herbsluftwm-start -arg --longarg
 #   shift $((OPTIND - 1))
-#   echo "herbstluftwm-start: [ERROR] invalid option(s)." # -ne 0 = "not equal to" 0
+#   echo "herbstluftwm-start|error: invalid option(s)." # -ne 0 = "not equal to" 0
 #   exit 1                                                # non-zero exit codes indicate error and terminate script
 # fi
 
-# echo "herbstluftwm-start: [DEBUG] GETOPT P2 completed, EOF."
+# echo "herbstluftwm-start|debug: GETOPT P2 completed, EOF."

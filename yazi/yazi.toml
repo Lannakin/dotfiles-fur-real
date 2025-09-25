@@ -103,7 +103,9 @@ spotters = [
 	# Video
 	{ mime = "video/*", run = "video" },
 	# Fallback
-	{ name = "*", run = "file" },
+	#{ name = "*", run = "file" },
+  # https://github.com/boydaihungst/file-extra-metadata.yazi
+  { name = "*", run = "file-extra-metadata" },
 ]
 preloaders = [
 	# Image
@@ -147,7 +149,9 @@ previewers = [
 	# Empty file
 	{ mime = "inode/empty", run = "empty" },
 	# Fallback
-	{ name = "*", run = "file" },
+	# { name = "*", run = "file" },
+  # https://github.com/boydaihungst/file-extra-metadata.yazi
+  { name = "*", run = "file-extra-metadata" },
 ]
 prepend_previewers = [
   { name = "*.md", run  = 'piper -- rich -j --left --panel=none --guides --line-numbers --force-terminal "$1"' },

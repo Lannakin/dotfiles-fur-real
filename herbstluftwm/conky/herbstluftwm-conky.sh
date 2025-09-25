@@ -7,31 +7,34 @@
 DIR="${HOME}/.config/herbstluftwm/conky"
 KEYBINDS="${DIR}/herbstluftwm-keybinds.conf"
 SYSTEMSTATS="${DIR}/solarized-systemstats.conf"
+NEOFETCH="${DIR}/solarized-l-neofetch-rice.conf"
 
 ### define path for this Window Manager's CONKY to use for log ###
 LOG=${HOME}/LOGS/herbstluftwm-conky.log     # am not using WM's log to keep clutter down
 
 exec > "${LOG}" 2>&1
 
-echo "herbstluftwm-conky: [DEBUG] starting..."
+echo "herbstluftwm-conky|debug: starting..."
 ### terminate all existing CONKY processes ###
 ## If all bars have ipc enabled, can use
 ## conky-msg cmd quit
 # Terminate already running bar instances
 killall -q conky
-echo "herbstluftwm-conky: [INFO] SIGKILL ALL sent."
+echo "herbstluftwm-conky|info: SIGKILL ALL sent."
 
 ## wait for all CONKY processes to terminate ##
 while pgrep -u "${UID}" -x conky >/dev/null;
   do sleep 1;
 done
 
-echo "herbstluftwm-conky: [INFO] initiating..."
+echo "herbstluftwm-conky|info: initiating..."
 
 # Launch the bar
 conky --config="${KEYBINDS}" &
-echo "herbstluftwm-conky: [DEBUG] keybinds display initiated."
+echo "herbstluftwm-conky|debug: keybinds display initiated."
 conky --config="${SYSTEMSTATS}" &
-echo "herbstluftwm-conky: [DEBUG] systemstats display initiated."
+echo "herbstluftwm-conky|debug: systemstats display initiated."
+conky --config="${NEOFETCH}" &
+echo "herbstluftwm-conky|debug: neofetch rice display initiated."
 
-echo "herbstluftwm-conky: [INFO] initiated."
+echo "herbstluftwm-conky|info: initiating completed."
