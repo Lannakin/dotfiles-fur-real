@@ -86,6 +86,7 @@ get_cpu_usage() {
     local total_diff=$((total2 - total1))
     local work_diff=$((work2 - work1))
 
+    # set usage to a defined value before using math on it
     local usage=0
     if [[ ${total_diff} -gt 0 ]]; then
         usage=$((work_diff * 100 / total_diff))
@@ -163,11 +164,8 @@ case "$1" in
         core_num=${2:-1}
         usage=$(get_cpu_usage "${core_num}")
         create_bar "${usage}" 100 22
-        ;;
-    "cpu_usage")
-        core_num=${2:-1}
-        usage=$(get_cpu_usage "${core_num}")
-        echo "${usage}"
+        cpu_usage_format="\${voffset -6}\${font0}\${color2}\${alignr}"
+        echo "${cpu_usage_format}${usage}%"
         ;;
     "memory")
         # Memory usage
