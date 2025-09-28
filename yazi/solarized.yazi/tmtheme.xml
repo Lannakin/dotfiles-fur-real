@@ -16,11 +16,11 @@
         <key>settings</key>
         <dict>
           <key>background</key>
-          <string>#FFFCF2</string>
+          <string>#FDF6E3</string>
           <key>foreground</key>
-          <string>#073642</string>
+          <string>#657B83</string>
           <key>caret</key>
-          <string>#C5E7E5</string>
+          <string>#839496</string>
           <key>lineHighlight</key>
           <string>#EEE8D5</string>
           <key>misspelling</key>
@@ -34,7 +34,7 @@
           <key>findHighlight</key>
           <string>#a9daf0</string>
           <key>gutterForeground</key>
-          <string>#FDF6E3</string>
+          <string>#EEE8D5</string>
         </dict>
       </dict>
       <dict>
@@ -45,7 +45,7 @@
         <key>settings</key>
         <dict>
           <key>foreground</key>
-          <string>#073642</string>
+          <string>#657B83</string>
         </dict>
       </dict>
       <dict>
@@ -69,7 +69,7 @@
         <key>settings</key>
         <dict>
           <key>foreground</key>
-          <string>#586E75</string>
+          <string>#93A1A1</string>
           <key>fontStyle</key>
           <string>italic</string>
         </dict>
@@ -89,7 +89,7 @@
         <key>settings</key>
         <dict>
           <key>foreground</key>
-          <string>#839496</string>
+          <string>#D33682</string>
         </dict>
       </dict>
       <dict>

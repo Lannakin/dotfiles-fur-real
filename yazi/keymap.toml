@@ -1,20 +1,15 @@
-# https://github.com/Ape/open-with-cmd.yazi
-[[manager.prepend_keymap]]
-on   = "o"
-run  = "plugin open-with-cmd --args=block"
-desc = "Open with command in the terminal"
-
-[[manager.prepend_keymap]]
-on   = "O"
-run  = "plugin open-with-cmd"
-desc = "Open with command"
-
 # A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 "$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
 [mgr]
-
+prepend_keymap = [
+# https://github.com/Ape/open-with-cmd.yazi
+  # { on   = "o",   run  = "plugin open-with-cmd --args=block",   desc = "Open with command in the terminal"},
+  # { on   = "O",   run  = "plugin open-with-cmd",                desc = "Open with command"},
+# https://github.com/yazi-rs/plugins/tree/main/toggle-pane.yazi
+  { on   = "T",   run  = "plugin toggle-pane min-parent",       desc = "Show or hide the parent pane"},
+]
 keymap = [
 	{ on = "<Esc>", run = "escape",             desc = "Exit visual mode, clear selection, or cancel search" },
 	{ on = "<C-[>", run = "escape",             desc = "Exit visual mode, clear selection, or cancel search" },
@@ -169,7 +164,6 @@ keymap = [
 ]
 
 [tasks]
-
 keymap = [
 	{ on = "<Esc>", run = "close", desc = "Close task manager" },
 	{ on = "<C-[>", run = "close", desc = "Close task manager" },
@@ -191,7 +185,6 @@ keymap = [
 ]
 
 [spot]
-
 keymap = [
 	{ on = "<Esc>", run = "close", desc = "Close the spot" },
 	{ on = "<C-[>", run = "close", desc = "Close the spot" },
@@ -217,7 +210,6 @@ keymap = [
 ]
 
 [pick]
-
 keymap = [
 	{ on = "<Esc>",   run = "close",          desc = "Cancel pick" },
 	{ on = "<C-[>",   run = "close",          desc = "Cancel pick" },
@@ -236,7 +228,6 @@ keymap = [
 ]
 
 [input]
-
 keymap = [
 	{ on = "<C-c>",   run = "close",          desc = "Cancel input" },
 	{ on = "<Enter>", run = "close --submit", desc = "Submit input" },
@@ -318,7 +309,6 @@ keymap = [
 ]
 
 [confirm]
-
 keymap = [
 	{ on = "<Esc>",   run = "close",          desc = "Cancel the confirm" },
 	{ on = "<C-[>",   run = "close",          desc = "Cancel the confirm" },
@@ -340,7 +330,6 @@ keymap = [
 ]
 
 [cmp]
-
 keymap = [
 	{ on = "<C-c>",   run = "close",                                      desc = "Cancel completion" },
 	{ on = "<Tab>",   run = "close --submit",                             desc = "Submit the completion" },
@@ -361,7 +350,6 @@ keymap = [
 ]
 
 [help]
-
 keymap = [
 	{ on = "<Esc>", run = "escape", desc = "Clear the filter, or hide the help" },
 	{ on = "<C-[>", run = "escape", desc = "Clear the filter, or hide the help" },

@@ -10,8 +10,8 @@
 # : Flavor {{{
 
 [flavor]
-dark  = ""
-light = ""
+dark  = "solarized"
+light = "solarized-light"
 
 # : }}}
 
@@ -19,33 +19,33 @@ light = ""
 # : Manager {{{
 
 [mgr]
-cwd = { fg = "cyan" }
+cwd = { fg = "#2AA198" }
 
 # Hovered
 hovered         = { reversed = true }
 preview_hovered = { underline = true }
 
 # Find
-find_keyword  = { fg = "yellow", bold = true, italic = true, underline = true }
-find_position = { fg = "magenta", bg = "reset", bold = true, italic = true }
+find_keyword  = { fg = "#CB4B16", bold = true, italic = true, underline = true }
+find_position = { fg = "#DC322F", bg = "reset", bold = true, italic = true }
 
 # Symlink
 symlink_target = { italic = true }
 
 # Marker
-marker_copied   = { fg = "lightgreen",  bg = "lightgreen" }
-marker_cut      = { fg = "lightred",    bg = "lightred" }
-marker_marked   = { fg = "lightcyan",   bg = "lightcyan" }
-marker_selected = { fg = "lightyellow", bg = "lightyellow" }
+marker_copied   = { fg = "#859900", bg = "#859900" }
+marker_cut      = { fg = "#D33682", bg = "#D33682" }
+marker_marked   = { fg = "#2AA198", bg = "#2AA198" }
+marker_selected = { fg = "#CB4B16", bg = "#CB4B16" }
 
 # Count
-count_copied   = { fg = "white", bg = "green" }
-count_cut      = { fg = "white", bg = "red" }
-count_selected = { fg = "white", bg = "yellow" }
+count_copied   = { fg = "#FDF6E3", bg = "#859900" }
+count_cut      = { fg = "#FDF6E3", bg = "#D33682" }
+count_selected = { fg = "#FDF6E3", bg = "#CB4B16" }
 
 # Border
 border_symbol = "│"
-border_style  = { fg = "gray" }
+border_style  = { fg = "#586E75" }
 
 # Highlighting
 syntect_theme = ""
@@ -56,8 +56,8 @@ syntect_theme = ""
 # : Tabs {{{
 
 [tabs]
-active   = { bg = "blue", bold = true }
-inactive = { fg = "blue", bg = "gray" }
+active   = { fg = "#FDF6E3", bg = "#657B83", bold = true }
+inactive = { fg = "#839496", bg = "#EEE8D5" }
 
 # Separator
 sep_inner = { open = "", close = "" }
@@ -69,16 +69,17 @@ sep_outer = { open = "", close = "" }
 # : Mode {{{
 
 [mode]
-normal_main = { bg = "blue", bold = true }
-normal_alt  = { fg = "blue", bg = "gray" }
+
+normal_main = { fg = "#FDF6E3", bg = "#657B83", bold = true }
+normal_alt  = { fg = "#002B36", bg = "#839496" }
 
 # Select mode
-select_main = { bg = "red", bold = true }
-select_alt  = { fg = "red", bg = "gray" }
+select_main = { fg = "#FDF6E3", bg = "#2AA198", bold = true }
+select_alt  = { fg = "#2AA198", bg = "#EEE8D5" }
 
 # Unset mode
-unset_main = { bg = "red", bold = true }
-unset_alt  = { fg = "red", bg = "gray" }
+unset_main = { fg = "#FDF6E3", bg = "#B8D8D6", bold = true }
+unset_alt  = { fg = "#B8D8D6", bg = "#EEE8D5" }
 
 # : }}}
 
@@ -91,16 +92,16 @@ sep_left  = { open = "", close = "" }
 sep_right = { open = "", close = "" }
 
 # Permissions
-perm_sep   = { fg = "darkgray" }
-perm_type  = { fg = "green" }
-perm_read  = { fg = "yellow" }
-perm_write = { fg = "red" }
-perm_exec  = { fg = "cyan" }
+perm_sep   = { fg = "#586E75" }
+perm_type  = { fg = "#268bC2" }
+perm_read  = { fg = "#CB4B16" }
+perm_write = { fg = "#D33682" }
+perm_exec  = { fg = "#859900" }
 
 # Progress
-progress_label  = { bold = true }
-progress_normal = { fg = "blue", bg = "black" }
-progress_error  = { fg = "red", bg = "black" }
+progress_label  = { fg = "#EEE8D5", bold = true }
+progress_normal = { fg = "#657B83", bg = "#93A1A1" }
+progress_error  = { fg = "#B58900", bg = "#D33682" }
 
 # : }}}
 
@@ -109,12 +110,12 @@ progress_error  = { fg = "red", bg = "black" }
 
 [which]
 cols            = 3
-mask            = { bg = "black" }
-cand            = { fg = "lightcyan" }
-rest            = { fg = "darkgray" }
-desc            = { fg = "lightmagenta" }
+mask            = { bg = "#EEE8D5" }
+cand            = { fg = "#2AA198" }
+rest            = { fg = "#7c7f93" }
+desc            = { fg = "#DC322F" }
 separator       = "  "
-separator_style = { fg = "darkgray" }
+separator_style = { fg = "#839496" }
 
 # : }}}
 
@@ -122,8 +123,8 @@ separator_style = { fg = "darkgray" }
 # : Confirmation {{{
 
 [confirm]
-border     = { fg = "blue" }
-title      = { fg = "blue" }
+border     = { fg = "#657B83" }
+title      = { fg = "#657B83" }
 content    = {}
 list       = {}
 btn_yes    = { reversed = true }
@@ -136,12 +137,12 @@ btn_labels = [ "  [Y]es  ", "  (N)o  " ]
 # : Spotter {{{
 
 [spot]
-border = { fg = "blue" }
-title  = { fg = "blue" }
+border = { fg = "#657B83" }
+title  = { fg = "#657B83" }
 
 # Table
-tbl_col  = { fg = "blue" }
-tbl_cell = { fg = "yellow", reversed = true }
+tbl_col  = { fg = "#657B83" }
+tbl_cell = { fg = "#B58900", reversed = true }
 
 # : }}}
 
@@ -149,9 +150,9 @@ tbl_cell = { fg = "yellow", reversed = true }
 # : Notification {{{
 
 [notify]
-title_info  = { fg = "green" }
-title_warn  = { fg = "yellow" }
-title_error = { fg = "red" }
+title_info  = { fg = "#859900" }
+title_warn  = { fg = "#B58900" }
+title_error = { fg = "#DC322F" }
 
 # Icons
 icon_info  = ""
@@ -164,7 +165,7 @@ icon_error = ""
 # : Picker {{{
 
 [pick]
-border   = { fg = "blue" }
+border   = { fg = "#268bC2" }
 active   = { fg = "magenta", bold = true }
 inactive = {}
 
@@ -174,7 +175,7 @@ inactive = {}
 # : Input {{{
 
 [input]
-border   = { fg = "blue" }
+border   = { fg = "#268bC2" }
 title    = {}
 value    = {}
 selected = { reversed = true }
@@ -185,7 +186,7 @@ selected = { reversed = true }
 # : Completion {{{
 
 [cmp]
-border   = { fg = "blue" }
+border   = { fg = "#657B83" }
 active   = { reversed = true }
 inactive = {}
 
@@ -200,7 +201,7 @@ icon_command = ""
 # : Task manager {{{
 
 [tasks]
-border  = { fg = "blue" }
+border  = { fg = "#268bC2" }
 title   = {}
 hovered = { fg = "magenta", underline = true }
 
@@ -248,7 +249,7 @@ rules = [
 
 	# Fallback
 	# { name = "*", fg = "white" },
-	{ name = "*/", fg = "blue" }
+	{ name = "*/", fg = "#657B83" }
 ]
 
 # : }}}
@@ -297,8 +298,8 @@ files = [
 	{ name = ".gtkrc-2.0", text = "", fg = "#ffffff" },
 	{ name = ".gvimrc", text = "", fg = "#019833" },
 	{ name = ".justfile", text = "", fg = "#6d8086" },
-	{ name = ".luacheckrc", text = "", fg = "#00a2ff" },
-	{ name = ".luaurc", text = "", fg = "#00a2ff" },
+	{ name = ".luacheckrc", text = "", fg = "#657B83" },
+	{ name = ".luaurc", text = "", fg = "#657B83" },
 	{ name = ".mailmap", text = "󰊢", fg = "#f54d27" },
 	{ name = ".nanorc", text = "", fg = "#440077" },
 	{ name = ".npmignore", text = "", fg = "#e8274b" },
@@ -352,9 +353,9 @@ files = [
 	{ name = "containerfile", text = "󰡨", fg = "#458ee6" },
 	{ name = "copying", text = "", fg = "#cbcb41" },
 	{ name = "copying.lesser", text = "", fg = "#cbcb41" },
-	{ name = "Directory.Build.props", text = "", fg = "#00a2ff" },
-	{ name = "Directory.Build.targets", text = "", fg = "#00a2ff" },
-	{ name = "Directory.Packages.props", text = "", fg = "#00a2ff" },
+	{ name = "Directory.Build.props", text = "", fg = "#657B83" },
+	{ name = "Directory.Build.targets", text = "", fg = "#657B83" },
+	{ name = "Directory.Packages.props", text = "", fg = "#657B83" },
 	{ name = "docker-compose.yaml", text = "󰡨", fg = "#458ee6" },
 	{ name = "docker-compose.yml", text = "󰡨", fg = "#458ee6" },
 	{ name = "dockerfile", text = "󰡨", fg = "#458ee6" },
@@ -705,7 +706,7 @@ exts = [
 	{ name = "lrc", text = "󰨖", fg = "#ffb713" },
 	{ name = "lua", text = "", fg = "#51a0cf" },
 	{ name = "luac", text = "", fg = "#51a0cf" },
-	{ name = "luau", text = "", fg = "#00a2ff" },
+	{ name = "luau", text = "", fg = "#657B83" },
 	{ name = "m", text = "", fg = "#599eff" },
 	{ name = "m3u", text = "󰲹", fg = "#ed95ae" },
 	{ name = "m3u8", text = "󰲹", fg = "#ed95ae" },

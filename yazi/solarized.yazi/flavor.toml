@@ -34,8 +34,8 @@ border_style  = { fg = "#586E75" }
 # : Tabs {{{
 
 [tabs]
-active   = { fg = "#FDF6E3", bg = "#268bC2", bold = true }
-inactive = { fg = "#268bC2", bg = "#EEE8D5" }
+active   = { fg = "#FDF6E3", bg = "#657B83", bold = true }
+inactive = { fg = "#839496", bg = "#EEE8D5" }
 
 # : }}}
 
@@ -44,8 +44,8 @@ inactive = { fg = "#268bC2", bg = "#EEE8D5" }
 
 [mode]
 
-normal_main = { fg = "#FDF6E3", bg = "#268bC2", bold = true }
-normal_alt  = { fg = "#268bC2", bg = "#EEE8D5" }
+normal_main = { fg = "#FDF6E3", bg = "#657B83", bold = true }
+normal_alt  = { fg = "#002B36", bg = "#839496" }
 
 # Select mode
 select_main = { fg = "#FDF6E3", bg = "#2AA198", bold = true }
@@ -62,16 +62,16 @@ unset_alt  = { fg = "#B8D8D6", bg = "#EEE8D5" }
 
 [status]
 # Permissions
-perm_sep   = { fg = "#586E75" }
-perm_type  = { fg = "#268bC2" }
+perm_sep   = { fg = "#93A1A1" }
+perm_type  = { fg = "#657B83" }
 perm_read  = { fg = "#CB4B16" }
 perm_write = { fg = "#D33682" }
 perm_exec  = { fg = "#859900" }
 
 # Progress
-progress_label  = { fg = "#ffffff", bold = true }
-progress_normal = { fg = "#268bC2", bg = "#93A1A1" }
-progress_error  = { fg = "#268bC2", bg = "#D33682" }
+progress_label  = { fg = "#EEE8D5", bold = true }
+progress_normal = { fg = "#657B83", bg = "#93A1A1" }
+progress_error  = { fg = "#B58900", bg = "#D33682" }
 
 # : }}}
 
@@ -79,8 +79,8 @@ progress_error  = { fg = "#268bC2", bg = "#D33682" }
 # : Pick {{{
 
 [pick]
-border   = { fg = "#268bC2" }
-active   = { fg = "#DC322F", bold = true }
+border   = { fg = "#657B83" }
+active   = { fg = "#CB4B16", bold = true }
 inactive = {}
 
 # : }}}
@@ -89,7 +89,7 @@ inactive = {}
 # : Input {{{
 
 [input]
-border   = { fg = "#268bC2" }
+border   = { fg = "#657B83" }
 title    = {}
 value    = {}
 selected = { reversed = true }
@@ -100,7 +100,7 @@ selected = { reversed = true }
 # : Completion {{{
 
 [cmp]
-border = { fg = "#268bC2" }
+border = { fg = "#657B83" }
 
 # : }}}
 
@@ -108,7 +108,7 @@ border = { fg = "#268bC2" }
 # : Tasks {{{
 
 [tasks]
-border  = { fg = "#268bC2" }
+border  = { fg = "#657B83" }
 title   = {}
 hovered = { fg = "#DC322F", bold = true }
 
@@ -142,8 +142,8 @@ footer  = { fg = "#EEE8D5", bg = "#073642" }
 # : Spotter {{{
 
 [spot]
-border   = { fg = "#268bC2" }
-title    = { fg = "#268bC2" }
+border   = { fg = "#657B83" }
+title    = { fg = "#657B83" }
 tbl_col  = { fg = "#2AA198" }
 tbl_cell = { fg = "#DC322F", bg = "#93A1A1" }
 
@@ -179,11 +179,11 @@ rules = [
 
 	# Fallback
 	{ url = "*", fg = "#073642" },
-	{ url = "*/", fg = "#268bC2" },
+	{ url = "*/", fg = "#657B83" },
 
 	# TODO: remove
 	{ name = "*", fg = "#073642" },
-	{ name = "*/", fg = "#268bC2" }
+	{ name = "*/", fg = "#657B83" }
 ]
 
 # : }}}

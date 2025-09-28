@@ -10,5 +10,5 @@
 # : Flavor {{{
 
 [flavor]
-dark  = "solarized-light"
+dark  = "solarized"
 light = "solarized-light"
