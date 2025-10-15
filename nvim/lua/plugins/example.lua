@@ -31,17 +31,17 @@ return {
   --   opts = { use_diagnostic_signs = true },
   -- },
 
-  -- disable trouble
-  -- { "folke/trouble.nvim", enabled = false },
+  -- disable
+  -- { "folke/snacks.nvim", enabled = false },
 
   -- override nvim-cmp and add cmp-emoji
   -- {
-  --   "hrsh7th/nvim-cmp",
-  --   dependencies = { "hrsh7th/cmp-emoji" },
-  --   ---@param opts cmp.ConfigSchema
-  --   opts = function(_, opts)
-  --     table.insert(opts.sources, { name = "emoji" })
-  --   end,
+  --   "ahmedkhalf/project.nvim",
+  --   dependencies = { "DrKJeff16/project.nvim" },
+  --   -- ---@param opts cmp.ConfigSchema
+  --   -- opts = function(_, opts)
+  --   --   table.insert(opts.sources, { name = "emoji" })
+  --   -- end,
   -- },
 
   {
@@ -99,8 +99,8 @@ return {
       -- scroll = { enabled = true },
       -- statuscolumn = { enabled = true },
       -- words = { enabled = true },
-      -- picker = { enabled = true, }j
-      picker = { border = "single" },
+      -- picker = { enabled = true, },
+      -- picker = { border = "single" },
       scratch = { border = "single" },
       -- snacks_image = { border = "single" },
     },

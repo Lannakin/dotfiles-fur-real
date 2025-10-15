@@ -3,9 +3,8 @@ if true then return {} end
 require("nvim-tree").setup({
   disable_netrw = true,
   hijack_netrw = true,
-  open_on_tab = false,
-  hijack_cursor = false,
-  update_cwd = true,
+  sync_root_with_cwd = true,
+  respect_buf_cwd = true,
   diagnostics = {
     enable = true,
     icons = {
@@ -16,7 +15,8 @@ require("nvim-tree").setup({
     },
   },
   update_focused_file = {
-    enable = false,
+    enable = true,
+    update_root = true,
     update_cwd = false,
     ignore_list = {},
   },

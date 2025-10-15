@@ -30,7 +30,11 @@
     "library": [
       "/usr/share/nvim/runtime/lua",
       "/home/lannakin/.local/share/nvim",
-      "/home/lannakin/.local/share/nvim/lazy"
+      "/home/lannakin/.local/share/nvim/lazy",
+      "/home/lannakin/.local/share/nvim/lazy/project.nvim",
+      "/home/lannakin/.local/share/nvim/lazy/telescope.nvim",
+      "/home/lannakin/.local/share/nvim/lazy/neo-tree.nvim",
+      "/home/lannakin/.local/share/nvim/lazy/nvim-cmp"
     ],
     "reindexDuration": 3000,
     "workspaceRoots": [

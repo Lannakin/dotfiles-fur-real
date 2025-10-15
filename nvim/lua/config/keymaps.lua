@@ -6,11 +6,35 @@
 
 local map = vim.keymap.set
 
+
+-- ...lazy/LazyVim/lua/lazyvim/plugins/extras/util/project.lua:93: module 'project_nvim' not found:
+-- 	no field package.preload['project_nvim']
+-- 	cache_loader: module 'project_nvim' not found
+-- 	cache_loader_lib: module 'project_nvim' not found
+-- 	no file './project_nvim.lua'
+-- 	no file '/usr/share/luajit-2.1/project_nvim.lua'
+-- 	no file '/usr/local/share/lua/5.1/project_nvim.lua'
+-- 	no file '/usr/local/share/lua/5.1/project_nvim/init.lua'
+-- 	no file '/usr/share/lua/5.1/project_nvim.lua'
+-- 	no file '/usr/share/lua/5.1/project_nvim/init.lua'
+-- 	no file '/home/lannakin/.local/share/nvim/lazy-rocks/telescope.nvim/share/lua/5.1/project_nvim.lua'
+-- 	no file '/home/lannakin/.local/share/nvim/lazy-rocks/telescope.nvim/share/lua/5.1/project_nvim/init.lua'
+-- 	no file './project_nvim.so'
+-- 	no file '/usr/local/lib/lua/5.1/project_nvim.so'
+-- 	no file '/usr/lib/lua/5.1/project_nvim.so'
+-- 	no file '/usr/local/lib/lua/5.1/loadall.so'
+-- 	no file '/home/lannakin/.local/share/nvim/lazy-rocks/telescope.nvim/lib/lua/5.1/project_nvim.so'
+-- 	no file '/home/lannakin/.local/share/nvim/lazy-rocks/telescope.nvim/lib64/lua/5.1/project_nvim.so'
+
+-- # stacktrace:
+--   - /LazyVim/lua/lazyvim/plugins/extras/util/project.lua:93 _in_ **config**
+
 -- Load clipboard functions
 require("utils.clipboard")
 
-map("n", "<C-B>", "<CMD>:NvimTreeToggle<CR>", { desc = "Toggle Nvim Tree pane" })
-map("i", "<C-B>", "<CMD>:NvimTreeToggle<CR>", { desc = "Toggle Nvim Tree pane" })
+-- map('n', '<C-B>', ":Neotree filesystem toggle<CR>", { desc = "Toggle Nvim Tree pane" })
+-- map("n", "<C-B>", "<CMD>:NvimTreeToggle<CR>", { desc = "Toggle Nvim Tree pane" })
+-- map("i", "<C-B>", "<CMD>:NvimTreeToggle<CR>", { desc = "Toggle Nvim Tree pane" })
 
 -- Theme switcher
 -- map('n', '<Leader>t', ':Telescope theme_switcher<CR>', {noremap = true, silent = true})
@@ -29,12 +53,9 @@ map("n", "<Leader>f", ":lua vim.lsp.buf.format()<CR>", { noremap = true, silent 
 map("n", "<Leader>r", ":lua require('renamer').rename()<CR>", { noremap = true, silent = true })
 
 -- Code actions
-map(
-  "n",
-  "<Leader>c",
-  ":lua require('telescope').extensions.code_actions.code_actions()<CR>",
-  { noremap = true, silent = true }
-)
+map( "n", "<Leader>c", ":lua require('telescope').extensions.code_actions.code_actions()<CR>", { noremap = true, silent = true })
+
+map( "n", "<Leader>gg", ":goto<CR>" )
 
 -- Ctrl+Delete
 map("i", "<C-BS>", "<C-w>")
@@ -127,3 +148,4 @@ map("v", "<C-Up>", ":m '<-2<CR>gv=gv")
 map("n", "<C-7>", ":CommentToggle<CR>")
 map("i", "<C-7>", "<c-o>:CommentToggle<CR>")
 map("v", "<C-7>", ":'<,'>CommentToggle<CR>")
+
