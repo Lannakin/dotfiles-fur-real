@@ -1,0 +1,40 @@
+{
+  "$schema": "https://raw.githubusercontent.com/EmmyLuaLs/emmylua-analyzer-rust/refs/heads/main/crates/emmylua_code_analysis/resources/schema.json",
+  "diagnostics": {
+    "codeLens": true,
+    "disable": [
+      "unnecessary-if",
+      "need-check-nil"
+    ],
+    "globals": [
+      "vim",
+      "setup"
+    ],
+    "resource": [
+      "/usr/share/nvim/runtime/lua"
+    ],
+    "undefined-global": false
+  },
+  "workspace": {
+    "encoding": "utf-8",
+    "ignoreDir": [
+      "build",
+      "dist",
+      "node_modules"
+    ],
+    "ignoreGlobs": [
+      "*.log",
+      "*.tmp",
+      "test_*"
+    ],
+    "library": [
+      "/usr/share/nvim/runtime/lua",
+      "/home/lannakin/.local/share/nvim",
+      "/home/lannakin/.local/share/nvim/lazy"
+    ],
+    "reindexDuration": 3000,
+    "workspaceRoots": [
+      "Assets/Scripts/Lua"
+    ]
+  }
+}
