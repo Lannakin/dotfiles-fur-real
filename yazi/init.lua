@@ -70,13 +70,13 @@ header_line = {
 		},
 		right = {
 			section_a = {
-        {type = "coloreds", custom = false, name = "created_time",}
+        -- {type = "coloreds", custom = false, name = "created_time",}
 			},
 			section_b = {
 
 			},
 			section_c = {
-        {type = "coloreds", custom = false, name = "modified-time",}
+        -- {type = "coloreds", custom = false, name = "modified-time",}
 			}
 		}
 	},

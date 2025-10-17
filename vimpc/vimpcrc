@@ -14,7 +14,7 @@ hi dir default default
 set window lists
 
 " Set the windows to show at startup
-" valid: browse console directory help library lists outputs playlist windows
+" valid: browse console directory help library lists outputs playlist songinfo windows
 set windows help,library,lists,playlist
 
 set stoponquit

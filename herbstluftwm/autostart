@@ -345,9 +345,10 @@ echo "[INFO] Initializing monitors..."
 
 hc set_monitors 2560x1440+0+0 3440x1440+2560+0 2560x1440+6000+0
 
-hc pad 0 "" "" "${STATUSBARHEIGHT}" ""
-hc pad 1 "" "" "${STATUSBARHEIGHT}" ""
-hc pad 2 "" "${STATUSBARHEIGHT}" "${STATUSBARHEIGHT}" ""
+# hc pad <id> "top" "right" "bottom" "left"
+hc pad 0 "0" "0" "0" "0"
+hc pad 1 "0" "0" "${STATUSBARHEIGHT}" "0"
+hc pad 2 "${STATUSBARHEIGHT}" "0" "${STATUSBARHEIGHT}" "0"
 
 # output settings to log, in case display layout seems wrong
 hc list_monitors --no-disjoin
@@ -369,12 +370,12 @@ echo "[INFO] reloading dunst using ${HOME}/.config/herbstluftwm/dunstrc"
 "${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --polybar &>"${STATUSBARLOG}" &
 echo "[INFO] starting polybar using herbstluftwm-start.sh --polybar"
 
-xrandr --dpi 122.38/DisplayPort-0 --dpi 109.68/DisplayPort-1 --dpi 122.38/DisplayPort-2 \
+xrandr --dpi 122.38/DisplayPort-0 --dpi 109.68/DisplayPort-1 --dpi 96/DisplayPort-2 \
  --output DisplayPort-0 --mode 2560x1440 --rate 60 --pos 0x0 \
  --output DisplayPort-1 --mode 3440x1440 --rate 144 --pos 2560x0 --primary \
  --output DisplayPort-2 --mode 2560x1440 --rate 60 --pos 6000x0 &>>"${XRANDRLOG}" &
 
-echo "[INFO] xrandr setting --dpi 122.38/DisplayPort-0 --dpi 109.68/DisplayPort-1 --dpi 122.38/DisplayPort-2"
+echo "[INFO] xrandr setting --dpi 122.38/DisplayPort-0 --dpi 109.68/DisplayPort-1 --dpi 96/DisplayPort-2"
 echo "[INFO] xrandr setting --output DisplayPort-0 --mode 2560x1440 --rate 60 --pos 0x0"
 echo "[INFO] xrandr setting --output DisplayPort-1 --mode 3440x1440 --rate 144 --pos 2560x0 --primary"
 echo "[INFO] xrandr setting --output DisplayPort-2 --mode 2560x1440 --rate 60 --pos 6000x0"

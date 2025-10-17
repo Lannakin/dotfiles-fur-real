@@ -47,7 +47,6 @@ create_bar() {
 }
 
 # Function to get CPU usage for a specific core
-# Function to get CPU usage for a specific core
 get_cpu_usage() {
     local core=$1
 

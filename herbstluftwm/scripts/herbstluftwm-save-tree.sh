@@ -6,7 +6,7 @@ DIR="${HOME}/.config/herbstluftwm/layouts"
 LOG="${HOME}/LOGS/herbstluftwm.log"
 
 # log all output
-exec > "${LOG}" 2>&1
+exec >> "${LOG}" 2>&1
 
 SAVE () {
     echo "herbstluftwm-save-tree: [DEBUG] opening save menu..."
