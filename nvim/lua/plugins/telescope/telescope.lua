@@ -3,7 +3,6 @@
 -- https://github.com/DrKJeff16/telescope.nvim
 
 require("telescope").setup({
-  lazy = false,
   find_command = {
     "rg",
     "--files",
@@ -25,8 +24,7 @@ table.insert(vimgrep_arguments, "!**/.git/*")
 return {
   "nvim-telescope/telescope.nvim",
   lazy = false,
-  -- tag = "0.1.8",
-  -- cmd = "Telescope",
+  tag = "0.1.8",
   build = "make",
   dependencies = {
     "nvim-lua/plenary.nvim",
@@ -268,10 +266,6 @@ return {
           "--hidden",
           "--glob",
           "!**/.git/*",
-          "fd",
-          "--type",
-          "f",
-          "--strip-cwd-prefix",
         },
       },
     },
