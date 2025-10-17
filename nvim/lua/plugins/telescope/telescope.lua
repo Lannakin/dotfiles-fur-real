@@ -11,8 +11,7 @@ require("telescope").setup({
     "!**/.git/*",
   },
 })
-
--- local telescope = require("telescope")
+-- File and text search in hidden files and directories - locals setup --
 local telescopeConfig = require("telescope.config")
 local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
 -- I want to search in hidden/dot files.
@@ -35,8 +34,9 @@ return {
   },
   opts = {
     defaults = {
-
+      -- File and text search in hidden files and directories`hidden = true` is not supported in text grep commands --
       vimgrep_arguments = vimgrep_arguments,
+      -- Fused Layout - defaults --
       layout_strategy = "flex",
       layout_config = {
         horizontal = {
@@ -51,8 +51,9 @@ return {
             height = "90%",
           },
         },
+        -- Fused Layout - create layout --
         create_layout = function(picker)
-          local telescopeConfig = require("telescope.config")
+          -- Fused Layout - locals setup --
           local Layout = require("nui.layout")
           local Popup = require("nui.popup")
 
@@ -256,8 +257,9 @@ return {
           return TSLayout(layout)
         end,
       },
-    },
+    }, -- Fused Layout - end --
     pickers = {
+      -- File and text search in hidden files and directories --
       find_files = {
         -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
         find_command = {
@@ -267,7 +269,7 @@ return {
           "--glob",
           "!**/.git/*",
         },
-      },
+      }, -- File and text search in hidden files and directories - end --
     },
     extensions = {
       projects = {
@@ -280,11 +282,11 @@ return {
           prompt_position = "bottom",
         },
       },
-      -- file_browser = {
-      --   theme = "ivy",
-      --   -- disables netrw and use telescope-file-browser in its place
-      --   hijack_netrw = true,
-      -- },
+      file_browser = {
+        theme = "ivy",
+        -- disables netrw and use telescope-file-browser in its place
+        hijack_netrw = true,
+      },
     },
   },
   config = function(_, opts)
