@@ -1,57 +1,138 @@
 -- if true then return {} end
 -- https://github.com/nvim-telescope/telescope.nvim original
 -- https://github.com/DrKJeff16/telescope.nvim
-
-require("telescope").setup({
-  find_command = {
-    "rg",
-    "--files",
-    "--hidden",
-    "--glob",
-    "!**/.git/*",
-  },
-})
--- File and text search in hidden files and directories - locals setup --
+local telescope = require("telescope")
 local telescopeConfig = require("telescope.config")
 local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
 -- I want to search in hidden/dot files.
 table.insert(vimgrep_arguments, "--hidden")
 -- I don't want to search in the `.git` directory.
-table.insert(vimgrep_arguments, "--glob")
-table.insert(vimgrep_arguments, "!**/.git/*")
+-- table.insert(vimgrep_arguments, "--glob")
+-- table.insert(vimgrep_arguments, "!**/.git/*")
 -- `hidden = true` is not supported in text grep commands.
+require("project").setup()
+
 return {
-  "nvim-telescope/telescope.nvim",
-  lazy = false,
-  tag = "0.1.8",
-  build = "make",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "DrKJeff16/project.nvim",
-    "andrew-george/telescope-themes",
-    "nyarthan/telescope-code-actions.nvim",
-    "nvim-telescope/telescope-file-browser.nvim",
-  },
-  opts = {
-    defaults = {
-      -- File and text search in hidden files and directories`hidden = true` is not supported in text grep commands --
-      vimgrep_arguments = vimgrep_arguments,
-      -- Fused Layout - defaults --
-      layout_strategy = "flex",
-      layout_config = {
-        horizontal = {
-          size = {
-            width = "90%",
-            height = "60%",
+  {
+    "nvim-telescope/telescope.nvim",
+    -- lazy = false,
+    -- tag = "0.1.8",
+    version = false,
+    -- build = "make",
+    dependencies = {
+      {
+        -- "nvim-lua/plenary.nvim",
+        {
+          "DrKJeff16/project.nvim",
+          lazy = true,
+          version = false, -- Get the latest release
+          cmd = { -- Lazy-load by commands
+            "Project",
+            "ProjectAdd",
+            "ProjectConfig",
+            "ProjectDelete",
+            "ProjectHistory",
+            "ProjectRecents",
+            "ProjectRoot",
+            "ProjectSession",
           },
-        },
-        vertical = {
-          size = {
-            width = "90%",
-            height = "90%",
+          -- dependencies = { -- OPTIONAL
+          --   "nvim-lua/plenary.nvim",
+          --   "nvim-telescope/telescope.nvim",
+          --   "ibhagwan/fzf-lua",
+          -- },
+          ---@module 'project'
+          ---@type Project.Config.Options
+          opts = {
+            patterns = { ".git", ".github", "*.sln", "build/env.sh" },
           },
+          -- dependencies = { "nvim-telescope/telescope.nvim" },
+          config = function()
+            telescope.load_extension("projects")
+          end,
         },
-        -- Fused Layout - create layout --
+        {
+          "andrew-george/telescope-themes",
+          lazy = true,
+          opts = {},
+          -- dependencies = { "nvim-telescope/telescope.nvim" },
+          config = function()
+            telescope.load_extension("themes")
+          end,
+        },
+        {
+          "nyarthan/telescope-code-actions.nvim",
+          lazy = true,
+          opts = {},
+          -- dependencies = { "nvim-telescope/telescope.nvim" },
+          config = function()
+            telescope.load_extension("code_actions")
+          end,
+        },
+        {
+          "nvim-telescope/telescope-file-browser.nvim",
+          event = "VeryLazy",
+          opts = {},
+          config = function()
+            require("lazyvim.util").on_load("telescope.nvim", function()
+              require("telescope").load_extension("file_browser")
+            end)
+          end,
+        },
+      },
+    },
+    opts = {
+      defaults = {
+        -- File and text search in hidden files and directories`hidden = true` is not supported in text grep commands --
+        vimgrep_arguments = vimgrep_arguments,
+        -- Fused Layout - defaults --
+        layout_strategy = "flex",
+        -- layout_config = {
+        --   horizontal = {
+        --     size = {
+        --       width = "90%",
+        --       height = "60%",
+        --     },
+        --   },
+        --   vertical = {
+        --     size = {
+        --       width = "90%",
+        --       height = "90%",
+        --     },
+      },
+
+    },
+    pickers = {
+      -- File and text search in hidden files and directories --
+      find_files = {
+        -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+        find_command = {
+          "rg",
+          "--files",
+          "--hidden",
+          "--glob",
+          "!**/.git/*",
+        },
+      }, -- File and text search in hidden files and directories - end --
+    },
+    extensions = {
+      projects = {
+        prompt_prefix = "󱎸  ",
+        layout_strategy = "horizontal",
+        layout_config = {
+          anchor = "N",
+          height = 0.25,
+          width = 0.6,
+          prompt_position = "bottom",
+        },
+      },
+      file_browser = {
+        theme = "ivy",
+        -- disables netrw and use telescope-file-browser in its place
+        hijack_netrw = true,
+      },
+    },
+        -- -- Fused Layout - create layout --
         create_layout = function(picker)
           -- Fused Layout - locals setup --
           local Layout = require("nui.layout")
@@ -256,48 +337,8 @@ return {
 
           return TSLayout(layout)
         end,
-      },
-    }, -- Fused Layout - end --
-    pickers = {
-      -- File and text search in hidden files and directories --
-      find_files = {
-        -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
-        find_command = {
-          "rg",
-          "--files",
-          "--hidden",
-          "--glob",
-          "!**/.git/*",
-        },
-      }, -- File and text search in hidden files and directories - end --
-    },
-    extensions = {
-      projects = {
-        prompt_prefix = "󱎸  ",
-        layout_strategy = "horizontal",
-        layout_config = {
-          anchor = "N",
-          height = 0.25,
-          width = 0.6,
-          prompt_position = "bottom",
-        },
-      },
-      file_browser = {
-        theme = "ivy",
-        -- disables netrw and use telescope-file-browser in its place
-        hijack_netrw = true,
-      },
-    },
-  },
-  config = function(_, opts)
-    -- load extensions --
-    local telescope = require("telescope")
-
-    telescope.setup(opts)
-
-    telescope.load_extension("projects")
-    telescope.load_extension("themes")
-    telescope.load_extension("file_browser")
-    telescope.load_extension("code_actions")
-  end,
-}
+      }, -- Fused Layout - end --
+  }
+-- }
+--   }
+-- }

@@ -1,4 +1,5 @@
--- if true then return {} end
+-- disable
+if true then return {} end
 return {
   "nyarthan/telescope-code-actions.nvim",
   -- build = "make",

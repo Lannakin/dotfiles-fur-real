@@ -1,4 +1,5 @@
--- if true then return {} end
+-- disable
+if true then return {} end
 return {
   "nvim-telescope/telescope-file-browser.nvim",
   -- lazy=true,

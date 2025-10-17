@@ -1,3 +1,5 @@
+-- disabled if below line is active
+-- if true then return {} end
 return {
   {
     "jay-babu/mason-null-ls.nvim",

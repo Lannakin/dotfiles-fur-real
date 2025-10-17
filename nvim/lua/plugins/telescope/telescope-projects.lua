@@ -1,12 +1,13 @@
--- if true then return {} end
+-- disable
+if true then return {} end
 --  https://github.com/nvim-telescope/telescope-project.nvim
-return {
-  'nvim-telescope/telescope-project.nvim',
-  -- build = "make",
-  dependencies = {
-      'nvim-telescope/telescope.nvim',
-  },
-  config = function()
-    require("telescope").load_extension("project")
-  end,
-}
+-- return {
+--   'nvim-telescope/telescope-project.nvim',
+--   -- build = "make",
+--   dependencies = {
+--       'nvim-telescope/telescope.nvim',
+--   },
+--   config = function()
+--     require("telescope").load_extension("project")
+--   end,
+-- }

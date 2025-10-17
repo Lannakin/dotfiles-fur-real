@@ -3,7 +3,6 @@ if true then return {} end
 local border_type = "single"
 
 return {
-  --[[
   {
     "akinsho/toggleterm.nvim",
     optional = true,
@@ -29,6 +28,4 @@ return {
       signature = { window = { border = border_type } },
     },
   },
-  ]]
-
 }
