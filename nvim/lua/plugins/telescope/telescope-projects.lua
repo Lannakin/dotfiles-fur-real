@@ -2,7 +2,7 @@
 --  https://github.com/nvim-telescope/telescope-project.nvim
 return {
   'nvim-telescope/telescope-project.nvim',
-  build = "make",
+  -- build = "make",
   dependencies = {
       'nvim-telescope/telescope.nvim',
   },

@@ -11,7 +11,7 @@ return {
         { path = "/usr/share/nvim/runtime/lua", words = { "vim%." } },
         { path = "LazyVim", words = { "LazyVim" } },
         { path = "snacks.nvim", words = { "Snacks" } },
-        { path = "lazy.nvim", words = { "LazyVim" } },
+        { path = "lazy.nvim", words = { "lazy" } },
         { path = "project.nvim", mods = { "project" } },
       },
     },

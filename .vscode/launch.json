@@ -5,7 +5,7 @@
           "type": "lua",
           "request": "launch",
           "name": "Launch",
-          "program": ""
+          "program": "${workspaceFolder}/your_script.lua"
       }
   ]
 }

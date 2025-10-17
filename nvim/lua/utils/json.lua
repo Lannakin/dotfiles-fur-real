@@ -19,25 +19,24 @@ local getFileContent = function(filepath)
     return content
 end
 
---- Function to write content to a file.
---- @param filepath string path to the file.
---- @param content string content to write to the file.
 local writeFileContent = function(filepath, content)
     local file, err = io.open(filepath, "w")
 
     if not file then
         print("Error opening the file: " .. err)
+        return false
     else
         file:write(content)
         file:close()
+        return true
     end
 end
 
---- Function to retrieve a JSON table from a file.
 local getTable = function()
     local json = getFileContent(path)
     if json == nil then
-        print("Error: Path parameter is empty.")
+        print("Error: Could not read settings.json (file may not exist)")
+        return {}
     end
     return vim.json.decode(json)
 end

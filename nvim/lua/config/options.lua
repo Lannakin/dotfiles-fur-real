@@ -19,13 +19,11 @@ vim.g.snacks_animate = false          -- snacks animations
 opt.colorcolumn = '80'
 opt.cmdheight = 1
 opt.conceallevel = 2                  -- Hide * markup for bold and italic, but not markers with substitutions
-opt.cursorline = false                -- highlighting of current line
+opt.cursorline = true                -- highlighting of current line
 opt.cursorlineopt = 'number'
 opt.fillchars = { foldopen = "", foldclose = "", fold = " ", foldsep = " ", diff = "╱", eob = " " }
 opt.laststatus = 3                    -- global statusline
 opt.list = true                       -- Show some invisible characters
-opt.scrolloff = 0
-opt.signcolumn = 'yes'
 opt.termguicolors = true              -- True color support
 
 -- BEHAVIOR --
@@ -72,7 +70,6 @@ opt.showmode = false                          -- Dont show mode since we have a 
 -- W: Shortens "Written" message when saving a file.
 -- o: Shortens "offset" message in the status line.
 opt.shortmess = "c"
-opt.smartcase = true                          -- Don't ignore case with capitals
 opt.timeoutlen = vim.g.vscode and 1000 or 300 -- Lower than default (1000) to quickly trigger which-key
 opt.undofile = true
 opt.undolevels = 10000
