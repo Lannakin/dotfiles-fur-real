@@ -28,7 +28,7 @@ vim.api.nvim_command("filetype plugin on") -- Enable filetype plugins
 -- LazyVim.terminal.setup("kitty")               -- terminal to use (optional)
 
 vim.g.autoformat = false -- LazyVim auto format
-vim.g.lazyvim_picker = "telescope.projects" -- values: auto, telescope, fzf, telescope.projects
+vim.g.lazyvim_picker = "telescope"
 vim.g.lazyvim_cmp = "auto" -- values: auto, nvim-cmp, blink.cmp
 -- vim.g.ai_cmp = true                           -- use ai for completion if supported
 vim.g.root_spec = { "lsp", { ".git", "Makefile" }, "cwd" } -- LazyVim root dir detection
@@ -52,20 +52,7 @@ opt.jumpoptions = "view" -- jumplist control
 opt.ruler = false -- default ruler
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
 opt.showmode = false -- Dont show mode since we have a statusline
-
--- shortmess vim option controls message display
--- shortmess flags:
--- a: Shortens "ATTENTION" message when a swap file is found.
--- A: Avoids "ATTENTION" message and automatically handles swap files (e.g., using a different extension).
--- c: Shortens completion messages.
--- F: Shortens file info message displayed when a file is opened.
--- I: Disables introductory message (splash screen) at startup.
--- O: Shortens "reading file" message, overwriting any previous message.
--- s: Shortens search messages, particularly when searching for a non-existent string.
--- T: Shortens "Too many errors" message.
--- W: Shortens "Written" message when saving a file.
--- o: Shortens "offset" message in the status line.
-opt.shortmess = "c"
+-- opt.shortmess = "c"
 opt.timeoutlen = vim.g.vscode and 1000 or 300 -- Lower than default (1000) to quickly trigger which-key
 opt.undofile = true
 opt.undolevels = 10000

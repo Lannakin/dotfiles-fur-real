@@ -25,7 +25,7 @@ return {
   opts = {
     patterns = { ".git", ".github", "*.sln", "build/env.sh" },
   },
-  config = function()
-    require("project").setup()
+  config = function(_, opts)
+    require("project").setup(opts)
   end,
 }

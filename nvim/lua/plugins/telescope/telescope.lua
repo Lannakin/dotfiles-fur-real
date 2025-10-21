@@ -25,13 +25,12 @@ return {
         opts = {
           patterns = { ".git", ".github", "*.sln", "build/env.sh" },
         },
-        config = function()
-          -- telescope.load_extension("projects")
-          require("project").setup()
+        config = function(__, opts)
+          require("project").setup(opts)
         end,
       },
 
-      { "DrKJeff16/project.nvim" },
+      -- { "DrKJeff16/project.nvim" },
       { "andrew-george/telescope-themes" },
       { "nyarthan/telescope-code-actions.nvim" },
       -- "nvim-telescope/telescope-file-browser.nvim",
