@@ -1,4 +1,6 @@
--- lazy.nvim
+-- /plugins/snacks.lua
+-- disabled if below line is active
+-- if true then return {} end
 return {
   "folke/snacks.nvim",
   ---@type snacks.Config

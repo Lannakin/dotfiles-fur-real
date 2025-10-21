@@ -8,7 +8,7 @@ if vim.fn.has("nvim-0.10.0") == 0 then
   return {}
 end
 
-vim.o.winborder = 'none'
+vim.o.winborder = "┌,─,┐,│,┘,─,└,│"
 
 require("options")
 -- require("neo-tree")

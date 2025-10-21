@@ -1,31 +1,31 @@
 -- disabled; moved
 if true then return {} end
 -- https://github.com/DrKJeff16/project.nvim
-require('project').setup()
-
 return {
-  'DrKJeff16/project.nvim',
+  "DrKJeff16/project.nvim",
   lazy = true,
   version = false, -- Get the latest release
   cmd = { -- Lazy-load by commands
-    'Project',
-    'ProjectAdd',
-    'ProjectConfig',
-    'ProjectDelete',
-    'ProjectHistory',
-    'ProjectRecents',
-    'ProjectRoot',
-    'ProjectSession',
+    "Project",
+    "ProjectAdd",
+    "ProjectConfig",
+    "ProjectDelete",
+    "ProjectHistory",
+    "ProjectRecents",
+    "ProjectRoot",
+    "ProjectSession",
   },
   dependencies = { -- OPTIONAL
-    'nvim-lua/plenary.nvim',
-    'nvim-telescope/telescope.nvim',
-    'ibhagwan/fzf-lua',
+    "nvim-lua/plenary.nvim",
+    "nvim-telescope/telescope.nvim",
+    "ibhagwan/fzf-lua",
   },
   ---@module 'project'
-
   ---@type Project.Config.Options
   opts = {
-    patterns = { '.git', '.github', '*.sln', 'build/env.sh' }
+    patterns = { ".git", ".github", "*.sln", "build/env.sh" },
   },
+  config = function()
+    require("project").setup()
+  end,
 }

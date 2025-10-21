@@ -1,3 +1,11 @@
+-- /?/color-picker.lua
+-- configuration file
+-- disabled if below line is active
+-- if true then return {} end
+-- from MeteorVim
+-- may be gigabusted
+
+
 local ColorInput = require("ccc.input")
 local convert = require("ccc.utils.convert")
 

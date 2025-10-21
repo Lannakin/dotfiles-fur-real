@@ -1,3 +1,4 @@
+-- /plugins/claude-code.lua
 -- disabled if below line is active
 -- if true then return {} end
 -- https://github.com/Gentleman-Programming/Gentleman.Dots/blob/main/GentlemanNvim/nvim/lua/plugins/claude-code.lua
@@ -34,3 +35,4 @@ return {
     { "<leader>av", "<cmd>ClaudeCodeVerbose<cr>", desc = "Verbose logging" },
   },
 }
+

@@ -1,3 +1,6 @@
+-- plugins/noice.lua
+-- disabled if below line is active
+-- if true then return {} end
 return {
   {
     "folke/noice.nvim",

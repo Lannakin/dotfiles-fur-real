@@ -1,3 +1,6 @@
+-- /utils/json.lua
+-- from MeteorVim
+-- may be gigabusted
 --- Module for reading and modifying JSON configuration in Neovim.
 local M = {}
 

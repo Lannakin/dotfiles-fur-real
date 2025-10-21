@@ -1,3 +1,4 @@
+-- /plugins/docs-view.lua
 -- disabled if below line is active
 -- if true then return {} end
 -- https://github.com/amrbashir/nvim-docs-view

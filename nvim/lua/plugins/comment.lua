@@ -1,3 +1,4 @@
+-- /plugins/comment.lua
 -- disabled if below line is active
 -- if true then return {} end
 return {
@@ -6,3 +7,4 @@ return {
     require('Comment').setup()
   end,
 }
+

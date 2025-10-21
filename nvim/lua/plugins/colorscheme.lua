@@ -1,3 +1,5 @@
+-- /plugins/colorscheme.lua
+--  extra theme configs in /plugins/colorschemes
 -- disabled if below line is active
 -- if true then return {} end
 return {
@@ -12,7 +14,7 @@ return {
     "LazyVim/LazyVim",
     opts = {
       -- colorscheme = "solarized",
-    colorscheme = "solarized",
+      colorscheme = "solarized",
     },
   },
 }

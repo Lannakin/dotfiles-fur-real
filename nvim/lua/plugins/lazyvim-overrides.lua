@@ -1,28 +1,12 @@
+-- /plugins/lazyvim-overrides.lua
 -- disabled if below line is active
 -- if true then return {} end
 
 -- every spec file under the "plugins" directory will be loaded automatically by lazy.nvim
---
 -- In your plugin files, you can:
 -- * add extra plugins
 -- * disable/enabled LazyVim plugins
 -- * override the configuration of LazyVim plugins
-
--- #================# --
--- #  BEGIN RETURN  # --
--- #================# --
-
--- local telescope = require("telescope")
--- -- File and text search in hidden files and directories - locals setup --
--- local telescopeConfig = require("telescope.config")
--- local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
--- -- I want to search in hidden/dot files.
--- table.insert(vimgrep_arguments, "--hidden")
--- -- I don't want to search in the `.git` directory.
--- -- table.insert(vimgrep_arguments, "--glob")
--- -- table.insert(vimgrep_arguments, "!**/.git/*")
--- -- `hidden = true` is not supported in text grep commands.
-
 return {
   {
     "ahmedkhalf/project.nvim",

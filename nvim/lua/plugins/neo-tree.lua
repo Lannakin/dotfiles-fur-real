@@ -1,6 +1,6 @@
+-- /plugins/neo-tree.lua
 -- disabled if below line is active
 -- if true then return {} end
-
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
