@@ -7,6 +7,12 @@ return {
     enabled = true,
     opts = {
       views = {
+        cmdline = {
+          border = {
+            style = "single",
+            padding = { 0, 0 },
+          },
+        },
         cmdline_popup = {
           border = { style = "single" },
           position = {
@@ -38,5 +44,8 @@ return {
         },
       },
     },
+    config = function(_, opts)
+      require("noice").setup(opts)
+    end,
   },
 }

@@ -1,5 +1,9 @@
+-- /config/lazy.lua
+-- https://github.com/LazyVim/starter/blob/main/lua/config/lazy.lua
+---@diagnostic disable: missing-fields, param-type-not-match
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then -- remove deprecated vim.loop
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
   local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
   if vim.v.shell_error ~= 0 then
@@ -13,36 +17,18 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
--- vim.o.winborder = "┌,─,┐,│,┘,─,└,│"
-
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     -- import/override with your plugins
     { import = "plugins" },
-    { import = "plugins.telescope" },
-    -- { import = "plugins.telescope.telescope" },
+    { import = "plugins.telescope" },   -- load Telescope plugins
+    { import = "plugins.lsp" },         -- load LSPs
   },
-  -- {
-  --   "folke/snacks.nvim",
-  --   priority = 1000,
-  --   lazy = false,
-  --   opts = {},
-  --   config = function(_, opts)
-  --     local notify = vim.notify
-  --     require("snacks").setup(opts)
-  --     -- HACK: restore vim.notify after snacks setup and let noice.nvim take over
-  --     -- this is needed to have early notifications show up in noice history
-  --     -- if lazy_utils.has("noice.nvim") then
-  --     --   vim.notify = notify
-  --     -- end
-  --   end,
-  -- },
   defaults = {
     lazy = false,
     version = false, -- always use the latest git commit
-    -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
   install = { colorscheme = { "tokyonight", "habamax" } },
   checker = {

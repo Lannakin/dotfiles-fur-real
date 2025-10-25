@@ -9,7 +9,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 -- APPEARANCE --
-vim.api.nvim_command("syntax enable") -- Enable syntax highlighting
+vim.api.nvim_command "syntax enable" -- Enable syntax highlighting
 vim.g.snacks_animate = false -- snacks animations
 
 opt.colorcolumn = "80"
@@ -23,11 +23,10 @@ opt.list = true -- Show some invisible characters
 opt.termguicolors = true -- True color support
 
 -- BEHAVIOR --
-vim.opt.fileformat = "unix" -- Set fileformat to Unix
-vim.api.nvim_command("filetype plugin on") -- Enable filetype plugins
+opt.fileformat = "unix" -- Set fileformat to Unix
+vim.api.nvim_command "filetype plugin on" -- Enable filetype plugins
 -- LazyVim.terminal.setup("kitty")               -- terminal to use (optional)
 
-vim.g.autoformat = false -- LazyVim auto format
 vim.g.lazyvim_picker = "telescope"
 vim.g.lazyvim_cmp = "auto" -- values: auto, nvim-cmp, blink.cmp
 -- vim.g.ai_cmp = true                           -- use ai for completion if supported
@@ -66,12 +65,13 @@ opt.wildmode = "longest:full,full" -- Command-line completion mode
 -- behavior --
 opt.smoothscroll = true
 opt.spelllang = { "en" }
+vim.g.autoformat = false -- LazyVim auto format
+vim.g.lazyvim_eslint_auto_format = false
 -- context --
 opt.scrolloff = 4 -- Lines of context
 opt.sidescrolloff = 8 -- Columns of context
 -- indentation --
 vim.g.markdown_recommended_style = 1 -- Fix markdown indentation settings
-
 opt.expandtab = true -- Use spaces instead of tabs
 opt.tabstop = 4 -- Number of spaces tabs count for
 opt.smartindent = true -- Insert indents automatically

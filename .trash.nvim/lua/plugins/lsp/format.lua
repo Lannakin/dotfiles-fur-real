@@ -1,6 +1,7 @@
 -- /plugins/format.lua
 -- disabled if below line is active
--- if true then return {} end
+if true then return {} end
+-- https://github.com/sbdchd/neoformat
 return {
   {
     "jay-babu/mason-null-ls.nvim",
@@ -8,13 +9,12 @@ return {
     dependencies = {
       "mason-org/mason.nvim",
       "nvimtools/none-ls.nvim",
-  },
-  config = function()
+    },
+    --[[  config = function()
     require("config.null-ls")
-  end,
+  end,]]
+    {
+      "sbdchd/neoformat",
+    },
   },
-  {
-    "sbdchd/neoformat",
-  },
-
 }

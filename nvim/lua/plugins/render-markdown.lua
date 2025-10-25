@@ -2,13 +2,18 @@
 -- disabled if below line is active
 -- if true then return {} end
 -- https://github.com/MeanderingProgrammer/render-markdown.nvim/wiki
-require("render-markdown").setup({
-  preset = "lazy",
-  latex = { enabled = false },
-})
+
+-- require("render-markdown").setup({
+-- })
 
 return {
-  'MeanderingProgrammer/render-markdown.nvim',
-  ft = { 'markdown', 'quarto' },
+  "MeanderingProgrammer/render-markdown.nvim",
+  opts = {
+    ft = { "markdown", "quarto" },
+    preset = "lazy",
+    latex = { enabled = false },
+  },
+  config = function(_, opts)
+    require("render-markdown").setup(opts)
+  end,
 }
-

@@ -10,8 +10,8 @@ return {
     { "nvim-lua/plenary.nvim" },
   },
   config = function()
-    local ctactions = require("cheatsheet.telescope.actions")
-    require("cheatsheet").setup({
+    local ctactions = require "cheatsheet.telescope.actions"
+    require("cheatsheet").setup {
       bundled_cheatsheets = {
         enabled = { "default", "lua", "markdown", "regex", "netrw", "unicode" },
         disabled = { "nerd-fonts" },
@@ -34,6 +34,6 @@ return {
         ["<C-Y>"] = ctactions.copy_cheat_value,
         ["<C-E>"] = ctactions.edit_user_cheatsheet,
       },
-    })
+    }
   end,
 }

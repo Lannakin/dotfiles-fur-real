@@ -1,6 +1,6 @@
 -- /plugins/lualine-themes/cosmicink.lua
 -- disabled if below line is active
-if true then return {} end
+-- if true then return {} end
 
 -- CosmicInk config for lualine
 -- Author: Yeeloman
@@ -10,33 +10,55 @@ if true then return {} end
 
 -- Default Theme Colors: Define a set of base colors for your theme
 local colors = {
-  BG = '#16181b', -- Dark background
-  FG = '#c5c4c4', -- Light foreground for contrast
-  YELLOW = '#e8b75f', -- Vibrant yellow
-  CYAN = '#00bcd4', -- Soft cyan
-  DARKBLUE = '#2b3e50', -- Deep blue
-  GREEN = '#00e676', -- Bright green
-  ORANGE = '#ff7733', -- Warm orange
-  VIOLET = '#7a3ba8', -- Strong violet
-  MAGENTA = '#d360aa', -- Deep magenta
-  BLUE = '#4f9cff', -- Light-medium blue
-  RED = '#ff3344', -- Strong red
+  BG       = "#FDF6E3", -- background
+  FG       = "#657B83", -- foreground
+  YELLOW   = "#B58900",
+  CYAN     = "#2AA198",
+  BASE02   = "#073642",
+  GREEN    = "#859900",
+  ORANGE   = "#CB4B16",
+  VIOLET   = "#6C71C4",
+  MAGENTA  = "#D33682",
+  BLUE     = "#268BC2",
+  RED      = "#DC322F",
 }
+
+-- SOLARIZED --
+--[[
+base03  = #002B36
+base02  = #073642
+base01  = #586E75
+base00  = #657B83
+
+base0   = #839496
+base1   = #93A1A1
+base2   = #EEE8D5
+base3   = #FDF6E3
+
+yellow  = #B58900
+orange  = #CB4B16
+red     = #DC322F
+magenta = #D33682
+violet  = #6C71C4
+blue    = #268BC2
+cyan    = #2AA198
+green   = #859900
+--]]
 
 -- OEM --
 --[[
 --local colors = {
-  BG = '#16181b', -- Dark background
-  FG = '#c5c4c4', -- Light foreground for contrast
-  YELLOW = '#e8b75f', -- Vibrant yellow
-  CYAN = '#00bcd4', -- Soft cyan
-  DARKBLUE = '#2b3e50', -- Deep blue
-  GREEN = '#00e676', -- Bright green
-  ORANGE = '#ff7733', -- Warm orange
-  VIOLET = '#7a3ba8', -- Strong violet
-  MAGENTA = '#d360aa', -- Deep magenta
-  BLUE = '#4f9cff', -- Light-medium blue
-  RED = '#ff3344', -- Strong red
+  BG       = "#16181b", -- Dark background
+  FG       = "#c5c4c4", -- Light foreground for contrast
+  YELLOW   = "#e8b75f", -- Vibrant yellow
+  CYAN     = "#00bcd4", -- Soft cyan
+  DARKBLUE = "#2b3e50", -- Deep blue
+  GREEN    = "#00e676", -- Bright green
+  ORANGE   = "#ff7733", -- Warm orange
+  VIOLET   = "#7a3ba8", -- Strong violet
+  MAGENTA  = "#d360aa", -- Deep magenta
+  BLUE     = "#4f9cff", -- Light-medium blue
+  RED      = "#ff3344", -- Strong red
 }
 --]]
 
@@ -44,16 +66,16 @@ local colors = {
 local function get_mode_color()
   -- Define a table mapping modes to their associated colors
   local mode_color = {
-    n = colors.DARKBLUE,
+    n = colors.BASE02,
     i = colors.VIOLET,
     v = colors.RED,
-    [''] = colors.BLUE,
+    [""] = colors.BLUE,
     V = colors.RED,
     c = colors.MAGENTA,
     no = colors.RED,
     s = colors.ORANGE,
     S = colors.ORANGE,
-    [''] = colors.ORANGE,
+    [""] = colors.ORANGE,
     ic = colors.YELLOW,
     R = colors.ORANGE,
     Rv = colors.ORANGE,
@@ -61,8 +83,8 @@ local function get_mode_color()
     ce = colors.RED,
     r = colors.CYAN,
     rm = colors.CYAN,
-    ['r?'] = colors.CYAN,
-    ['!'] = colors.RED,
+    ["r?"] = colors.CYAN,
+    ["!"] = colors.RED,
     t = colors.RED,
   }
   -- Return the opposite color, or fallback to foreground color
@@ -71,17 +93,17 @@ end
 
 -- Function to get the opposite color of a given mode color
 local function get_opposite_color(mode_color)
-  -- Define a table mapping colors to their opposite color
+  -- Define a table mapping colors to their opposite color``
   local opposite_colors = {
     [colors.RED] = colors.CYAN,
     [colors.BLUE] = colors.ORANGE,
     [colors.GREEN] = colors.MAGENTA,
-    [colors.MAGENTA] = colors.DARKBLUE,
+    [colors.MAGENTA] = colors.BASE02,
     [colors.ORANGE] = colors.BLUE,
     [colors.CYAN] = colors.YELLOW,
     [colors.VIOLET] = colors.GREEN,
     [colors.YELLOW] = colors.RED,
-    [colors.DARKBLUE] = colors.VIOLET,
+    [colors.BASE02] = colors.VIOLET,
   }
   -- Return the opposite color, or fallback to foreground color
   return opposite_colors[mode_color] or colors.FG
@@ -99,7 +121,7 @@ local function get_animated_color(mode_color)
     colors.CYAN,
     colors.VIOLET,
     colors.YELLOW,
-    colors.DARKBLUE,
+    colors.BASE02,
   }
   -- Create a list of possible opposite colors (excluding the current mode color)
   local possible_opposites = {}
@@ -133,7 +155,7 @@ local function interpolate_color(color1, color2, step)
   local b = blend(b1, b2, step)
 
   -- Return the blended color in hex format
-  return string.format('#%02X%02X%02X', r, g, b)
+  return string.format("#%02X%02X%02X", r, g, b)
 end
 
 -- Function to get a middle color by interpolating between mode color and its opposite
@@ -174,30 +196,30 @@ end
 math.randomseed(os.time())
 -- Icon sets for random selection
 local icon_sets = {
-  stars = { '★', '☆', '✧', '✦', '✶', '✷', '✸', '✹' }, -- Set of star-like icons
+  stars = { "★", "☆", "✧", "✦", "✶", "✷", "✸", "✹" }, -- Set of star-like icons
   runes = {
-    '✠',
-    '⛧',
-    '𖤐',
-    'ᛟ',
-    'ᚨ',
-    'ᚱ',
-    'ᚷ',
-    'ᚠ',
-    'ᛉ',
-    'ᛊ',
-    'ᛏ',
-    '☠',
-    '☾',
-    '♰',
-    '✟',
-    '☽',
-    '⚚',
-    '🜏',
+    "✠",
+    "⛧",
+    "𖤐",
+    "ᛟ",
+    "ᚨ",
+    "ᚱ",
+    "ᚷ",
+    "ᚠ",
+    "ᛉ",
+    "ᛊ",
+    "ᛏ",
+    "☠",
+    "☾",
+    "♰",
+    "✟",
+    "☽",
+    "⚚",
+    "🜏",
   }, -- Set of rune-like symbols
-  hearts = { '❤', '♥', '♡', '❦', '❧' }, -- Set of heart-shaped icons
-  waves = { '≈', '∿', '≋', '≀', '⌀', '≣', '⌇' }, -- Set of wave-like symbols
-  crosses = { '☨', '✟', '♰', '♱', '⛨', '' }, -- Set of cross-like symbols
+  hearts = { "❤", "♥", "♡", "❦", "❧" }, -- Set of heart-shaped icons
+  waves = { "≈", "∿", "≋", "≀", "⌀", "≣", "⌇" }, -- Set of wave-like symbols
+  crosses = { "☨", "✟", "♰", "♱", "⛨", "" }, -- Set of cross-like symbols
 }
 
 -- Function to select a random icon from a given set
@@ -238,7 +260,7 @@ local reversed_icon_sets = reverse_table(icon_sets_list)
 local function create_separator(side, use_mode_color)
   return {
     function()
-      return side == 'left' and '' or '' -- Choose separator symbol based on side
+      return side == "left" and "" or "" -- Choose separator symbol based on side
     end,
     color = function()
       -- Set color based on mode or opposite color
@@ -265,7 +287,7 @@ local function create_mode_based_component(content, icon, color_fg, color_bg)
       return {
         fg = color_fg or colors.FG,
         bg = color_bg or opposite_color,
-        gui = 'bold',
+        gui = "bold",
       }
     end,
   }
@@ -275,35 +297,35 @@ end
 local function mode()
   -- Map of modes to their respective shorthand indicators
   local mode_map = {
-    n = 'N', -- Normal mode
-    i = 'I', -- Insert mode
-    v = 'V', -- Visual mode
-    [''] = 'V', -- Visual block mode
-    V = 'V', -- Visual line mode
-    c = 'C', -- Command-line mode
-    no = 'N', -- NInsert mode
-    s = 'S', -- Select mode
-    S = 'S', -- Select line mode
-    ic = 'I', -- Insert mode (completion)
-    R = 'R', -- Replace mode
-    Rv = 'R', -- Virtual Replace mode
-    cv = 'C', -- Command-line mode
-    ce = 'C', -- Ex mode
-    r = 'R', -- Prompt mode
-    rm = 'M', -- More mode
-    ['r?'] = '?', -- Confirm mode
-    ['!'] = '!', -- Shell mode
-    t = 'T', -- Terminal mode
+    n = "N", -- Normal mode
+    i = "I", -- Insert mode
+    v = "V", -- Visual mode
+    [""] = "V", -- Visual block mode
+    V = "V", -- Visual line mode
+    c = "C", -- Command-line mode
+    no = "N", -- NInsert mode
+    s = "S", -- Select mode
+    S = "S", -- Select line mode
+    ic = "I", -- Insert mode (completion)
+    R = "R", -- Replace mode
+    Rv = "R", -- Virtual Replace mode
+    cv = "C", -- Command-line mode
+    ce = "C", -- Ex mode
+    r = "R", -- Prompt mode
+    rm = "M", -- More mode
+    ["r?"] = "?", -- Confirm mode
+    ["!"] = "!", -- Shell mode
+    t = "T", -- Terminal mode
   }
   -- Return the mode shorthand or [UNKNOWN] if no match
-  return mode_map[vim.fn.mode()] or '[UNKNOWN]'
+  return mode_map[vim.fn.mode()] or "[UNKNOWN]"
 end
 
 -- Config
 local config = {
   options = {
-    component_separators = '',
-    section_separators = '',
+    component_separators = "",
+    section_separators = "",
     theme = {
       normal = {
         c = {
@@ -319,10 +341,10 @@ local config = {
       }, -- Simplified inactive theme
     },
     disabled_filetypes = {
-      'neo-tree',
-      'undotree',
-      'sagaoutline',
-      'diff',
+      "neo-tree",
+      "undotree",
+      "sagaoutline",
+      "diff",
     },
   },
   sections = {
@@ -339,22 +361,22 @@ local config = {
     lualine_c = {
       {
 
-        'location',
+        "location",
         color = function()
           return {
             fg = colors.FG,
-            gui = 'bold',
+            gui = "bold",
           }
         end,
       },
     },
     lualine_x = {
       {
-        'filename',
+        "filename",
         color = function()
           return {
             fg = colors.FG,
-            gui = 'bold,italic',
+            gui = "bold,italic",
           }
         end,
       },
@@ -381,44 +403,44 @@ ins_left {
     return {
       fg = colors.BG,
       bg = mode_color,
-      gui = 'bold',
+      gui = "bold",
     }
   end,
   padding = { left = 1, right = 1 },
 }
 
-ins_left(create_separator('left', true))
+ins_left(create_separator("left", true))
 
 ins_left {
   function()
-    return vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+    return vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
   end,
-  icon = ' ',
+  icon = " ",
   color = function()
     local virtual_env = vim.env.VIRTUAL_ENV
     if virtual_env then
       return {
         fg = get_mode_color(),
-        gui = 'bold,strikethrough',
+        gui = "bold,strikethrough",
       }
     else
       return {
         fg = get_mode_color(),
-        gui = 'bold',
+        gui = "bold",
       }
     end
   end,
 }
 
-ins_left(create_separator('right'))
+ins_left(create_separator "right")
 
-ins_left(create_mode_based_component('filename', nil, colors.BG))
+ins_left(create_mode_based_component("filename", nil, colors.BG))
 
-ins_left(create_separator('left'))
+ins_left(create_separator "left")
 
 ins_left {
   function()
-    return ''
+    return ""
   end,
   color = function()
     return {
@@ -432,14 +454,14 @@ ins_left {
   function()
     local git_status = vim.b.gitsigns_status_dict
     if git_status then
-      return string.format('+%d ~%d -%d', git_status.added or 0, git_status.changed or 0, git_status.removed or 0)
+      return string.format("+%d ~%d -%d", git_status.added or 0, git_status.changed or 0, git_status.removed or 0)
     end
-    return ''
+    return ""
   end,
   -- icon = '󰊢 ',
   color = {
     fg = colors.YELLOW,
-    gui = 'bold',
+    gui = "bold",
   },
   cond = hide_in_width,
 }
@@ -459,10 +481,10 @@ for _, icons in pairs(icon_sets_list) do
 end
 
 ins_left {
-  'searchcount',
+  "searchcount",
   color = {
     fg = colors.GREEN,
-    gui = 'bold',
+    gui = "bold",
   },
 }
 
@@ -470,22 +492,22 @@ ins_left {
 ins_right {
   function()
     local reg = vim.fn.reg_recording()
-    return reg ~= '' and '[' .. reg .. ']' or ''
+    return reg ~= "" and "[" .. reg .. "]" or ""
   end,
   color = {
-    fg = '#ff3344',
-    gui = 'bold',
+    fg = "#ff3344",
+    gui = "bold",
   },
   cond = function()
-    return vim.fn.reg_recording() ~= ''
+    return vim.fn.reg_recording() ~= ""
   end,
 }
 
 ins_right {
-  'selectioncount',
+  "selectioncount",
   color = {
     fg = colors.GREEN,
-    gui = 'bold',
+    gui = "bold",
   },
 }
 
@@ -505,26 +527,30 @@ end
 
 ins_right {
   function()
-    local msg = 'No Active Lsp'
-    local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+    local msg = "No Active Lsp"
+    -- local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
+    local buf_ft = vim.api.nvim_get_option_value("filetype", {
+      -- scope = "local", -- buf implies shope is local anyway
+      buf = 0,
+    })
     local clients = vim.lsp.get_clients()
     if next(clients) == nil then
       return msg
     end
     local lsp_short_names = {
-      pyright = 'py',
-      tsserver = 'ts',
-      rust_analyzer = 'rs',
-      lua_ls = 'lua',
-      clangd = 'c++',
-      bashls = 'sh',
-      jsonls = 'json',
-      html = 'html',
-      cssls = 'css',
-      tailwindcss = 'tw',
-      dockerls = 'docker',
-      sqlls = 'sql',
-      yamlls = 'yml',
+      pyright = "py",
+      tsserver = "ts",
+      rust_analyzer = "rs",
+      lua_ls = "lua",
+      clangd = "c++",
+      bashls = "sh",
+      jsonls = "json",
+      html = "html",
+      cssls = "css",
+      tailwindcss = "tw",
+      dockerls = "docker",
+      sqlls = "sql",
+      yamlls = "yml",
     }
     for _, client in ipairs(clients) do
       local filetypes = client.config.filetypes
@@ -534,16 +560,16 @@ ins_right {
     end
     return msg
   end,
-  icon = ' ',
+  icon = " ",
   color = {
     fg = colors.YELLOW,
-    gui = 'bold',
+    gui = "bold",
   },
 }
 
 ins_right {
   function()
-    return ''
+    return ""
   end,
   color = function()
     return { fg = get_middle_color() }
@@ -551,15 +577,15 @@ ins_right {
   cond = hide_in_width,
 }
 
-ins_right(create_separator('right'))
+ins_right(create_separator "right")
 
-ins_right(create_mode_based_component('location', nil, colors.BG))
+ins_right(create_mode_based_component("location", nil, colors.BG))
 
-ins_right(create_separator('left'))
+ins_right(create_separator "left")
 
 ins_right {
-  'branch',
-  icon = ' ',
+  "branch",
+  icon = " ",
   --[[ Truncates and formats Git branch names for display in lualine:
     First segment: Uppercase, truncated to 1 character.
     Middle segments: Lowercase, truncated to 1 character.
@@ -573,8 +599,8 @@ ins_right {
         main                                            main
     ]]
   fmt = function(branch)
-    if branch == '' or branch == nil then
-      return 'No Repo'
+    if branch == "" or branch == nil then
+      return "No Repo"
     end
 
     -- Function to truncate a segment to a specified length
@@ -587,7 +613,7 @@ ins_right {
 
     -- Split the branch name by '/'
     local segments = {}
-    for segment in branch:gmatch('[^/]+') do
+    for segment in branch:gmatch "[^/]+" do
       table.insert(segments, segment)
     end
 
@@ -608,12 +634,12 @@ ins_right {
     end
 
     -- Combine the first segments with no separator and add '›' before the last segment
-    local truncated_branch = table.concat(segments, '', 1, #segments - 1) .. '›' .. segments[#segments]
+    local truncated_branch = table.concat(segments, "", 1, #segments - 1) .. "›" .. segments[#segments]
 
     -- Ensure the final result doesn't exceed a maximum length
     local max_total_length = 15
     if #truncated_branch > max_total_length then
-      truncated_branch = truncated_branch:sub(1, max_total_length) .. '…'
+      truncated_branch = truncated_branch:sub(1, max_total_length) .. "…"
     end
 
     return truncated_branch
@@ -622,13 +648,13 @@ ins_right {
     local mode_color = get_mode_color()
     return {
       fg = mode_color,
-      gui = 'bold',
+      gui = "bold",
     }
   end,
 }
 
-ins_right(create_separator('right'))
+ins_right(create_separator "right")
 
-ins_right(create_mode_based_component('progress', nil, colors.BG))
+ins_right(create_mode_based_component("progress", nil, colors.BG))
 
-require('lualine').setup(config)
+require("lualine").setup(config)

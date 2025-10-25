@@ -1,9 +1,16 @@
+# automated additions, I guess
 tt.*
 .tests
-doc/tags
 debug
 .repro
 foo.*
 *.log
 data
+# files
 .emmyrc.json
+unused.txt
+*.stow-local-ignore
+*.stowrc
+*.scratchpad
+# folders
+.references/

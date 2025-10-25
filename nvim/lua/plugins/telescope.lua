@@ -1,13 +1,14 @@
+-- /plugins/telescope.lua
+-- disabled if below line is active
 -- if true then return {} end
--- https://github.com/nvim-telescope/telescope.nvim original
--- https://github.com/DrKJeff16/telescope.nvim
-
 return {
   {
+    -- https://github.com/nvim-telescope/telescope.nvim
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
       {
+        -- https://github.com/DrKJeff16/project.nvim
         "DrKJeff16/project.nvim",
         lazy = true,
         cmd = { -- Lazy-load by commands
