@@ -12,7 +12,6 @@ return {
     opts = {
       ensure_installed = {
         -- "emmylua_ls",  -- this probably shouldn't be done like this LOL
-        "stylua",
         "shfmt",
       },
     },

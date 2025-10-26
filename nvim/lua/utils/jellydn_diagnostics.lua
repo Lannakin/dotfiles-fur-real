@@ -5,7 +5,7 @@
 local M = {}
 
 -- Set initial state for diagnostic level
-vim.g.diagnostics_level = "all"
+-- vim.g.diagnostics_level = "all"
 
 -- Function to toggle diagnostic level
 function M.toggle_diagnostics_level()
@@ -20,7 +20,7 @@ end
 ---@param level 'all' | 'error'
 function M.set_diagnostics_level(level)
   vim.g.diagnostics_level = level
-  vim.notify("Diagnostics level: " .. level, 3, { title = "Diagnostics" })
+  vim.notify("Diagnostics level: " .. level, 1, { title = "Diagnostics" })
   if level == "error" then
     vim.diagnostic.config({
       severity_sort = true,

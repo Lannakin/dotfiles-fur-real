@@ -1,20 +1,24 @@
 -- /plugins/format.lua
 -- disabled if below line is active
-if true then return {} end
--- https://github.com/sbdchd/neoformat
+-- if true then return {} end
 return {
   {
-    "jay-babu/mason-null-ls.nvim",
+    -- https://github.com/nvimtools/none-ls.nvim
+    "nvimtools/none-ls.nvim",
     event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      "mason-org/mason.nvim",
-      "nvimtools/none-ls.nvim",
-    },
-    --[[  config = function()
-    require("config.null-ls")
-  end,]]
-    {
-      "sbdchd/neoformat",
-    },
+    opts = function(_, opts)
+      local nls = require("null-ls").builtins
+      opts.root_dir = opts.root_dir
+        or require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git")
+      opts.sources = {
+        nls.formatting.stylua,
+        nls.formatting.shfmt,
+      }
+      return opts
+    end,
+  },
+  {
+    -- https://github.com/sbdchd/neoformat
+    "sbdchd/neoformat",
   },
 }

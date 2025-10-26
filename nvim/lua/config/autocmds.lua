@@ -14,25 +14,21 @@ local usercmd = vim.api.nvim_create_user_command
 
 local map = vim.api.nvim_buf_set_keymap
 
---[[ v OLD ENTRIES v ]]--
 -- Disable autoformat for lua files
---[[
-vim.api.nvim_create_autocmd({ "FileType" }, {
+autocmd({ "FileType" }, {
   pattern = { "lua" },
   callback = function()
     vim.b.autoformat = false
   end,
 })
---]]
---[[ ^ OLD ENTRIES ^ ]]--
 
 --[[ Open plugin repos with gx ]]
 autocmd("BufReadPost", { -- prefer local alias variable autocmd
   group = augroup("GxWithPlugins", { clear = true }), -- prefer local alias variable augroup
   callback = function()
-    if vim.fn.getcwd() == vim.fn.stdpath("config") then
+    if vim.fn.getcwd() == vim.fn.stdpath "config" then
       vim.keymap.set("n", "gx", function()
-        local file = vim.fn.expand("<cfile>") --[[@as string]]
+        local file = vim.fn.expand "<cfile>" --[[@as string]]
 
         -- First try the default behavior
         -- see https://github.com/neovim/neovim/blob/b0f9228179bf781eec76d1aaf346b56a7e64cd5d/runtime/lua/vim/_defaults.lua#L101
@@ -51,7 +47,7 @@ autocmd("BufReadPost", { -- prefer local alias variable autocmd
         end
 
         -- Consider anything that looks like string/string a GitHub link.
-        local link = file:match("%w[%w%-]+/[%w%-%._]+")
+        local link = file:match "%w[%w%-]+/[%w%-%._]+"
         if link then
           vim.ui.open("https://www.github.com/" .. link)
           err = nil

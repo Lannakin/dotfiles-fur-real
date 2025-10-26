@@ -4,6 +4,8 @@
 -- location for overriding LazyVim default plugins and their options
 
 return {
+    -- https://github.com/hrsh7th/nvim-cmp
+  { "hrsh7th/nvim-cmp", enabled=false },
   { -- replace default project.nvim with actively developed fork
     -- https://github.com/ahmedkhalf/project.nvim
     "ahmedkhalf/project.nvim",
@@ -11,6 +13,7 @@ return {
     dependencies = { "DrKJeff16/project.nvim" },
   },
   {
+    -- https://github.com/folke/snacks.nvim
     "folke/snacks.nvim",
     priority = 1000,
     opts = {
@@ -34,8 +37,8 @@ return {
       -- words = { enabled = true },        -- auto-show LSP references and navigage between them
     },
   },
-  -- https://github.com/folke/lazydev.nvim
   {
+    -- https://github.com/folke/lazydev.nvim
     "folke/lazydev.nvim",
     opts = {
       library = {
@@ -43,6 +46,9 @@ return {
         { path = "LazyVim", words = { "LazyVim" } },
         { path = "snacks.nvim", words = { "Snacks" } },
         { path = "lazy.nvim", words = { "LazyVim" } },
+      },
+      integrations = {
+        -- nvm it's enabled by default
       },
     },
   },

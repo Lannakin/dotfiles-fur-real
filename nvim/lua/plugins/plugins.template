@@ -1,0 +1,42 @@
+-- /plugins/plugins.template
+
+--[[ v MULTIPLE ENTRIES v ]]--
+
+-- /plugins/plugin.lua
+-- disabled if below line is active
+-- if true then return {} end
+return {
+  {
+    -- https://github.com/author/repo
+    "author/repo",
+    dependencies = {},
+    opts = {},
+    config = function(_, opts)
+      require("module-name").setup(opts)
+    end
+  },
+  {
+
+  }
+}
+
+--[[ ^ MULTIPLE ENTRIES ^ ]]--
+
+
+
+--[[ v SINGLE ENTRY v ]]--
+
+-- /plugins/plugin.lua
+-- disabled if below line is active
+-- if true then return {} end
+-- https://github.com/author/repo
+return {
+  "author/repo",
+  dependencies = {},
+  opts = {},
+  config = function(_, opts)
+    require("module-name").setup(opts)
+  end
+}
+
+--[[ ^ SINGLE ENTRY ^ ]]--

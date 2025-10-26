@@ -1,12 +1,10 @@
 -- /plugins/lsp/none-ls.lua
 -- disabled if below line is active
-if true then
-  return {}
-end
+if true then return {} end
 return {
   {
+    -- https://github.com/nvimtools/none-ls.nvim
     "nvimtools/none-ls.nvim",
-
     opts = function(_, opts)
       local nls = require("null-ls").builtins
       opts.root_dir = opts.root_dir

@@ -8,9 +8,9 @@ if vim.fn.has("nvim-0.10.0") == 0 then
   vim.cmd([[quit]])
   return {}
 end
-
+-- Do not require autocmds, keymaps, lazy or options under lua/config/ or
+-- lazyvim.config manually. LazyVim will load those files automatically.
+require("lazy")
+require("autocmds")
 require("options")
 require("keymaps")
--- require("null-ls")
-require("comment")
-require('nvim.lua.plugins.completion')

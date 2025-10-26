@@ -10,11 +10,11 @@ return {
       -- configs...
     },
   },
-  -- https://github.com/akinsho/bufferline.nvim
   {
+    -- https://github.com/akinsho/bufferline.nvim
     "akinsho/bufferline.nvim",
     opts = {
-      enabled = false,
+      -- enabled = false,
       options = {
         separator_style = { " ", " " },
       },

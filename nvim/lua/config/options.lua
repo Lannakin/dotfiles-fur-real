@@ -9,55 +9,54 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 -- APPEARANCE --
-vim.api.nvim_command "syntax enable" -- Enable syntax highlighting
-vim.g.snacks_animate = false -- snacks animations
+vim.api.nvim_command "syntax enable"           -- Enable syntax highlighting
+vim.g.snacks_animate = false                            -- snacks animations
 
 opt.colorcolumn = "80"
 opt.cmdheight = 1
-opt.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
-opt.cursorline = true -- highlighting of current line
+opt.conceallevel = 2                                    -- Hide * markup for bold and italic, but not markers with substitutions
+opt.cursorline = true                                   -- highlighting of current line
 opt.cursorlineopt = "number"
 opt.fillchars = { foldopen = "", foldclose = "", fold = " ", foldsep = " ", diff = "╱", eob = " " }
-opt.laststatus = 3 -- global statusline
-opt.list = true -- Show some invisible characters
-opt.termguicolors = true -- True color support
+opt.laststatus = 3                                      -- global statusline
+opt.list = true                                         -- Show some invisible characters
+opt.termguicolors = true                                -- True color support
 
 -- BEHAVIOR --
 opt.fileformat = "unix" -- Set fileformat to Unix
-vim.api.nvim_command "filetype plugin on" -- Enable filetype plugins
--- LazyVim.terminal.setup("kitty")               -- terminal to use (optional)
+vim.api.nvim_command "filetype plugin on"      -- Enable filetype plugins
+-- LazyVim.terminal.setup("kitty")                      -- terminal to use (optional)
 
 vim.g.lazyvim_picker = "telescope"
-vim.g.lazyvim_cmp = "auto" -- values: auto, nvim-cmp, blink.cmp
--- vim.g.ai_cmp = true                           -- use ai for completion if supported
+vim.g.lazyvim_cmp = "auto"                              -- values: auto, nvim-cmp, blink.cmp
+-- vim.g.ai_cmp = true                                  -- use ai for completion if supported
 vim.g.root_spec = { "lsp", { ".git", "Makefile" }, "cwd" } -- LazyVim root dir detection
-vim.g.root_lsp_ignore = { "copilot" } -- Set LSP servers to be ignored when used with `util.root.detectors.lsp`
--- for detecting the LSP root
+vim.g.root_lsp_ignore = { "copilot" }                   -- Set LSP servers to be ignored when used with `util.root.detectors.lsp`
+                                                        -- for detecting the LSP root
 vim.g.deprecation_warnings = true
-vim.g.trouble_lualine = true -- Show document symbols location from Trouble in lualine
--- vim.b.trouble_lualine = false              -- Show document symbols location from Trouble in lualine (buffer)
+vim.g.trouble_lualine = true                            -- Show symbols location from Trouble in lualine
+-- vim.b.trouble_lualine = false                        -- Show symbols location from Trouble in lualine (buffer)
 
-opt.autowrite = true -- auto write
-opt.mouse = "a" -- Enable mouse mode
+opt.autowrite = true                                    -- auto write
+opt.mouse = "a"                                         -- Enable mouse mode
 -- Sync with system clipboard
 -- only set clipboard if not in ssh, to make sure the OSC 52 integration works
 opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus"
-opt.completeopt = "menu,menuone,noselect" -- Configure completion options
-opt.confirm = true -- Confirm to save changes before exiting modified buffer
+opt.completeopt = "menu,menuone,noselect"               -- Configure completion options
+opt.confirm = true                                      -- Confirm to save changes before exiting modified buffer
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
-opt.hidden = true -- allows keeping modified buffers in memory even if not displayed
-opt.jumpoptions = "view" -- jumplist control
-opt.ruler = false -- default ruler
+opt.hidden = true                                       -- allows keeping modified buffers in memory when not displayed
+opt.jumpoptions = "view"                                -- jumplist control
+opt.ruler = false                                       -- default ruler
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
-opt.showmode = false -- Dont show mode since we have a statusline
--- opt.shortmess = "c"
-opt.timeoutlen = vim.g.vscode and 1000 or 300 -- Lower than default (1000) to quickly trigger which-key
+opt.showmode = false                                    -- Dont show mode since we have a statusline
+opt.timeoutlen = vim.g.vscode and 1000 or 300           -- Lower than default (1000) to quickly trigger which-key
 opt.undofile = true
 opt.undolevels = 10000
-opt.updatetime = 200 -- Save swap file and trigger CursorHold
-opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
-opt.wildmode = "longest:full,full" -- Command-line completion mode
+opt.updatetime = 200                                    -- Save swap file and trigger CursorHold
+opt.virtualedit = "block"                               -- Allow cursor to move where there is no text in visual block
+opt.wildmode = "longest:full,full"                      -- Command-line completion mode
 
 -- COMMANDS --
 
@@ -65,18 +64,18 @@ opt.wildmode = "longest:full,full" -- Command-line completion mode
 -- behavior --
 opt.smoothscroll = true
 opt.spelllang = { "en" }
-vim.g.autoformat = false -- LazyVim auto format
+vim.g.autoformat = false                    -- LazyVim auto format
 vim.g.lazyvim_eslint_auto_format = false
 -- context --
-opt.scrolloff = 4 -- Lines of context
-opt.sidescrolloff = 8 -- Columns of context
+opt.scrolloff = 4                           -- Lines of context
+opt.sidescrolloff = 8                       -- Columns of context
 -- indentation --
-vim.g.markdown_recommended_style = 1 -- Fix markdown indentation settings
-opt.expandtab = true -- Use spaces instead of tabs
-opt.tabstop = 4 -- Number of spaces tabs count for
-opt.smartindent = true -- Insert indents automatically
-opt.shiftround = true -- Round indent
-opt.shiftwidth = 4 -- Size of an indent
+vim.g.markdown_recommended_style = 1        -- Fix markdown indentation settings
+opt.expandtab = true                        -- Use spaces instead of tabs
+opt.tabstop = 4                             -- Number of spaces tabs count for
+opt.smartindent = true                      -- Insert indents automatically
+opt.shiftround = true                       -- Round indent
+opt.shiftwidth = 4                          -- Size of an indent
 opt.softtabstop = 4
 -- folding --
 opt.foldmethod = "expr"
@@ -85,16 +84,16 @@ opt.foldenable = false
 opt.foldlevelstart = 99
 -- format --
 opt.formatexpr = "v:lua.LazyVim.format.formatexpr()"
-opt.formatoptions = "jcroqlnt" -- tcqj
-opt.inccommand = "nosplit" -- preview incremental substitute
+opt.formatoptions = "jcroqlnt"              -- tcqj
+opt.inccommand = "nosplit"                  -- preview incremental substitute
 -- line numbers --
-opt.number = true -- Print line number
-opt.relativenumber = false -- Relative line numbers
-opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it will shift the text each time
+opt.number = true                           -- Print line number
+opt.relativenumber = false                  -- Relative line numbers
+opt.signcolumn = "yes"                      -- Always show the signcolumn, otherwise it will shift the text each time
 
 -- LINE WRAP --
-opt.linebreak = true -- Wrap lines at specific characters
-opt.wrap = true -- line wrap
+opt.linebreak = true                        -- Wrap lines at specific characters
+opt.wrap = true                             -- line wrap
 
 -- SEARCH --
 opt.incsearch = true
@@ -103,10 +102,10 @@ opt.smartcase = true
 -- opt.hlsearch = true
 
 -- WINDOW LAYOUT --
-opt.splitbelow = true -- Put new windows below current
+opt.splitbelow = true                       -- Put new windows below current
 opt.splitkeep = "screen"
-opt.splitright = true -- Put new windows right of current
-opt.pumblend = 10 -- Popup blend
-opt.pumheight = 15 -- Maximum number of entries in a popup
+opt.splitright = true                       -- Put new windows right of current
+opt.pumblend = 10                           -- Popup blend
+opt.pumheight = 15                          -- Maximum number of entries in a popup
 opt.statuscolumn = [[%!v:lua.LazyVim.statuscolumn()]]
-opt.winminwidth = 5 -- Minimum window width
+opt.winminwidth = 5                         -- Minimum window width

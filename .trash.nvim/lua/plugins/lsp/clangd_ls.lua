@@ -1,6 +1,6 @@
 -- /plugins/lsp/clangd_ls.lua
 -- disabled if below line is active
-if true then return {} end
+-- if true then return {} end
 -- disabled until set up
 -- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/clangd.lua
 

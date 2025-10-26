@@ -1,4 +1,4 @@
--- /plugins/lualine.lua
+-- /plugins/statusline.lua
 -- disabled if below line is active
 -- if true then return {} end
 
@@ -8,7 +8,7 @@ return {
     return {
         options = {
         icons_enabled = true,
-        theme = "solarized-light",
+        -- theme = "solarized-light",
         component_separators = { left = " ", right = " " },
         section_separators = { left = " ", right = " " },
         disabled_filetypes = {
@@ -29,7 +29,7 @@ return {
           {
             "mode",
             icon = "",
-            separator = { left = "", right = "" },
+            separator = { left = "", right = " " },
             -- color = {
             --   fg = "#1c1d21",
             --   bg = "#b4befe",
@@ -40,7 +40,7 @@ return {
           {
             "branch",
             icon = "",
-            separator = { left = "", right = "" },
+            separator = { left = "", right = " " },
             -- color = {
             --   fg = "#1c1d21",
             --   bg = "#7d83ac",
@@ -48,7 +48,7 @@ return {
           },
           {
             "diff",
-            separator = { left = "", right = "" },
+            separator = { left = "", right = " " },
             -- color = {
             --   fg = "#1c1d21",
             --   bg = "#7d83ac",
@@ -58,7 +58,7 @@ return {
         lualine_c = {
           {
             "diagnostics",
-            separator = { left = "", right = "" },
+            separator = { left = "", right = " " },
             -- color = {
             --   bg = "#45475a",
             -- },
