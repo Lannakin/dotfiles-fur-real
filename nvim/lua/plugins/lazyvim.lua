@@ -11,6 +11,7 @@ return {
     "ahmedkhalf/project.nvim",
     -- https://github.com/DrKJeff16/project.nvim
     dependencies = { "DrKJeff16/project.nvim" },
+    opts = {},  -- necessary for lazyvim to call setup for project.nvim
   },
   {
     -- https://github.com/folke/snacks.nvim
@@ -20,22 +21,27 @@ return {
       -- animate = { enabled = true },      -- efficient animations
       -- bigfile = { enabled = true },      -- deal with big files
       -- bufdelete = { enabled = true },    -- delete buffers conveneiently
-      dashboard = { enabled = false }, -- declarative dashboards
+      dashboard = { enabled = false },      -- declarative dashboards
       -- dim = { enabled = false },         -- dim everything outside scope
-      explorer = { enabled = false }, -- file explorer (picker)
+      explorer = { enabled = false },       -- file explorer (picker)
       -- indent = { enabled = true },       -- indent guides and scopes
       -- input = { enabled = true },        -- better vim.ui.input
       -- lazygit = { enabled = false },     -- open LazyGit in floating window, auto-configure color scheme w/ Neovim
-      notifier = { enabled = false }, -- "pretty" vim.notify
+      notifier = { enabled = false },       -- "pretty" vim.notify
       -- picker = { enabled = true, },      -- picker for selecting items
       -- quickfile = { enabled = true },    -- render file before loading plugins
       -- scope = { enabled = true },        -- scope detection, text objects and jumping based on treesitter or indent
-      scratch = { border = "single" }, -- scratch buffers w/ a persistent file
+      scratch = { border = "single" },      -- scratch buffers w/ a persistent file
       snacks_image = { border = "single" }, -- image viewer using Kitty Graphics Protocol
       -- scroll = { enabled = true },       -- smooth scrolling
       -- terminal = { enabled = true },     -- create/toggle floating/split terminals
       -- words = { enabled = true },        -- auto-show LSP references and navigage between them
     },
+  },
+  { -- to add luvit to emmylua_ls for lazydev
+    -- https://github.com/Bilal2453/luvit-meta
+    "Bilal2453/luvit-meta",
+    lazy = false,
   },
   {
     -- https://github.com/folke/lazydev.nvim

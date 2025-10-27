@@ -1,20 +1,23 @@
 -- /plugins/lsp/language.template
--- vim: syntax=lua
-
 -- /plugins/lsp/lang.lua
 -- disabled if below line is active
 -- if true then return {} end
 -- disabled until set up
 -- https://github.com/author/repo
 
-local util = require("util")
+-- local util = require("util")
 
 return {
+  {
+  "pmizio/typescript-tools.nvim",
+  dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+  opts = {},
+  },
   --[[  { -- Add lang_name to treesitter
     -- https://github.com/nvim-treesitter/nvim-treesitter
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
-      util.list_insert_unique(opts.ensure_installed, { "lang_name" })
+      util.list_insert_unique(opts.ensure_installed, { "typescript" })
     end,
   }, --]]
   --[[  { -- Add tools to mason
@@ -22,8 +25,8 @@ return {
     "mason-org/mason.nvim",
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, {
-        "ls_name",
-        "formatter_name"
+        "typescript-tools",
+        -- "formatter_name"
       })
     end,
   }, --]]
@@ -45,28 +48,7 @@ return {
       }),
     end,
   }, --]]
-  --[[  { -- Add which-key namespace for ls_name debugging
-    -- https://github.com/folke/which-key.nvim
-    "folke/which-key.nvim",
-    optional = true,
-    opts = {
-      spec = {
-        ["<leader>dP"] = { name = "+ls_name" },
-      },
-    },
-  }, --]]
-  --[[  { -- Setup neotest
-    -- https://github.com/nvim-neotest/neotest
-    "nvim-neotest/neotest",
-    optional = true,
-    dependencies = {
-    },
-    opts = {
-      adapters = {
-      },
-    },
-  }, --]]
-  { -- Add ls_name and setup lspconfig
+  --[[  { -- Add ls_name and setup lspconfig
     -- https://github.com/neovim/nvim-lspconfig
     "neovim/nvim-lspconfig",
     dependencies = {},
@@ -79,7 +61,7 @@ return {
         end,
       },
     },
-  },
+  }, --]]
   --[[  { -- Setup none-ls with formatter_name
     -- https://github.com/nvimtools/none-ls.nvim
     "nvimtools/none-ls.nvim",

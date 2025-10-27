@@ -10,15 +10,22 @@
 -- src: https://github.com/dpetka2001/dotfiles/blob/main/dot_config/nvim/lua/config/autocmds.lua
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
+
 local usercmd = vim.api.nvim_create_user_command
+-- local map = vim.api.nvim_buf_set_keymap
 
-local map = vim.api.nvim_buf_set_keymap
-
--- Disable autoformat for lua files
+--[[ Disable autoformat for lua files ]]--
 autocmd({ "FileType" }, {
   pattern = { "lua" },
   callback = function()
     vim.b.autoformat = false
+  end,
+})
+
+--[[ Automatically open Trouble Quickfix ]]--
+autocmd("QuickFixCmdPost", {
+  callback = function()
+    vim.cmd([[Trouble qflist open]])
   end,
 })
 
@@ -62,3 +69,18 @@ autocmd("BufReadPost", { -- prefer local alias variable autocmd
   end,
   desc = "Make `gx` open repos in default browser",
 })
+
+
+--[[ User command for diffing current buffer when not in .git repo ]]
+usercmd("DiffOrig", function()
+  local scratch_buffer = vim.api.nvim_create_buf(false, true)
+  local current_ft = vim.bo.filetype
+  vim.cmd("vertical sbuffer" .. scratch_buffer)
+  vim.bo[scratch_buffer].filetype = current_ft
+  vim.cmd("read ++edit #") -- load contents of previous buffer into scratch_buffer
+  vim.cmd.normal('1G"_d_') -- delete extra newline at top of scratch_buffer without overriding register
+  vim.cmd.diffthis() -- scratch_buffer
+  vim.cmd.wincmd("p")
+  vim.cmd.diffthis() -- current buffer
+  vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = scratch_buffer, silent = true })
+end, { desc = "Diff current buffer not .git" })

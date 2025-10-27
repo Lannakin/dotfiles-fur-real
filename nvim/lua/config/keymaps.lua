@@ -6,8 +6,10 @@
 
 local map = vim.keymap.set
 
---  -- [ syntax explanation ] --
---  map("mode", "<lefthandside>", "<righthandside>", { opt = "option" })
+local Diagnostics = require("utils.jellydn_diagnostics")
+
+-- local Lsp = require("utils.lsp")
+-- local Cmd = require("utils.cmd")
 
 -- --- [ v stolen from MeteorNvim v ] ---
 -- https://github.com/MeteorNvim/MeteorNvim/blob/main/lua/userconfig/mappings.lua
@@ -151,6 +153,11 @@ map("i", "<C-7>", "<c-o>:CommentToggle<CR>", { desc = "Toggle comment" })
 map("v", "<C-7>", ":'<,'>CommentToggle<CR>", { desc = "Toggle comment" })
 
 -- --- [ ^ stolen from MeteorNvim ^ ] ---
+
+-- Toggle Diagnostics Level
+map("n", "<leader>uD", function()
+  Diagnostics.toggle_diagnostics_level()
+end, { noremap = true, silent = true, desc = "Toggle Diagnostics Level" })
 
 -- Smart Delete (preserves clipboard while deleting empty lines) --
 map("n", "dd", function()

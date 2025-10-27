@@ -2,7 +2,8 @@
 -- disabled if below line is active
 -- if true then return {} end
 -- https://github.com/dpetka2001/dotfiles/blob/main/dot_config/nvim/lua/plugins/extras/lang/clang.lua
-local util = require("util")
+
+local util = require "util"
 
 return {
   { -- Add `c` and `cpp` to treesitter
@@ -70,7 +71,7 @@ return {
               "build.ninja"
             )(fname) or require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt")(
               fname
-            ) or require("lspconfig.util").find_git_ancestor(fname)
+            )
           end,
           capabilities = {
             offsetEncoding = { "utf-16" },
@@ -93,7 +94,7 @@ return {
       },
       setup = {
         clangd = function(_, opts)
-          local clangd_ext_opts = require("lazyvim.util").opts("clangd_extensions.nvim")
+          local clangd_ext_opts = require("lazyvim.util").opts "clangd_extensions.nvim"
           require("clangd_extensions").setup(vim.tbl_deep_extend("force", clangd_ext_opts or {}, { server = opts }))
           return false
         end,

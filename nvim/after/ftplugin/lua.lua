@@ -1,14 +1,12 @@
--- /after/ftplugin/c.lua
+-- /after/ftplugin/lua.lua
 -- disabled if below line is active
 -- if true then return {} end
 -- https://github.com/dpetka2001/dotfiles/tree/main/dot_config/nvim/after/ftplugin
 local opt = vim.opt_local
 
-opt.tabstop = 4
-opt.shiftwidth = 4
+opt.tabstop = 2
+opt.shiftwidth = 2
 opt.expandtab = true
-opt.textwidth = 80
+opt.textwidth = 120
 opt.autoindent = true
 opt.smarttab = true
-opt.makeprg = "gcc -Wall -o %:r %"
-opt.errorformat = "%f:%l:%c: %t%*[^:]:%m,%f:%l:%c: %t%*[^:]:%m,%-G%.%#"

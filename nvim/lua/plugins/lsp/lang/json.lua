@@ -2,7 +2,7 @@
 -- disabled if below line is active
 -- if true then return {} end
 -- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/jsonls.lua
----@type vim.lsp.Config
+
 return {
   "neovim/nvim-lspconfig",
   opts = {
@@ -18,4 +18,5 @@ return {
       },
     },
   },
+  setup = {},
 }

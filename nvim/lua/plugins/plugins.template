@@ -1,5 +1,5 @@
 -- /plugins/plugins.template
-
+-- vim: syntax=lua
 --[[ v MULTIPLE ENTRIES v ]]--
 
 -- /plugins/plugin.lua
@@ -10,6 +10,7 @@ return {
     -- https://github.com/author/repo
     "author/repo",
     dependencies = {},
+    cmd = "whatevercommand",
     opts = {},
     config = function(_, opts)
       require("module-name").setup(opts)
@@ -17,7 +18,7 @@ return {
   },
   {
 
-  }
+  },
 }
 
 --[[ ^ MULTIPLE ENTRIES ^ ]]--
@@ -33,6 +34,7 @@ return {
 return {
   "author/repo",
   dependencies = {},
+  cmd = "whatevercommand",
   opts = {},
   config = function(_, opts)
     require("module-name").setup(opts)

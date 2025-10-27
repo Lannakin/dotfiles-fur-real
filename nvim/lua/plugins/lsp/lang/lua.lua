@@ -2,17 +2,15 @@
 -- disabled if below line is active
 -- if true then return {} end
 
----@type LazySpec
 return {
   {
     "neovim/nvim-lspconfig",
     dependencies = {},
     opts = {
-      ---@type lspconfig.options
-      enabled = true,
       servers = {
         emmylua_ls = {
           -- capabilities = require("capabilities").make_capabilities(),
+          enabled = true,
           cmd = { "emmylua_ls" },
           filetypes = { "lua" },
           root_markers = {
@@ -43,7 +41,7 @@ return {
           },
         },
         setup = {
-          emmylua_ls = function(_, _opts) end,
+          -- emmylua_ls = function(opts) end,
         },
       },
     },
@@ -51,10 +49,10 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
-      enabled = false,
       servers = {
         lua_ls = {
           cmd = { "lua_ls" },
+          enabled = false,
           settings = {
             Lua = {
               diagnostics = {
@@ -70,7 +68,7 @@ return {
                 displayContext = 2,
               },
               format = {
-                enable = true,
+                enable = false,
               },
               hint = {
                 enable = true,
@@ -84,11 +82,15 @@ return {
               runtime = {
                 version = "LuaJIT",
               },
+              workspace = {
+                checkThirdParty = false,
+                library = {
+                  vim.env.VIMRUNTIME,
+                },
+              },
             },
           },
-        },
-        setup = {
-          lua_ls = function(_, _opts) end,
+          setup = {},
         },
       },
     },
@@ -97,13 +99,10 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {},
     opts = {
-      enabled = false,
       servers = {
-        stylua = {},
+        stylua = { enabled = false },
       },
-      setup = {
-        stylua = function(_, opts) end,
-      },
+      setup = {},
     },
   },
 }

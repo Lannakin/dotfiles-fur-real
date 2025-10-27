@@ -68,5 +68,15 @@ return {
     "mrjones2014/smart-splits.nvim",
      -- to use Kitty multiplexer support, run the post install hook
     build = "./kitty/install-kittens.bash",
+    opts = {
+      ignored_filetypes = { 'NvimTree' },
+    },
+    keys = {
+
+    },
+    config = function(_, opts)
+      require("smart-splits").setup(opts)
+    end,
+
   },
 }

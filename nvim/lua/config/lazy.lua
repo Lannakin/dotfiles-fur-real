@@ -25,6 +25,7 @@ require("lazy").setup({
     { import = "plugins" },
     { import = "plugins.telescope" },   -- load Telescope plugins
     { import = "plugins.lsp" },         -- load LSPs
+    -- { import = "ftplugin" },           -- idk where ftplugin goes
   },
   defaults = {
     lazy = false,

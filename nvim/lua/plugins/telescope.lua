@@ -1,10 +1,13 @@
 -- /plugins/telescope.lua
 -- disabled if below line is active
 -- if true then return {} end
+---@diagnostic disable: missing-fields
+
 return {
   {
     -- https://github.com/nvim-telescope/telescope.nvim
     "nvim-telescope/telescope.nvim",
+
     dependencies = {
       "nvim-lua/plenary.nvim",
       {
@@ -24,18 +27,18 @@ return {
         ---@module 'project'
         ---@type Project.Config.Options
         opts = {
+          base_dirs = { "~/LA-repos/" },
           patterns = { ".git", ".github", "*.sln", "build/env.sh" },
         },
         config = function(__, opts)
-          require("project").setup(opts)  -- why
+          require("project").setup(opts)
         end,
       },
-
-      -- { "DrKJeff16/project.nvim" },
       { "andrew-george/telescope-themes" },
       { "nyarthan/telescope-code-actions.nvim" },
       -- "nvim-telescope/telescope-file-browser.nvim",
     },
+
     opts = {},
     cmd = "Telescope",
     build = "make",
@@ -54,6 +57,7 @@ return {
             },
           },
         },
+
         defaults = {
           border = true,
           borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
@@ -70,6 +74,7 @@ return {
               },
             }, -- File and text search in hidden files and directories - end --
           },
+
           --[[
             file_browser = {
             theme = "ivy",
@@ -79,11 +84,13 @@ return {
           --]]
         },
       })
+
       -- load extensions --
       telescope.load_extension("projects")
       telescope.load_extension("themes")
       -- telescope.load_extension("file_browser")
       telescope.load_extension("code_actions")
+
     end,
   },
 }

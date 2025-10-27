@@ -20,8 +20,8 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       autoformat = false,
-      inlay_hints = {
-        enabled = true,
+      codelens = {
+        enabled = false, -- Run `lua vim.lsp.codelens.refresh({ bufnr = 0 })` for refreshing code lens
       },
       diagnostics = {
         float = {
@@ -33,6 +33,12 @@ return {
           source = true,
           -- source = "if_many",
         },
+      },
+      format = {
+        timeout_ms = 10000, -- 10 seconds
+      },
+      inlay_hints = {
+        enabled = true,
       },
       servers = {
         clangd = { enabled = true },
@@ -52,6 +58,7 @@ return {
         bashls = { enabled = true },
         shellcheck = { enabled = true },
       },
+      setup = {},
     },
   },
   -- Import extra lsp languages configs
