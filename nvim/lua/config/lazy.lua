@@ -17,15 +17,17 @@ if not vim.uv.fs_stat(lazypath) then -- remove deprecated vim.loop
   end
 end
 vim.opt.rtp:prepend(lazypath)
+
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- import/override with your plugins
+
+    -- import / override default with .config plugins
+    { import = "plugins.lazyvim" },
     { import = "plugins" },
-    { import = "plugins.telescope" },   -- load Telescope plugins
-    { import = "plugins.lsp" },         -- load LSPs
-    -- { import = "ftplugin" },           -- idk where ftplugin goes
+    { import = "plugins.lsp" },         -- load LSP-related plugins
+    { import = "plugins.lsp.lang" },    -- load LSPs
   },
   defaults = {
     lazy = false,

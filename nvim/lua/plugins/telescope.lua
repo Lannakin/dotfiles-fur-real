@@ -9,11 +9,11 @@ return {
     "nvim-telescope/telescope.nvim",
 
     dependencies = {
-      "nvim-lua/plenary.nvim",
+      { "nvim-lua/plenary.nvim" },
       {
         -- https://github.com/DrKJeff16/project.nvim
         "DrKJeff16/project.nvim",
-        lazy = true,
+        -- lazy = true,
         cmd = { -- Lazy-load by commands
           "Project",
           "ProjectAdd",
@@ -24,7 +24,7 @@ return {
           "ProjectRoot",
           "ProjectSession",
         },
-        ---@module 'project'
+        ---@module "project"
         ---@type Project.Config.Options
         opts = {
           base_dirs = { "~/LA-repos/" },
@@ -36,15 +36,15 @@ return {
       },
       { "andrew-george/telescope-themes" },
       { "nyarthan/telescope-code-actions.nvim" },
-      -- "nvim-telescope/telescope-file-browser.nvim",
+    { "nvim-telescope/telescope-file-browser.nvim" },
     },
 
     opts = {},
     cmd = "Telescope",
     build = "make",
     config = function()
-      local telescope = require("telescope")
-      telescope.setup({
+      local telescope = require "telescope"
+      telescope.setup {
         extensions = {
           projects = {
             prompt_prefix = "󱎸  ",
@@ -83,14 +83,13 @@ return {
           },
           --]]
         },
-      })
+      }
 
       -- load extensions --
       telescope.load_extension("projects")
       telescope.load_extension("themes")
-      -- telescope.load_extension("file_browser")
+      telescope.load_extension("file_browser")
       telescope.load_extension("code_actions")
-
     end,
   },
 }

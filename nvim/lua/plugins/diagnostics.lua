@@ -16,13 +16,13 @@ return {
           },
           diagnostics_buffer = {
             mode = "diagnostics", -- inherit from diagnostics mode
-        }
-      }
+          },
+        },
+      },
     },
     keys = {
       -- If I close the incorrect pane, I can bring it up with ctrl+o
       ["<esc>"] = "close Trouble",
     },
-  }
+  },
 }
-

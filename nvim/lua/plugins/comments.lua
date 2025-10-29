@@ -4,33 +4,46 @@
 
 return {
   {
-    -- https://github.com/numToStr/Comment.nvim
-    "numToStr/Comment.nvim",
-    event = "LazyFile",
-    opts = {
-      pre_hook = function()
-        require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
-      end,
-    },
-    config = function(_, opts)
-      require("Comment").setup(opts)
-    end,
-    -- keys = {
-    --   { "<leader>n", group = "Comments" },
-    --   { "<leader>n+", "<cmd>NoiceEnable<cr>", desc = "Enable Noice" },
-    -- },
+    -- https://github.com/nvim-mini/mini.comment
+    "nvim-mini/mini.comment",
+    opts = function()
+    return {
+      mappings = {
+        -- Toggle comment (like `gcip` - comment inner paragraph) for both
+        -- Normal and Visual modes
+        comment = "<C-7>",
+
+        -- Toggle comment on current line
+        comment_line = "<C-7>",
+
+        -- Toggle comment on visual selection
+        comment_visual = "<C-7>",
+
+        -- Define 'comment' textobject (like `dgc` - delete whole comment block)
+        -- Works also in Visual mode if mapping differs from `comment_visual`
+        textobject = "gc",
+      },
+    }
+    end
   },
   { -- Highlight todo, notes, etc in comments
     -- https://github.com/folke/todo-comments.nvim
     "folke/todo-comments.nvim",
-    cmd = { "TodoTrouble", "TodoTelescope" },
-    event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+    -- cmd = { "TodoTrouble", "TodoTelescope" },
+    -- event = { "BufReadPost", "BufWritePost", "BufNewFile" },
     opts = {},
-    keys = {
-      { "]t", function() require("todo-comments").jump_next() end, desc = "Todo: Next Comment" },
-      { "[t", function() require("todo-comments").jump_prev() end, desc = "Todo: Previous Comment" },
-      { "<leader>xt", "<cmd>Trouble todo toggle<cr>", desc = "[T]odo" },
-      { "<leader>xT", "<cmd>Trouble todo toggle filter = {tag = {TODO,FIX,FIXME}}<cr>", desc = "[T]odo/Fix/Fixme" },
-    },
+    keys = function()
+      return {
+        { "<leader>xt", "<cmd>Trouble todo toggle<cr>", desc = "[T]odo" },
+        { "<leader>xT", "<cmd>Trouble todo toggle filter = {tag = {TODO,FIX,FIXME}}<cr>", desc = "[T]odo/Fix/Fixme" },
+        { "<leader>St", "<cmd>todo Telescope<cr>", desc = "Todo" },
+        { "<leader>ST", "<cmd>todo Telescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
+      }
+    end
+  },
+  { -- adds ridiculous boxes around stuff in comments, which will be great b/c i am fucking blind
+    -- https://github.com/LudoPinelli/comment-box.nvim
+    "LudoPinelli/comment-box.nvim",
+    opts = {},
   },
 }

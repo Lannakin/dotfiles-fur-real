@@ -4,7 +4,7 @@
 ---@diagnostic disable: missing-fields
 
 -- Specify the trigger character(s) used for luasnip
-local trigger_text = ";"
+-- local trigger_text = ";"
 
 return {
   {
@@ -36,32 +36,30 @@ return {
           -- optionally inherit from the `default` sources
           lua = { inherit_defaults = true, "lazydev" },
         },
-      },
-      providers = {
-        lazydev = {
-          name = "LazyDev",
-          module = "lazydev.integrations.blink",
-          score_offset = 100, -- show at a higher priority than lsp
-        },
-        digraphs = {
-          -- IMPORTANT: use the same name as you would for nvim-cmp
-          name = "digraphs",
-          module = "blink.compat.source",
-
-          -- all blink.cmp source config options work as normal:
-          score_offset = -3,
-          opts = {
-            -- this is an option from cmp-digraphs
-            cache_digraphs_on_start = true,
-
-            -- If you'd like to use a `name` that does not exactly match nvim-cmp,
-            -- set `cmp_name` to the name you would use for nvim-cmp, for instance:
-            -- cmp_name = "digraphs"
-            -- then, you can set the source's `name` to whatever you like.
+        providers = {
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
+            score_offset = 100, -- show at a higher priority than lsp
           },
-        },
-        snippets = {
-          opts = {
+          digraphs = {
+            -- IMPORTANT: use the same name as you would for nvim-cmp
+            name = "digraphs",
+            module = "blink.compat.source",
+
+            -- all blink.cmp source config options work as normal:
+            score_offset = -3,
+            opts = {
+              -- this is an option from cmp-digraphs
+              cache_digraphs_on_start = true,
+
+              -- If you'd like to use a `name` that does not exactly match nvim-cmp,
+              -- set `cmp_name` to the name you would use for nvim-cmp, for instance:
+              -- cmp_name = "digraphs"
+              -- then, you can set the source's `name` to whatever you like.
+            },
+          },
+          snippets = {
             friendly_snippets = true, -- default
 
             -- see the list of frameworks in: https://github.com/rafamadriz/friendly-snippets/tree/main/snippets/frameworks
@@ -74,11 +72,11 @@ return {
               sh = { "shelldoc" },
             },
           },
-        },
-        --[[ automaton = {
+          --[[ automaton = {
           name = "automaton.nvim",
           module = "blink.compat.source",
         }, --]]
+        },
       },
     },
   },

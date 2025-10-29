@@ -39,22 +39,30 @@ return {
       }
     end,
   },
+
   {
     -- https://github.com/folke/which-key.nvim
     "folke/which-key.nvim",
     event = "VeryLazy",
-    opts = {
-      -- colors = { Normal = "Search" },
-      ---@type false | "classic" | "modern" | "helix"
-      preset = "helix",
-      win = {
-        border = "single",
-        relative = "win",
-        focusable = "false",
-        noautocmd = "true",
-        style = "minimal",
-      },
-    },
+    opts = function()
+      return {
+        ---@type false | "classic" | "modern" | "helix"
+        preset = "helix",
+        win = {
+          border = "single",
+          relative = "win",
+          focusable = "false",
+          noautocmd = "true",
+          style = "minimal",
+        },
+        spec = {
+          mode = { "n", "x" },
+          { "<leader>s", group = "surround" },
+          { "<leader>G", group = "git" },
+          { "<leader>S", group = "search" },
+        },
+      }
+    end,
     config = function(_, opts)
       require("which-key").setup(opts)
     end,

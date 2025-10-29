@@ -3,19 +3,17 @@
 -- if true then return {} end
 -- https://github.com/dpetka2001/dotfiles/blob/main/dot_config/nvim/lua/plugins/extras/lang/clang.lua
 
-local util = require "util"
+-- local util = require ("util")
 
 return {
   { -- Add `c` and `cpp` to treesitter
     --https://github.com/nvim-treesitter/nvim-treesitter
     "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      util.list_insert_unique(opts.ensure_installed, { "c", "cpp" })
-    end,
+    opts = { ensure_installed = { "c", "cpp" } },
   },
   { -- Add `tools` to mason
     -- https://github.com/mason-org/mason.nvim
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, { "clang-format" })
     end,

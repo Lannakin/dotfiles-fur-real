@@ -4,6 +4,8 @@
 -- location for overriding LazyVim default plugins and their options
 
 return {
+  -- https://github.com/akinsho/bufferline.nvim
+  -- { "akinsho/bufferline.nvim", enabled = false },
     -- https://github.com/hrsh7th/nvim-cmp
   { "hrsh7th/nvim-cmp", enabled=false },
   { -- replace default project.nvim with actively developed fork
@@ -12,6 +14,11 @@ return {
     -- https://github.com/DrKJeff16/project.nvim
     dependencies = { "DrKJeff16/project.nvim" },
     opts = {},  -- necessary for lazyvim to call setup for project.nvim
+  },
+  {
+    -- https://github.com/folke/flash.nvim
+    "folke/flash.nvim",
+    enabled = false,
   },
   {
     -- https://github.com/folke/snacks.nvim
