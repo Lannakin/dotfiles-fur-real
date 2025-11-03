@@ -53,3 +53,7 @@ super + shift + s
 # toggle dual head on focused monitor
 alt + shift + o
     "${HOME}/.config/herbstluftwm/scripts/toggledualhead.sh"
+
+# launch neovim in kitty
+F12
+    kitty -e nvim
