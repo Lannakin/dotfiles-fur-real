@@ -3,6 +3,7 @@
 -- if true then return {} end
 ---@diagnostic disable: missing-fields
 
+---@type LazyPluginSpec[]
 return {
   {
     -- https://github.com/nvim-telescope/telescope.nvim
@@ -27,8 +28,11 @@ return {
         ---@module "project"
         ---@type Project.Config.Options
         opts = {
+          manual_mode = true,
+          show_hidden = true,
           base_dirs = { "~/LA-repos/" },
           patterns = { ".git", ".github", "*.sln", "build/env.sh" },
+          exclude_dirs = { "~/.local/nvim/" },
         },
         config = function(__, opts)
           require("project").setup(opts)
@@ -36,13 +40,13 @@ return {
       },
       { "andrew-george/telescope-themes" },
       { "nyarthan/telescope-code-actions.nvim" },
-    { "nvim-telescope/telescope-file-browser.nvim" },
+      { "nvim-telescope/telescope-file-browser.nvim" },
     },
 
     opts = {},
     cmd = "Telescope",
     build = "make",
-    config = function()
+    config = function() -- global settings
       local telescope = require "telescope"
       telescope.setup {
         extensions = {
@@ -75,21 +79,19 @@ return {
             }, -- File and text search in hidden files and directories - end --
           },
 
-          --[[
-            file_browser = {
+          file_browser = {
             theme = "ivy",
             -- disables netrw and use telescope-file-browser in its place
             hijack_netrw = true,
           },
-          --]]
         },
       }
 
       -- load extensions --
-      telescope.load_extension("projects")
-      telescope.load_extension("themes")
-      telescope.load_extension("file_browser")
-      telescope.load_extension("code_actions")
+      telescope.load_extension "projects"
+      telescope.load_extension "themes"
+      telescope.load_extension "file_browser"
+      telescope.load_extension "code_actions"
     end,
   },
 }

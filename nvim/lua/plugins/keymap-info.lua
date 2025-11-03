@@ -1,12 +1,14 @@
--- /plugins/cheatsheets.lua
+-- /plugins/keymap-info.lua
 -- disabled if below line is active
 -- if true then return {} end
+
+---@type LazyPluginSpec[]
 return {
   {
     -- https://github.com/doctorfree/cheatsheet.nvim
     "doctorfree/cheatsheet.nvim",
     event = "VeryLazy",
-    dependencies = {
+    dependencies = { -- idk if these need to be loaded or not
       { "nvim-telescope/telescope.nvim" },
       { "nvim-lua/popup.nvim" },
       { "nvim-lua/plenary.nvim" },
@@ -22,6 +24,7 @@ return {
           enabled = {
             "auto-session",
             "goto-preview",
+            "lua",
             "octo.nvim",
             "telescope.nvim",
             "vim-easy-align",
@@ -39,11 +42,10 @@ return {
       }
     end,
   },
-
   {
     -- https://github.com/folke/which-key.nvim
     "folke/which-key.nvim",
-    event = "VeryLazy",
+    -- event = "VeryLazy",
     opts = function()
       return {
         ---@type false | "classic" | "modern" | "helix"
@@ -57,9 +59,12 @@ return {
         },
         spec = {
           mode = { "n", "x" },
-          { "<leader>s", group = "surround" },
+          { "<leader>B", group = "buffer" },
+          -- { "<leader>l", group = "lsp" },
           { "<leader>G", group = "git" },
+          { "s", group = "surround" },
           { "<leader>S", group = "search" },
+          { "<leader>P", group = "profiler" },
         },
       }
     end,
@@ -68,3 +73,4 @@ return {
     end,
   },
 }
+

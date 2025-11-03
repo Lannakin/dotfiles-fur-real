@@ -1,0 +1,69 @@
+// .markdownlintrc
+{
+  // Default state for all rules
+  "default": true,
+
+  // Path to configuration file to extend
+  "extends": null,
+
+  // MD001/heading-increment : Heading levels should only increment by one level at a time : https://github.com/DavidAnson/markdownlint/blob/v0.39.0/doc/md001.md
+  "MD001": {
+    // RegExp for matching title in front matter
+    "front_matter_title": "^\\s*title\\s*[:=]"
+  },
+
+  // MD003/heading-style : Heading style : https://github.com/DavidAnson/markdownlint/blob/v0.39.0/doc/md003.md
+  "MD003": {
+    // Heading style
+    "style": "consistent"
+  },
+
+  // MD004/ul-style : Unordered list style : https://github.com/DavidAnson/markdownlint/blob/v0.39.0/doc/md004.md
+  "MD004": {
+    // List style
+    "style": "consistent"
+  },
+
+  // MD005/list-indent : Inconsistent indentation for list items at the same level : https://github.com/DavidAnson/markdownlint/blob/v0.39.0/doc/md005.md
+  "MD005": true,
+
+  // MD007/ul-indent : Unordered list indentation : https://github.com/DavidAnson/markdownlint/blob/v0.39.0/doc/md007.md
+  "MD007": {
+    // Spaces for indent
+    "indent": 2,
+    // Whether to indent the first level of the list
+    "start_indented": false,
+    // Spaces for first level indent (when start_indented is set)
+    "start_indent": 2
+  },
+
+  // MD013/line-length : Line length : https://github.com/DavidAnson/markdownlint/blob/v0.39.0/doc/md013.md
+  "MD013": {
+    // Number of characters
+    "line_length": 80,
+    // Number of characters for headings
+    "heading_line_length": 80,
+    // Number of characters for code blocks
+    "code_block_line_length": 80,
+    // Include code blocks
+    "code_blocks": "false",
+    // Include tables
+    "tables": true,
+    // Include headings
+    "headings": true,
+    // Strict length checking
+    "strict": false,
+    // Stern length checking
+    "stern": false
+  },
+
+  // MD041/first-line-heading/first-line-h1 : First line in a file should be a top-level heading : https://github.com/DavidAnson/markdownlint/blob/v0.39.0/doc/md041.md
+  "MD041": {
+    // Allow content before first heading
+    "allow_preamble": true,
+    // RegExp for matching title in front matter
+    "front_matter_title": "^\\s*title\\s*[:=]",
+    // Heading level
+    "level": 1
+  },
+}

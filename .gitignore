@@ -14,3 +14,4 @@ unused.txt
 *.scratchpad
 # folders
 .references/
+.trash.nvim

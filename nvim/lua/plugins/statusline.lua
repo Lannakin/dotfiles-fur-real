@@ -2,13 +2,15 @@
 -- disabled if below line is active
 -- if true then return {} end
 
+---@type LazyPluginSpec
 return {
+  -- https://github.com/nvim-lualine/lualine.nvim
   "nvim-lualine/lualine.nvim",
   opts = function()
     return {
         options = {
         icons_enabled = true,
-        -- theme = "solarized-light",
+        theme = "auto",
         component_separators = { left = " ", right = " " },
         section_separators = { left = " ", right = " " },
         disabled_filetypes = {

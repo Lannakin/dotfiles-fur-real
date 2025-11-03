@@ -6,6 +6,7 @@
 -- Specify the trigger character(s) used for luasnip
 -- local trigger_text = ";"
 
+---@type LazyPluginSpec[]
 return {
   {
     -- https://github.com/Saghen/blink.compat
@@ -18,7 +19,7 @@ return {
       debug = true,
     },
   },
-  {
+  { -- use blink.cmp for command-line completion
     -- https://github.com/Saghen/blink.cmp
     "saghen/blink.cmp",
     enabled = true,
@@ -29,55 +30,60 @@ return {
       { "dmitmel/cmp-digraphs" },
     },
     ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
     opts = {
+      fuzzy = { implementation = "lua" },
       keymap = { preset = "super-tab" },
-      sources = {
-        per_filetype = {
-          -- optionally inherit from the `default` sources
-          lua = { inherit_defaults = true, "lazydev" },
+      completion = {
+        sources = {
+          -- providers = {
+          --   buffer = {
+          --     enabled = false,
+          --   },
+          --   lsp = {
+          --     enabled = false,
+          --   },
+          --   luasnip = {
+          --     enabled = false,
+          --   },
+          --   path = {
+          --     enabled = false,
+          --   },
+          --   snippets = {
+          --     enabled = false,
+          --   },
+          -- },
         },
-        providers = {
-          lazydev = {
-            name = "LazyDev",
-            module = "lazydev.integrations.blink",
-            score_offset = 100, -- show at a higher priority than lsp
+        list = {
+          selection = {
+            preselect = false,
+            auto_insert = true,
           },
-          digraphs = {
-            -- IMPORTANT: use the same name as you would for nvim-cmp
-            name = "digraphs",
-            module = "blink.compat.source",
-
-            -- all blink.cmp source config options work as normal:
-            score_offset = -3,
-            opts = {
-              -- this is an option from cmp-digraphs
-              cache_digraphs_on_start = true,
-
-              -- If you'd like to use a `name` that does not exactly match nvim-cmp,
-              -- set `cmp_name` to the name you would use for nvim-cmp, for instance:
-              -- cmp_name = "digraphs"
-              -- then, you can set the source's `name` to whatever you like.
-            },
+        },
+      },
+      cmdline = {
+        keymap = {
+          -- preset = "super-tab",
+          -- ['<Tab>'] = { 'accept' },
+          -- ['<CR>'] = { 'accept_and_enter', 'fallback' },
+          ["<Tab>"] = { "show_and_insert_or_accept_single", "select_next" },
+          ["<S-Tab>"] = { "show_and_insert_or_accept_single", "select_prev" },
+        },
+        completion = {
+          menu = {
+            auto_show = true,
+            -- auto_show = function()
+            --   return vim.fn.getcmdtype() == ':'
+            -- end
           },
-          snippets = {
-            friendly_snippets = true, -- default
-
-            -- see the list of frameworks in: https://github.com/rafamadriz/friendly-snippets/tree/main/snippets/frameworks
-            -- and search for possible languages in: https://github.com/rafamadriz/friendly-snippets/blob/main/package.json
-            -- the following is just an example, you should only enable the frameworks that you use
-            extended_filetypes = {
-              c = { "cdoc" },
-              cpp = { "cdoc" },
-              lua = { "luadoc" },
-              sh = { "shelldoc" },
-            },
-          },
-          --[[ automaton = {
-          name = "automaton.nvim",
-          module = "blink.compat.source",
-        }, --]]
         },
       },
     },
   },
+  -- {
+  --   -- https://github.com/neoclide/coc.nvim
+  --   "neoclide/coc.nvim",
+  --   branch = "master",
+  --   build = "npm ci",
+  -- },
 }

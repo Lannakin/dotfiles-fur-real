@@ -1,6 +1,10 @@
 -- plugins/buffer-layout.lua
 -- disabled if below line is active
 -- if true then return {} end
+
+-- local wk = require "which-key"
+
+---@type LazyPluginSpec[]
 return {
   {
     -- https://github.com/folke/noice.nvim
@@ -14,6 +18,7 @@ return {
             padding = { 0, 0 },
           },
         },
+
         cmdline_popup = {
           border = { style = "single" },
           position = {
@@ -25,6 +30,7 @@ return {
             height = "auto",
           },
         },
+
         popupmenu = {
           relative = "editor",
           position = {
@@ -45,15 +51,13 @@ return {
         },
       },
     },
-    config = function(_, opts)
-      require("noice").setup(opts)
-    end,
   },
   {
     -- https://github.com/nvim-neo-tree/neo-tree.nvim
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
       popup_border_style = "",
+
       filesystem = {
         filtered_items = {
           visible = true, -- Makes "hide" mean "dimmed out" instead of completely hidden
@@ -66,17 +70,16 @@ return {
   {
     -- https://github.com/mrjones2014/smart-splits.nvim
     "mrjones2014/smart-splits.nvim",
-     -- to use Kitty multiplexer support, run the post install hook
+    -- to use Kitty multiplexer support, run the post install hook
     build = "./kitty/install-kittens.bash",
     opts = {
-      ignored_filetypes = { 'NvimTree' },
+      ignored_filetypes = { "NvimTree", "neo-tree" },
+      -- wk.add {
+      --   { "<Leader>w", group = "window" },
+      --   { "<Leader>w-ctrl<left>", require("smart-splits").resize_left, desc = "Resize window left" },
+      --   -- { "<Leader>w<left>", require('smart-splits').resize_left, desc = "Resize window right" },
+      -- },
     },
-    keys = {
-
-    },
-    config = function(_, opts)
-      require("smart-splits").setup(opts)
-    end,
-
+    keys = {},
   },
 }

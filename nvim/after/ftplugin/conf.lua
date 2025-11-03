@@ -1,4 +1,7 @@
 -- /after/ftplugin/conf.lua
+-- disabled if below line is active
+-- if true then return {} end
+
 local opt = vim.opt_local
 
 opt.colorcolumn = "120"

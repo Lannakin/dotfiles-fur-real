@@ -24,6 +24,7 @@ vim.o.showtabline = 2                                   -- always show buffer ta
 opt.termguicolors = true                                -- True color support
 
 -- BEHAVIOR --
+vim.o.clipboard = "unnamedplus"                         -- yank to system clipboard
 opt.fileformat = "unix"                                 -- Set fileformat to Unix
 vim.api.nvim_command "filetype plugin on"      -- Enable filetype plugins
 -- LazyVim.terminal.setup("kitty")                      -- terminal to use (optional)

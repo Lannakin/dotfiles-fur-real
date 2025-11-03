@@ -4,8 +4,6 @@
 -- location for overriding LazyVim default plugins and their options
 
 return {
-  -- https://github.com/akinsho/bufferline.nvim
-  -- { "akinsho/bufferline.nvim", enabled = false },
     -- https://github.com/hrsh7th/nvim-cmp
   { "hrsh7th/nvim-cmp", enabled=false },
   { -- replace default project.nvim with actively developed fork
@@ -31,13 +29,13 @@ return {
       dashboard = { enabled = false },      -- declarative dashboards
       -- dim = { enabled = false },         -- dim everything outside scope
       explorer = { enabled = false },       -- file explorer (picker)
-      -- indent = { enabled = true },       -- indent guides and scopes
+      indent = { enabled = true },          -- indent guides and scopes
       -- input = { enabled = true },        -- better vim.ui.input
-      -- lazygit = { enabled = false },     -- open LazyGit in floating window, auto-configure color scheme w/ Neovim
-      notifier = { enabled = false },       -- "pretty" vim.notify
+      lazygit = { enabled = true },         -- open LazyGit in floating window, auto-configure color scheme w/ Neovim
+      notifier = { enabled = false },       -- alternative vim.notify; NOTE: using Noice instead
       -- picker = { enabled = true, },      -- picker for selecting items
       -- quickfile = { enabled = true },    -- render file before loading plugins
-      -- scope = { enabled = true },        -- scope detection, text objects and jumping based on treesitter or indent
+      scope = { enabled = true },           -- scope detection, text objects and jumping based on treesitter or indent
       scratch = { border = "single" },      -- scratch buffers w/ a persistent file
       snacks_image = { border = "single" }, -- image viewer using Kitty Graphics Protocol
       -- scroll = { enabled = true },       -- smooth scrolling
@@ -53,15 +51,15 @@ return {
   {
     -- https://github.com/folke/lazydev.nvim
     "folke/lazydev.nvim",
+    ft = "lua",
     opts = {
       library = {
         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
         { path = "LazyVim", words = { "LazyVim" } },
         { path = "snacks.nvim", words = { "Snacks" } },
         { path = "lazy.nvim", words = { "LazyVim" } },
-      },
-      integrations = {
-        -- nvm it's enabled by default
+        { path = "trouble.nvim", words = { "Trouble" } },
+        { path = "render-markdown.nvim", words = { "render.md" } },
       },
     },
   },

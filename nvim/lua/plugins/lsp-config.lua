@@ -1,7 +1,6 @@
 -- /plugins/lsp-config.lua
 -- disabled if below line is active
 -- if true then return {} end
-vim.lsp.enable { "emmylua_ls" }
 
 return {
   {
@@ -17,7 +16,16 @@ return {
     },
   },
   {
+    "mason-org/mason-lspconfig.nvim",
+    opts = { automatic_enable = false },
+    dependencies =  "mason-org/mason.nvim",
+  },
+  {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      "mason-org/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
+    },
     opts = {
       autoformat = false,
       codelens = {
@@ -43,22 +51,24 @@ return {
       servers = {
         clangd = { enabled = true },
 
-        cmakelang = { enabled = true },
-        cmakelint = { enabled = true },
+        -- cmakelang = { enabled = true },
+        -- cmakelint = { enabled = true },
 
-        lua_ls = { enabled = false },
-        emmylua_ls = { enabled = true },
-        stylua = { enabled = false },
+        -- lua_ls = { enabled = true },
+        -- emmylua_ls = { enabled = false },
+        -- stylua = { enabled = false },
 
         jsonls = { enabled = true },
 
-        markdown_oxide = { enabled = true },
+        markdown_oxide = {
+          enabled = true,
+          cmd = { "markdown-oxide" },
+        },
         marksman = { enabled = false },
 
         bashls = { enabled = true },
-        shellcheck = { enabled = true },
+        -- shellcheck = { enabled = true },
       },
-      setup = {},
     },
   },
   -- Import extra lsp languages configs

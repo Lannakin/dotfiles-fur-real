@@ -2,8 +2,6 @@
 -- disabled if below line is active
 -- if true then return {} end
 
-vim.o.showtabline = 2
-
 local solarized_colors = {
   base04 = "#002731",
   base03 = "#002b36",
@@ -25,317 +23,369 @@ local solarized_colors = {
   magenta = "#D33682",
 }
 
--- bufferline config source locals
-local lazy = require("bufferline.lazy")
+local bufferline = require('bufferline')
+
+--- [ bufferline config source locals ] ---
+-- local lazy = require "bufferline.lazy"
 -- local utils = lazy.require("bufferline.utils")            ---@module "bufferline.utils"
 -- local highlights = lazy.require("bufferline.highlights")  ---@module "bufferline.highlights"
 -- local colors = lazy.require("bufferline.colors")          ---@module "bufferline.colors"
-local constants = lazy.require("bufferline.constants")    ---@module "bufferline.colors"
+-- local constants = lazy.require "bufferline.constants"     ---@module "bufferline.colors"
+
+-- local hex = colors.get_color
+-- local normal_fg = hex({ name = "Normal", attribute = "fg" })
+-- local normal_bg = hex({ name = "Normal", attribute = "bg" })
+-- local string_fg = hex({ name = "String", attribute = "fg" })
 
 -- icons:
 -- https://fontawesome.com/cheatsheet
 -- https://fontawesome.com/v3/cheatsheet/
 -- https://fontawesome.com/v4/cheatsheet/
 
+---@type LazyPluginSpec[]
 return {
   {
     -- https://github.com/akinsho/bufferline.nvim
     "akinsho/bufferline.nvim",
     enabled = true,
     opts = {
-      ---@type bufferline.Option
+
+      ---@type bufferline.Options
       options = {
+        style_preset = bufferline.style_preset.minimal, -- or bufferline.style_preset.minimal,
+
         themeable = true,
+        numbers = "buffer_id",
         separator_style = { "", "" }, --   "", ""         
-          color_icons = false,
-          buffer_close_icon = "",
-          -- modified_icon = "●",
-          close_icon = "",
-          indicator = { icon = constants.indicator, style = "icon" },
-          left_trunc_marker = "",
-          right_trunc_marker = "",
-          -- show_buffer_icons = true,
-          -- show_buffer_close_icons = true,
-          -- get_element_icon = nil,
-          -- show_close_icon = true,
-          -- show_tab_indicators = true,
-          -- show_duplicate_prefix = true,
+
+        color_icons = true,
+        buffer_close_icon = "",
+        -- modified_icon = "●",
+        close_icon = "",
+
+        indicator = { style = "underline" }, -- old icon = constants.indicator
+        -- left_trunc_marker = "",
+        -- right_trunc_marker = "",
+        -- show_buffer_icons = true,
+        -- get_element_icon = nil,
+
+        show_buffer_close_icons = false,
+        show_close_icon = false,
+        -- show_tab_indicators = true,
+        -- show_duplicate_prefix = true,
+        always_show_bufferline = true,
+        auto_toggle_bufferline = true,
+
         offsets = {
           {
-            filetype = "Neotree",
-            text = "File Explorer",
+            filetype = "neo-tree",
+            text = "FILE EXPLORER",
             highlight = "Directory",
-            separator = true, -- use a "true" to enable the default, or set your own character
+            text_align = "left",
+            separator = true,
           },
         },
-      },
+        hover = { enabled = false } },
+
       highlights = {
-        -- --- [ BACKGROUNDEST ] ---
+
+        -- sp = special; color of the indicator in indicator_style
+
+        --- [ BACKGROUNDEST ] ---
         fill = { -- under buffers
-          bg = solarized_colors.base3,  -- probably text of under buffers
-          fg = solarized_colors.base3,  --
+          bg = solarized_colors.base3,
+          fg = solarized_colors.base3,
         },
         background = { -- unfocused buffers?
-          fg = solarized_colors.base3,  -- background of background buffers
-          bg = solarized_colors.base01, -- text of background buffers
+          bg = solarized_colors.base3,  -- background of background buffers
+          fg = solarized_colors.base01, -- text of background buffers
         },
-        -- --- [ BUFFERS ] ---
+
+        --- [ BUFFERS ] ---
         buffer_selected = { -- selected buffer...
+          bg = solarized_colors.base3,
+          fg = solarized_colors.orange, -- text of selected buffer
+          sp = solarized_colors.orange, -- color of special
           italic = false,
           bold = false,
           underline = true,
-          fg = solarized_colors.base3,
-          bg = solarized_colors.orange, -- text of selected buffer
         },
         buffer_visible = { -- buffer that's not selected
-          fg = solarized_colors.base3,
-          bg = solarized_colors.base01,
+          bg = solarized_colors.base3,
+          fg = solarized_colors.base01,
         },
-        -- --- [ TABS ] ---
+
+        --- [ TABS ] ---
         tab = { -- on right side of nvim's window
-          fg = solarized_colors.base3,
-          bg = solarized_colors.base01,
+          bg = solarized_colors.base3,
+          fg = solarized_colors.base01,
         },
         tab_close = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.base01,
+          bg = solarized_colors.base3,
+          fg = solarized_colors.base01,
         },
         tab_selected = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.orange,
+          bg = solarized_colors.base3,
+          fg = solarized_colors.orange,
+          sp = solarized_colors.orange, -- color of special
           underline = true,
         },
-        -- --- [ TAB SEPARATORS ] ---
+
+        --- [ TAB SEPARATORS ] ---
         tab_separator = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.base01,
+          bg = solarized_colors.base3,
+          -- fg = solarized_colors.base01,
         },
         tab_separator_selected = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.base01,  --
-          sp = solarized_colors.cyan,  -- sp = special
-          underline = true,
+          -- fg = solarized_colors.orange,
+          -- bg = normal_bg,
+          -- sp = solarized_colors.cyan,
+          underline = false,
         },
-        -- --- [ BUFFER SEPARATORS ] ---
-        offset_separator = { -- separator between buffer "tabs" when indow focused
-          fg = solarized_colors.base3,
-          bg = solarized_colors.base01,
+
+        --- [ BUFFER SEPARATORS ] ---
+        offset_separator = { -- separator between offset and buffers
+          bg = solarized_colors.base3,
+          fg = solarized_colors.cyan,
         },
         separator = { -- separator between buffer "tabs" when window focused
-          fg = solarized_colors.base3,
-          bg = solarized_colors.base01,
+          fg = solarized_colors.base01,
+          bg = solarized_colors.base3,
         },
         separator_selected = { -- separator between buffer "tabs", idk if they can be selected lol
-          fg = solarized_colors.base03,
+          fg = solarized_colors.base3,
           bg = solarized_colors.orange,
+          sp = solarized_colors.orange, -- color of special
         },
         separator_visible = { -- separator between buffer "tabs" when window not focused
           fg = solarized_colors.base01,
           bg = solarized_colors.base3,
         },
-        -- --- [ BUFFER EXISTENCE INDICATOR ] ---
+
+        --- [ BUFFER EXISTENCE INDICATOR ] ---
         indicator_visible = { -- left side by filetype icon
-          fg = solarized_colors.base3,
           bg = solarized_colors.base3,
-        },
-        indicator_selected = { -- left side by filetype icon
-          fg = solarized_colors.base3,  -- background?
-          bg = solarized_colors.base3,  -- foreground?
+          fg = solarized_colors.base3,
           underline = false,
         },
-        -- --- [ BUFFER MODIFIED INDICATOR ] ---
-        modified = {
+        indicator_selected = { -- left side by filetype icon
+          bg = solarized_colors.base3,
           fg = solarized_colors.base3,
-          bg = solarized_colors.cyan,
+          sp = solarized_colors.orange, -- color of special
+          -- underline = false,
+        },
+
+        --- [ BUFFER MODIFIED INDICATOR ] ---
+        modified = {
+          fg = solarized_colors.cyan,
+          bg = solarized_colors.base3,
         },
         modified_selected = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.cyan,
+          fg = solarized_colors.cyan,
+          bg = solarized_colors.base3,
           bold = false,
           italic = false,
           underline = false,
         },
         modified_visible = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.cyan, --
+          fg = solarized_colors.cyan,
+          bg = solarized_colors.base3,
         },
-        -- --- [ BUFFER DUPLICATE INDICATOR ] ---
+
+        --- [ BUFFER DUPLICATE INDICATOR ] ---
         duplicate = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.blue,
+          bg = solarized_colors.base3,
+          fg = solarized_colors.blue,
         },
         duplicate_selected = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.blue,
+          bg = solarized_colors.base3,
+          fg = solarized_colors.blue,
           bold = false,
           italic = false,
-          underline = true,
+          sp = solarized_colors.orange, -- color of special
+          -- underline = true,
         },
         duplicate_visible = {
-          fg = solarized_colors.red,
-          bg = solarized_colors.blue,
-        },
-        -- --- [ BUFFER NAME TRUNCATED INDICATOR ] ---
-        trunc_marker = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.cyan,
-        },
-        -- --- [ BUFFER PICK INDICATOR ] ---
-        pick = {
-          fg = solarized_colors.base3,
           bg = solarized_colors.red,
+          fg = solarized_colors.blue,
+        },
+
+        --- [ BUFFER NAME TRUNCATED INDICATOR ] ---
+        trunc_marker = {
+          bg = solarized_colors.base3,
+          fg = solarized_colors.cyan,
+        },
+
+        --- [ BUFFER PICK INDICATOR ] ---
+        pick = {
+          bg = solarized_colors.base3,
+          fg = solarized_colors.violet,
         },
         pick_selected = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.red,
+          bg = solarized_colors.base3,
+          fg = solarized_colors.violet,
+          sp = solarized_colors.violet, -- color of special
           bold = false,
           italic = false,
-          underline = true,
+          -- underline = true,
         },
         pick_visible = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.red,
+          bg = solarized_colors.base3,
+          fg = solarized_colors.violet,
         },
-        -- --- [ BUFFER CLOSE BUTTON ] ---
+
+        --- [ BUFFER CLOSE BUTTON ] ---
         close_button = {
-          fg = solarized_colors.base3,
           bg = solarized_colors.base01,
+          fg = solarized_colors.base3,
         },
         close_button_selected = {
-          fg = solarized_colors.base3,
           bg = solarized_colors.orange,
+          fg = solarized_colors.base3,
         },
         close_button_visible = { -- right of name of buffer when window is not selected
-          fg = solarized_colors.base3,  -- background
           bg = solarized_colors.base01,
-        },
-        -- --- [ NUMBERS? ] ---
-        numbers = {
           fg = solarized_colors.base3,
-          bg = solarized_colors.base01,
+        },
+
+        --- [ TAB NUMBERS ] ---
+        numbers = {
+          fg = solarized_colors.base01,
+          bg = solarized_colors.base3,
         },
         numbers_selected = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.orange,
+          bg = solarized_colors.base3,
+          fg = solarized_colors.orange,
+          sp = solarized_colors.orange, -- color of special
           bold = false,
           italic = false,
           underline = true,
         },
         numbers_visible = {
-          fg = solarized_colors.red,
-          bg = solarized_colors.green, --
+          fg = solarized_colors.base01,
+          bg = solarized_colors.base3,
         },
-        -- --- [ BUFFER LSP LIGHTBULB INDICATOR ] ---
+
+        --- [ BUFFER LSP LIGHTBULB INDICATOR ] ---
         hint = { -- when lightbulb lsp diagnostic
-          fg = solarized_colors.base3,  -- background
-          bg = solarized_colors.green,  -- foreground
+          bg = solarized_colors.base3,
+          fg = solarized_colors.green,
         },
         hint_selected = { -- when lightbulb lsp diagnostic
-          fg = solarized_colors.base3,  -- background
-          bg = solarized_colors.green,  -- foreground
+          bg = solarized_colors.base3,
+          fg = solarized_colors.green,
           bold = false,
           italic = false,
           underline = true,
         },
         hint_visible = { -- when lightbulb lsp diagnostic
-          fg = solarized_colors.base3,
-          bg = solarized_colors.green,
+          bg = solarized_colors.base3,
+          fg = solarized_colors.green,
         },
-        -- --- [ BUFFER INFO INDICATOR ] ---
+
+        --- [ BUFFER INFO INDICATOR ] ---
         info = {
           fg = solarized_colors.base3,
           bg = solarized_colors.blue,
         },
         info_selected = {
-          fg = solarized_colors.base3,
           bg = solarized_colors.blue,
+          fg = solarized_colors.base3,
           bold = false,
           italic = false,
-          underline = true,
+          -- underline = true,
         },
         info_visible = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.blue,
+          fg = solarized_colors.blue,
+          bg = solarized_colors.base3,
         },
-        -- --- [ BUFFER LSP INFO INDICATOR ] ---
+        --- [ BUFFER LSP INFO INDICATOR ] ---
         info_diagnostic = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.blue,
+          fg = solarized_colors.blue,
+          bg = solarized_colors.base3,
         },
         info_diagnostic_selected = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.blue,
+          fg = solarized_colors.blue,
+          bg = solarized_colors.base3,
           bold = false,
           italic = false,
-          underline = true,
+          -- underline = true,
         },
         info_diagnostic_visible = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.blue,
+          fg = solarized_colors.blue,
+          bg = solarized_colors.base3,
         },
-        -- --- [ BUFFER WARNING INDICATOR ] ---
+
+        --- [ BUFFER WARNING INDICATOR ] ---
         warning = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.yellow,
+          fg = solarized_colors.yellow,
+          bg = solarized_colors.base3,
         },
         warning_selected = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.yellow,
+          fg = solarized_colors.yellow,
+          bg = solarized_colors.base3,
+          sp = solarized_colors.orange, -- color of special
           bold = false,
           italic = false,
-          underline = true,
+          -- underline = true,
         },
         warning_visible = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.yellow,
+          fg = solarized_colors.yellow,
+          bg = solarized_colors.base3,
         },
-        -- --- [ BUFFER LSP WARNING INDICATOR ] ---
+
+        --- [ BUFFER LSP WARNING INDICATOR ] ---
         warning_diagnostic = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.yellow,
+          fg = solarized_colors.yellow,
+          bg = solarized_colors.base3,
         },
         warning_diagnostic_selected = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.yellow,
+          fg = solarized_colors.yellow,
+          bg = solarized_colors.base3,
+          sp = solarized_colors.orange, -- color of special
           bold = false,
           italic = false,
-          underline = true,
+          -- underline = true,
         },
         warning_diagnostic_visible = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.yellow,
+          fg = solarized_colors.yellow,
+          bg = solarized_colors.base3,
         },
-        -- --- [ BUFFER ERROR INDICATOR ] ---
+
+        --- [ BUFFER ERROR INDICATOR ] ---
         error = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.red,
+          fg = solarized_colors.red,
+          bg = solarized_colors.base3,
         },
         error_selected = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.red,
+          fg = solarized_colors.red,
+          bg = solarized_colors.base3,
+          sp = solarized_colors.orange, -- color of special
           bold = false,
           italic = false,
-          underline = true,
+          -- underline = true,
         },
         error_visible = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.red,
+          fg = solarized_colors.red,
+          bg = solarized_colors.base3,
         },
-        -- --- [ BUFFER LSP ERROR INDICATOR ] ---
+
+        --- [ BUFFER LSP ERROR INDICATOR ] ---
         error_diagnostic = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.red,
+          fg = solarized_colors.red,
+          bg = solarized_colors.base3,
         },
         error_diagnostic_selected = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.red,
+          fg = solarized_colors.red,
+          bg = solarized_colors.base3,
+          sp = solarized_colors.orange, -- color of special
           bold = false,
           italic = false,
-          underline = true,
+          -- underline = true,
         },
         error_diagnostic_visible = {
-          fg = solarized_colors.base3,
-          bg = solarized_colors.red,
+          fg = solarized_colors.red,
+          bg = solarized_colors.base3,
         },
       },
     },

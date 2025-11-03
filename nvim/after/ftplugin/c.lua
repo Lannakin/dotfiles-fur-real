@@ -2,6 +2,7 @@
 -- disabled if below line is active
 -- if true then return {} end
 -- https://github.com/dpetka2001/dotfiles/tree/main/dot_config/nvim/after/ftplugin
+
 local opt = vim.opt_local
 
 opt.autoindent = true

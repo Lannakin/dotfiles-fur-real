@@ -8,38 +8,7 @@ return {
     dependencies = {},
     opts = {
       servers = {
-        emmylua_ls = {
-          -- capabilities = require("capabilities").make_capabilities(),
-          enabled = true,
-          cmd = { "emmylua_ls" },
-          filetypes = { "lua" },
-          root_markers = {
-            ".luarc.json",
-            ".emmyrc.json",
-            ".luacheckrc",
-            ".git",
-          },
-          workspace_required = false,
-          settings = {
-            runtime = {
-              version = "LuaJIT",
-              requirepattern = {
-                "lua/?.lua",
-                "lua/?/init.lua",
-                "?/lua/?.lua",
-                "?/lua/?/init.lua",
-              },
-            },
-            workspace = {
-              library = {
-                "$LLS_Addons/luvit",
-                "$HOME/.local/share/nvim/lazy",
-                "${3rd}/luv/library",
-                vim.api.nvim_get_runtime_file("lua/*.lua", true),
-              },
-            },
-          },
-        },
+
         setup = {
           -- emmylua_ls = function(opts) end,
         },
@@ -51,8 +20,8 @@ return {
     opts = {
       servers = {
         lua_ls = {
-          cmd = { "lua_ls" },
-          enabled = false,
+          cmd = { "lua-language-server" },
+          enabled = true,
           settings = {
             Lua = {
               diagnostics = {
@@ -79,30 +48,60 @@ return {
                 paramType = true,
                 semicolon = "SameLine",
               },
-              runtime = {
-                version = "LuaJIT",
-              },
+              -- runtime = {
+              --   version = "LuaJIT",
+              -- },
               workspace = {
-                checkThirdParty = false,
-                library = {
-                  vim.env.VIMRUNTIME,
-                },
+                checkThirdParty = true,
+                -- library = {
+                --   vim.env.VIMRUNTIME,
+                -- },
               },
             },
           },
-          setup = {},
         },
-      },
-    },
-  },
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {},
-    opts = {
-      servers = {
+        emmylua_ls = {
+          -- capabilities = require("capabilities").make_capabilities(),
+          enabled = false,
+          cmd = { "emmylua_ls" },
+          filetypes = { "lua" },
+          root_markers = {
+            ".luarc.json",
+            ".emmyrc.json",
+            ".luacheckrc",
+            ".git",
+          },
+          workspace_required = true,
+          settings = {
+            runtime = {
+              version = "LuaJIT",
+              requirepattern = {
+                "lua/?.lua",
+                "lua/?/init.lua",
+                "?/lua/?.lua",
+                "?/lua/?/init.lua",
+              },
+            },
+            workspace = {
+              library = {
+                "$LLS_Addons/luvit",
+                "${3rd}/luv/library",
+                "$HOME/.local/share/nvim/lazy",
+                "$HOME/.local/share/nvim/lazy/bufferline.nvim", -- for some reason, emmylua_ls can't find any plugins
+                "$HOME/.local/share/nvim/lazy/neogen",          -- unless I explicitly tell it where they are
+                "$HOME/.local/share/nvim/lazy/lazydev.nvim",
+                "$HOME/.local/share/nvim/lazy/dashboard-nvim",
+                "$HOME/.local/share/nvim/lazy/solarized-osaka.nvim",
+                "$HOME/.local/share/nvim/lazy/which-key.nvim",
+                "$HOME/LA-repos/cat-neosolarized.nvim",
+                "$VIMRUNTIME",
+                -- vim.api.nvim_get_runtime_file("lua/*.lua", true),
+              },
+            },
+          },
+        },
         stylua = { enabled = false },
       },
-      setup = {},
     },
   },
 }

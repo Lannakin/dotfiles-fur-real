@@ -1,4 +1,6 @@
 -- /after/ftplugin/markdown.lua
+-- disabled if below line is active
+-- if true then return {} end
 
 local opt = vim.opt_local
 

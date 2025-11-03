@@ -1,6 +1,8 @@
 -- /plugins/search.lua
 -- disabled if below line is active
 -- if true then return {} end
+
+---@type LazyPluginSpec[]
 return {
   { -- search/replace in multiple files
     -- https://github.com/MagicDuck/grug-far.nvim

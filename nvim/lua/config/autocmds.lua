@@ -1,9 +1,9 @@
 -- Autocmds are automatically loaded on the VeryLazy event
 -- Default autocmds: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
---
+
 -- Add any additional autocmds here
 -- with `vim.api.nvim_create_autocmd`
---
+
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
@@ -14,7 +14,8 @@ local autocmd = vim.api.nvim_create_autocmd
 local usercmd = vim.api.nvim_create_user_command
 -- local map = vim.api.nvim_buf_set_keymap
 
---[[ Disable autoformat for lua files ]]--
+--[[ Disable autoformat for lua files ]]
+--
 autocmd({ "FileType" }, {
   pattern = { "lua" },
   callback = function()
@@ -22,14 +23,16 @@ autocmd({ "FileType" }, {
   end,
 })
 
---[[ Automatically open Trouble Quickfix ]]--
+--[[ Automatically open Trouble Quickfix ]]
+--
 autocmd("QuickFixCmdPost", {
   callback = function()
-    vim.cmd([[Trouble qflist open]])
+    vim.cmd [[Trouble qflist open]]
   end,
 })
 
 --[[ Open plugin repos with gx ]]
+--
 autocmd("BufReadPost", { -- prefer local alias variable autocmd
   group = augroup("GxWithPlugins", { clear = true }), -- prefer local alias variable augroup
   callback = function()
@@ -70,17 +73,41 @@ autocmd("BufReadPost", { -- prefer local alias variable autocmd
   desc = "Make `gx` open repos in default browser",
 })
 
-
 --[[ User command for diffing current buffer when not in .git repo ]]
 usercmd("DiffOrig", function()
   local scratch_buffer = vim.api.nvim_create_buf(false, true)
   local current_ft = vim.bo.filetype
   vim.cmd("vertical sbuffer" .. scratch_buffer)
   vim.bo[scratch_buffer].filetype = current_ft
-  vim.cmd("read ++edit #") -- load contents of previous buffer into scratch_buffer
-  vim.cmd.normal('1G"_d_') -- delete extra newline at top of scratch_buffer without overriding register
+  vim.cmd "read ++edit #" -- load contents of previous buffer into scratch_buffer
+  vim.cmd.normal '1G"_d_' -- delete extra newline at top of scratch_buffer without overriding register
   vim.cmd.diffthis() -- scratch_buffer
-  vim.cmd.wincmd("p")
+  vim.cmd.wincmd "p"
   vim.cmd.diffthis() -- current buffer
   vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = scratch_buffer, silent = true })
 end, { desc = "Diff current buffer not .git" })
+
+--[[ AUTOMATICALLY SET COLORCOLUMN BASED ON FILETYPE ]]
+-- src: https://github.com/hollowillow/nvim/blob/main/lua/minimal/autocmds.lua
+-- ccolumn is determined by the following table, use '' to disable
+local ft_ccolumn = {
+  text = "",
+  markdown = "120",
+  rust = "100",
+  lua = "120",
+}
+-- if ccolumn is undefined for filetype use default
+local default_ccolumn = "80"
+
+augroup("DynamicCColumn", { clear = true })
+autocmd("Filetype", {
+  group = "DynamicCColumn",
+  callback = function()
+    -- get filetype settings
+    local target_ccolumn = ft_ccolumn[vim.o.filetype] or default_ccolumn
+    if target_ccolumn == "" then
+      return
+    end                                 -- exit early if no column
+    vim.o.colorcolumn = target_ccolumn  -- else set column
+  end,
+})

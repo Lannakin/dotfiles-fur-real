@@ -1,6 +1,8 @@
 -- /plugins/terminal.lua
 -- disabled if below line is active
 -- if true then return {} end
+
+---@type LazyPluginSpec[]
 return {
   {
     -- https://github.com/mikesmithgh/kitty-scrollback

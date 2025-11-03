@@ -1,6 +1,8 @@
 -- /plugins/snippets.lua
 -- disabled if below line is active
 -- if true then return {} end
+
+---@type LazyPluginSpec
 return {
   {
     -- https://github.com/L3MON4D3/LuaSnip
@@ -16,8 +18,8 @@ return {
       optional = true, -- make optional so it's only enabled if any extras need it
 
       config = function()
-        -- require("luasnip").filetype_extend("c", { "cdoc" })
-        -- require("luasnip.loaders.from_vscode").lazy_load()
+        require("luasnip").filetype_extend("c", { "cdoc" })
+        require("luasnip.loaders.from_vscode").lazy_load {paths = "./snippets" }
         -- require("luasnip.loaders.from_lua").lazy_load { paths = "./snippets" }
       end,
 
