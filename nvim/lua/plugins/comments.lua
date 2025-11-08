@@ -2,7 +2,7 @@
 -- disabled if below line is active
 -- if true then return {} end
 
----@type LazyPluginSpec[]
+---@type LazySpec
 return {
   { -- comments out lines
     -- https://github.com/nvim-mini/mini.comment
@@ -16,7 +16,7 @@ return {
           comment_visual = "<C-7>",
           -- Define 'comment' textobject (like `dgc` - delete whole comment block)
           -- Works also in Visual mode if mapping differs from `comment_visual`
-          textobject = "gc",
+          textobject = "Gc",
         },
       }
     end,
@@ -54,11 +54,11 @@ return {
         { "<Leader>bbc",  "<Cmd>CBlcbox2<CR>",  desc = "Box title, centered", opts },
         { "<Leader>bbll", "<Cmd>CBllbox2<CR>",  desc = "Box title, left-aligned", opts },
         { "<Leader>bbca", "<Cmd>CBlcbox10<CR>", desc = "ASCII box title, centered", opts },
-        { "<Leader>bbca", "<Cmd>CBllbox10<CR>", desc = "ASCII box title, left-aligned", opts },
+        { "<Leader>bbla", "<Cmd>CBllbox10<CR>", desc = "ASCII box title, left-aligned", opts },
         -- lines --
         { "<Leader>bl",    "<Cmd>CBline<CR>",      desc = "Simple line", opts },
         { "<Leader>bll",   "<Cmd>CBllline<CR>",    desc = "Line title, left-aligned", opts },
-        { "<Leader>bla",   " <Cmd>CBllline15<CR>", desc = "ASCII line title, left-aligned", opts },
+        { "<Leader>bla",   "<Cmd>CBllline15<CR>", desc = "ASCII line title, left-aligned", opts },
         -- marks (also boxes) --
         { "<Leader>bmr",   "<Cmd>CBllbox14<CR>",   desc = "Marked comment, right", opts },
       }
@@ -71,31 +71,31 @@ return {
         --              multiple lines are selected, line style comments
         --              otherwise
         comment_style = "line",
-        doc_width = 80, -- width of the document
+        doc_width = 120, -- width of the document
         box_width = 60, -- width of the boxes
         borders = { -- symbols used to draw a box
-          top = "─",
-          bottom = "─",
-          left = "│",
-          right = "│",
-          top_left = "┌",
-          top_right = "┐",
-          bottom_left = "└",
-          bottom_right = "┘",
+          top = "-",
+          bottom = "-",
+          left = "|",
+          right = "|",
+          top_left = "+",
+          top_right = "+",
+          bottom_left = "+",
+          bottom_right = "+",
         },
-        line_width = 70, -- width of the lines
+        line_width = 120, -- width of the lines
         lines = { -- symbols used to draw a line
-          line = "─",
-          line_start = "─",
-          line_end = "─",
-          title_left = "─",
-          title_right = "─",
+          line = "-",
+          line_start = "-",
+          line_end = "-",
+          title_left = "-|",
+          title_right = "|",
         },
         outer_blank_lines_above = true, -- insert a blank line above the box
         outer_blank_lines_below = true, -- insert a blank line below the box
         inner_blank_lines = true,       -- insert a blank line above and below the text
-        line_blank_line_above = true,   -- insert a blank line above the line
-        line_blank_line_below = true,   -- insert a blank line below the line
+        line_blank_line_above = false,   -- insert a blank line above the line
+        line_blank_line_below = false,   -- insert a blank line below the line
       }
     end,
   },

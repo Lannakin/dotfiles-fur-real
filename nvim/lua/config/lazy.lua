@@ -18,10 +18,13 @@ if not vim.uv.fs_stat(lazypath) then -- remove deprecated vim.loop
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- stylua: ignore
 require("lazy").setup {
   spec = {
     -- add LazyVim + LazyVim's plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+
+    "DaikyXendo/nvim-material-icon",    -- replace icons
 
     -- import / override default w/ nvim config
     { import = "plugins.lazyvim" },

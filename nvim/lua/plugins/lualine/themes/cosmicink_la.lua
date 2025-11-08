@@ -8,6 +8,8 @@
 
 -- Main configuration for setting up lualine.nvim statusline plugin
 
+-- ---| locals: start |------------------------------------------------------------------------------------------------
+
 -- Default Theme Colors: Define a set of base colors for your theme
 local colors = {
   BG       = "#FDF6E3", -- background
@@ -395,6 +397,9 @@ local function ins_right(component)
   table.insert(config.sections.lualine_x, component)
 end
 
+
+-- ---| locals: end |--------------------------------------------------------------------------------------------------
+
 -- LEFT
 ins_left {
   mode,
@@ -657,4 +662,6 @@ ins_right(create_separator "right")
 
 ins_right(create_mode_based_component("progress", nil, colors.BG))
 
-require("lualine").setup(config)
+return config
+
+

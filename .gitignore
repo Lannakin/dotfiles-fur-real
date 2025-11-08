@@ -1,3 +1,13 @@
+# .gitignore
+#
+
+
+# ----- ⚠️ WARNING:do not ignore the following; version control info ⚠️ ----- #
+
+lazy-lock.json
+lazyvim.json
+
+###############################################################################
 # automated additions, I guess
 tt.*
 .tests

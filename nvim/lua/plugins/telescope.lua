@@ -3,12 +3,14 @@
 -- if true then return {} end
 ---@diagnostic disable: missing-fields
 
----@type LazyPluginSpec[]
+---@type LazySpec
 return {
   {
     -- https://github.com/nvim-telescope/telescope.nvim
     "nvim-telescope/telescope.nvim",
-
+    -- opts = {},
+    cmd = "Telescope",
+    build = "make",
     dependencies = {
       { "nvim-lua/plenary.nvim" },
       {
@@ -29,26 +31,32 @@ return {
         ---@type Project.Config.Options
         opts = {
           manual_mode = true,
-          show_hidden = true,
+          -- show_hidden = true,  -- this also shows inside .git/
           base_dirs = { "~/LA-repos/" },
-          patterns = { ".git", ".github", "*.sln", "build/env.sh" },
-          exclude_dirs = { "~/.local/nvim/" },
+          -- patterns = { ".git", ".github", "*.sln", "build/env.sh" },
+          exclude_dirs = { "~/.local/nvim/" }, -- directories not to calculate root on
+          -- telescope = { prefer_file_browser = true },
         },
-        config = function(__, opts)
-          require("project").setup(opts)
-        end,
+        -- below should not be needed
+        -- config = function(__, opts)
+        --   require("project").setup(opts)
+        -- end,
       },
-      { "andrew-george/telescope-themes" },
-      { "nyarthan/telescope-code-actions.nvim" },
-      { "nvim-telescope/telescope-file-browser.nvim" },
+      { "andrew-george/telescope-themes" }, -- https://github.com/andrew-george/telescope-themes
+      { "nyarthan/telescope-code-actions.nvim" }, -- https://github.com/nyarthan/telescope-code-actions.nvim
+      { "nvim-telescope/telescope-file-browser.nvim" }, -- https://github.com/nvim-telescope/telescope-file-browser.nvim
+      -- { "hasansujon786/telescope-ui-select.nvim" },    -- https://github.com/hasansujon786/telescope-ui-select.nvim
     },
 
-    opts = {},
-    cmd = "Telescope",
-    build = "make",
-    config = function() -- global settings
+    -- config = function() -- global settings
+    opts = function()
       local telescope = require "telescope"
-      telescope.setup {
+      -- load extensions --
+      telescope.load_extension "projects"
+      telescope.load_extension "themes"
+      telescope.load_extension "file_browser"
+      telescope.load_extension "code_actions"
+      return {
         extensions = {
           projects = {
             prompt_prefix = "󱎸  ",
@@ -86,12 +94,6 @@ return {
           },
         },
       }
-
-      -- load extensions --
-      telescope.load_extension "projects"
-      telescope.load_extension "themes"
-      telescope.load_extension "file_browser"
-      telescope.load_extension "code_actions"
     end,
   },
 }

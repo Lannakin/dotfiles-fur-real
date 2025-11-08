@@ -6,7 +6,6 @@
 local opt = vim.opt_local
 
 opt.autoindent = true
----@diagnostic disable-next-line:assign-type-mismatch -- nvim error if i change it LOL
 opt.colorcolumn = "120"
 opt.expandtab = true
 opt.shiftwidth = 2

@@ -2,7 +2,7 @@
 -- disabled if below line is active
 -- if true then return {} end
 
----@type LazyPluginSpec[]
+---@type LazySpec
 return {
   {
     -- https://github.com/amrbashir/nvim-docs-view
@@ -17,7 +17,7 @@ return {
   {
     -- https://github.com/danymat/neogen
     "danymat/neogen",
-    ---@type LazyKeysSpec
+    ---@type LazyKeysSpec[]
     keys = {
       {
         "<leader>cn",

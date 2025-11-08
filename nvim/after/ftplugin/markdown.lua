@@ -12,13 +12,14 @@ vim.g.markdown_fenced_languages = {
   "cpp",
 }
 
--- [ VIM LOCAL - MARKDOWN OPTIONS ] --
+-- --| VIM LOCAL - MARKDOWN OPTIONS |----------------------------------------------------------------------------------
+opt.colorcolumn = "80"
 opt.list = false
 opt.relativenumber = false
 opt.suffixesadd:prepend ".md"
 
--- opt.tabstop = 4
--- opt.textwidth = 80
+opt.tabstop = 4
+opt.textwidth = 80
 
 opt.spell = true
 opt.spelllang = { "en" }

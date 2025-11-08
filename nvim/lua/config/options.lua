@@ -4,11 +4,11 @@
 -- Add any additional options here
 local opt = vim.opt
 
--- KEYMAP GLOBALS --
+-- --| KEYMAP GLOBALS |-----------------------------------------------------------------------------------------------
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- APPEARANCE --
+-- --| APPEARANCE |---------------------------------------------------------------------------------------------------
 vim.api.nvim_command "syntax enable"           -- Enable syntax highlighting
 vim.g.snacks_animate = false                            -- snacks animations
 
@@ -19,11 +19,20 @@ opt.cursorline = true                                   -- highlighting of curre
 opt.cursorlineopt = "number"
 opt.fillchars = { foldopen = "", foldclose = "", fold = " ", foldsep = " ", diff = "╱", eob = " " }
 opt.laststatus = 3                                      -- global statusline
+opt.linebreak = true                                    -- Wrap lines at specific characters
+opt.wrap = true                                         -- line wrap
 opt.list = true                                         -- Show some invisible characters
+opt.listchars = {
+  eol = '⏎',
+  tab = '»·', -- » - OE '␉·'
+  trail = '-',
+  nbsp = '⎵',
+--  space = '·'
+}
 vim.o.showtabline = 2                                   -- always show buffer tabline
 opt.termguicolors = true                                -- True color support
 
--- BEHAVIOR --
+-- --| BEHAVIOR |-----------------------------------------------------------------------------------------------------
 vim.o.clipboard = "unnamedplus"                         -- yank to system clipboard
 opt.fileformat = "unix"                                 -- Set fileformat to Unix
 vim.api.nvim_command "filetype plugin on"      -- Enable filetype plugins
@@ -59,9 +68,9 @@ opt.updatetime = 200                                    -- Save swap file and tr
 opt.virtualedit = "block"                               -- Allow cursor to move where there is no text in visual block
 opt.wildmode = "longest:full,full"                      -- Command-line completion mode
 
--- COMMANDS --
+-- --| COMMANDS |-----------------------------------------------------------------------------------------------------
 
--- EDITOR --
+-- --| EDITOR |-------------------------------------------------------------------------------------------------------
 -- behavior --
 opt.smoothscroll = true
 opt.spelllang = { "en" }
@@ -79,6 +88,7 @@ opt.shiftround = true                                   -- Round indent
 opt.shiftwidth = 4                                      -- Size of an indent
 opt.softtabstop = 4
 -- folding --
+opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"
 opt.foldenable = false
@@ -87,32 +97,29 @@ opt.foldlevelstart = 99
 opt.formatexpr = "v:lua.LazyVim.format.formatexpr()"
 opt.formatoptions = "jcroqlnt"                          -- tcqj
 opt.inccommand = "nosplit"                              -- preview incremental substitute
--- line numbers --
+-- statuscolumn --
 opt.number = true                                       -- Print line number
 vim.wo.relativenumber = false                           -- relative line numbers
 opt.relativenumber = false                              -- Relative line numbers
-opt.signcolumn = "yes"                                  -- Always show the signcolumn, otherwise it will shift the text each time
+opt.signcolumn = "yes"                                   -- Always show the signcolumn, otherwise it will shift the text each time
 
--- LINE WRAP --
-opt.linebreak = true                                    -- Wrap lines at specific characters
-opt.wrap = true                                         -- line wrap
-
--- SEARCH --
+-- --| SEARCH |-------------------------------------------------------------------------------------------------------
 opt.incsearch = true
 opt.ignorecase = true
 opt.smartcase = true
 -- opt.hlsearch = true
 
--- WINDOW LAYOUT --
+-- --| WINDOW LAYOUT |------------------------------------------------------------------------------------------------
 opt.splitbelow = true                                   -- Put new windows below current
 opt.splitkeep = "screen"
 opt.splitright = true                                   -- Put new windows right of current
 opt.pumblend = 10                                       -- Popup blend
 opt.pumheight = 15                                      -- Maximum number of entries in a popup
 opt.statuscolumn = [[%!v:lua.LazyVim.statuscolumn()]]
+-- opt.statuscolumn = [[%!v:lua.snacks.statuscolumn()]]
 opt.winminwidth = 5                                     -- Minimum window width
 
--- ADD FILETYPES
+-- --| ADD FILETYPES |------------------------------------------------------------------------------------------------
 vim.filetype.add {
   extension = {
     conf = "conf",
@@ -136,3 +143,4 @@ vim.filetype.add {
     end,
   },
 }
+

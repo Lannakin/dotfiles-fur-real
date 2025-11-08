@@ -2,7 +2,17 @@
 -- disabled if below line is active
 -- if true then return {} end
 
+local excluded_filetypes = { "neo-tree", "alpha", "Outline", "edgy", "floaterm" }
+
+---@type LazySpec
 return {
+  -- --| neovim function |---------------------------------------------------------------------------------------------
+  { -- write file with root privs
+    -- https://github.com/lambdalisue/vim-suda
+    "lambdalisue/vim-suda",
+    cmd = { "SudaRead", "SudaWrite" },
+  },
+  -- --| ui edits: function |------------------------------------------------------------------------------------------
   { -- IDE-like navigation top bar
     -- https://github.com/Bekaboo/dropbar.nvim
     "Bekaboo/dropbar.nvim",
@@ -27,98 +37,102 @@ return {
       enabled = true,
       -- Highlight group of the matched brackets
       -- Change it to any other or adjust colors of "MathParen" highlight group
-      -- in your colorscheme to your liking
-      hl_group = "MatchParen",
+      -- in your colorscheme to your likin    hl_group = "MatchParen",
       -- Debounce time in milliseconds for rehighlighting brackets
       -- Set to 0 to disable debouncing
       debounce_time = 60,
     },
   },
-  { -- customizable statuscolumn
-    -- https://github.com/luukvbaal/statuscol.nvim
-    "luukvbaal/statuscol.nvim",
-    opts = function()
-      local builtin = require "statuscol.builtin"
+  { -- browse github for repos tagged neovim-plugin
+    -- https://github.com/alex-popov-tech/store.nvim
+    "alex-popov-tech/store.nvim",
+    dependencies = { "OXY2DEV/markview.nvim" },
+    opts = {},
+    cmd = "Store",
+  },
+  --[[
+  { -- open github repo links etc via placing cursor over + (visual mode) typing gx
+    -- https://github.com/chrishrb/gx.nvim
+    "chrishrb/gx.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" }, -- Required for Neovim < 0.10.0
+    keys = { { "gx", "<cmd>Browse<cr>", mode = { "n", "x" } } },
+    cmd = { "Browse" },
+    opts = {
+      init = function()
+        vim.g.netrw_nogx = 1 -- disable netrw gx
+      end,
+      -- config = true, -- default settings
+      -- submodules = false, -- not needed, submodules are required only for tests
 
-      return {
-        setopt = true, -- Whether to set the 'statuscolumn' option, may be set to false for CONTROL FREAKS
-        thousands = false, -- or line number thousands separator string ("." / ",")
-        relculright = false, -- whether to right-align the cursor line number with 'relativenumber' set
+      -- you can specify also another config if you want
+      config = function()
+        require("gx").setup {
+          open_browser_app = "os_specific", -- specify your browser app; default for macOS is "open", Linux "xdg-open" and Windows "powershell.exe"
+          open_browser_args = { "--background" }, -- specify any arguments, such as --background for macOS' "open".
 
-        -- Builtin 'statuscolumn' options
-        ft_ignore = nil, -- Lua table with 'filetype' values for which 'statuscolumn' will be unset
-        bt_ignore = nil, -- Lua table with 'buftype' values for which 'statuscolumn' will be unset
+          open_callback = false,
 
-        -- Default segments (fold -> sign -> line number + separator), explained below
-        segments = {
-          { text = { "%C" }, click = "v:lua.ScFa" },
-          { text = { "%s" }, click = "v:lua.ScSa" },
-          {
-            text = { builtin.lnumfunc, " " },
-            condition = { true, builtin.not_empty },
-            click = "v:lua.ScLa",
+          select_prompt = true, -- shows a prompt when multiple handlers match; disable to auto-select the top one
+
+          handlers = {
+            plugin = true, -- open plugin links in lua (e.g. packer, lazy, ..)
+            github = true, -- open github issues
+            brewfile = true, -- open Homebrew formulaes and casks
+            package_json = true, -- open dependencies from package.json
+            search = true, -- search the web/selection on the web if nothing else is found
+            go = true, -- open pkg.go.dev from an import statement (uses treesitter)
+            jira = { -- custom handler to open Jira tickets (these have higher precedence than builtin handlers)
+              name = "jira", -- set name of handler
+              handle = function(mode, line, _)
+                local ticket = require("gx.helper").find(line, mode, "(%u+-%d+)")
+                if ticket and #ticket < 20 then
+                  return "http://jira.company.com/browse/" .. ticket
+                end
+              end,
+            },
+            rust = { -- custom handler to open rust's cargo packages
+              name = "rust", -- set name of handler
+              filetype = { "toml" }, -- you can also set the required filetype for this handler
+              filename = "Cargo.toml", -- or the necessary filename
+              handle = function(mode, line, _)
+                local crate = require("gx.helper").find(line, mode, "(%w+)%s-=%s")
+
+                if crate then
+                  return "https://crates.io/crates/" .. crate
+                end
+              end,
+            },
           },
-        },
+          handler_options = {
+            search_engine = "google", -- you can select between google, bing, duckduckgo, ecosia and yandex
+            select_for_search = false, -- if your cursor is e.g. on a link, the pattern for the link AND for the word will always match. This disables this behaviour for default so that the link is opened without the select option for the word AND link
 
-        clickmod = "c", -- modifier used for certain actions in the builtin clickhandlers:
+            git_remotes = { "upstream", "origin" }, -- list of git remotes to search for git issue linking, in priority
+            git_remote_push = false, -- use the push url for git issue linking,
+          },
 
-        clickhandlers = { -- builtin click handlers, keys are pattern matched
-          Lnum = builtin.lnum_click,
-
-          FoldClose = builtin.foldclose_click,
-          FoldOpen = builtin.foldopen_click,
-          FoldOther = builtin.foldother_click,
-
-          DapBreakpointRejected = builtin.toggle_breakpoint,
-          DapBreakpoint = builtin.toggle_breakpoint,
-          DapBreakpointCondition = builtin.toggle_breakpoint,
-
-          ["diagnostic/signs"] = builtin.diagnostic_click,
-          gitsigns = builtin.gitsigns_click,
-        },
+      end,
+    },
+  },
+  --]]
+  -- --| ui edits: appearance |----------------------------------------------------------------------------------------
+  { -- scrollbar
+    -- https://github.com/dstein64/nvim-scrollview
+    "dstein64/nvim-scrollview",
+    event = "LazyFile",
+    keys = { { "<leader>uV", "<cmd>ScrollViewToggle<CR>", desc = "Toggle Scrollview" } },
+    config = function()
+      require("scrollview").setup {
+        excluded_filetypes = excluded_filetypes,
+        signs_column = 0,
+        winblend = 25,
+        signs_on_startup = { "all" },
+        diagnostics_error_symbol = "",
+        diagnostics_warn_symbol = "W",
+        diagnostics_info_symbol = "",
+        diagnostics_hint_symbol = "",
       }
     end,
-  },
-  { -- scrollbar because i am lost without it
-    -- https://github.com/lewis6991/satellite.nvim
-    "lewis6991/satellite.nvim",
-    opts = {
-      current_only = false,
-      winblend = 50,
-      zindex = 40,
-      excluded_filetypes = {},
-      width = 3,
-      handlers = {
-        cursor = {
-          enable = true,
-          symbols = { "⎺", "⎻", "⎼", "⎽" },
-        },
-        search = {
-          enable = true,
-        },
-        diagnostic = {
-          enable = true,
-          signs = { "-", "=", "≡" },
-          min_severity = vim.diagnostic.severity.HINT,
-        },
-        gitsigns = {
-          enable = true,
-          signs = { -- can only be a single character (multibyte is okay)
-            add = "+",
-            change = "=",
-            delete = "-",
-          },
-        },
-        marks = {
-          enable = true,
-          show_builtins = true, -- shows the builtin marks like [ ] < >
-          key = "m",
-        },
-        quickfix = {
-          signs = { "-", "=", "≡" },
-        },
-      },
-    },
   },
   { -- highlights cursormode and cursorline
     -- https://github.com/ya2s/nvim-cursorline
@@ -126,7 +140,7 @@ return {
     opts = {
       cursorline = {
         enable = true,
-        timeout = 1000,
+        timeout = 500,
         number = false,
       },
       cursorword = {
@@ -135,5 +149,76 @@ return {
         hl = { underline = true },
       },
     },
+  },
+  { -- screencast show pressed keys
+    -- https://github.com/nvzone/showkeys
+    "nvzone/showkeys",
+    cmd = "ShowkeysToggle",
+    opts = {
+      timeout = 1,
+      maxkeys = 5,
+      -- more opts
+    },
+  },
+  { -- customizable statuscolumn
+    -- https://github.com/luukvbaal/statuscol.nvim
+    "luukvbaal/statuscol.nvim",
+    -- enable = false,
+    -- src: https://github.com/Matt-FTW/dotfiles/blob/main/.config/nvim/lua/plugins/extras/ui/status-column.lua
+    opts = function()
+      local builtin = require "statuscol.builtin"
+      return {
+        setopt = true,
+        ft_ignore = { "neo-tree", "neo-tree-popup", "alpha", "lazy", "mason", "dashboard" },
+        segments = {
+          {
+            sign = {
+              namespace = { "diagnostic.*" },
+              text = { ".*" },
+              -- condition = { true, builtin.not_empty },
+              maxwidth = 1,
+              colwidth = 1,
+              auto = true,
+              fillchar = " ", -- "█",
+              fillcharhl = "LineNr",
+              foldclosed = true,
+            },
+            click = "v:lua.ScSa",
+          },
+          {
+            text = { builtin.lnumfunc },
+            condition = { true, builtin.not_empty },
+            -- click = "v:lua.ScLa"
+          },
+          {
+            sign = {
+              namespace = { "gitsigns.*" },
+              name = { "gitsigns.*" },
+              maxwidth = 1,
+              colwidth = 1,
+              auto = true,
+              fillchar = " ", -- "█",
+              fillcharhl = "LineNr",
+            },
+          },
+        },
+      }
+    end,
+    config = function(_, opts)
+      require("statuscol").setup(opts)
+    end,
+  },
+  { -- folding
+    -- https://github.com/e-roux/pretty-fold.nvim
+    "e-roux/pretty-fold.nvim",
+    opts = {},
+  },
+  { -- quickfix gui
+    --https://github.com/stevearc/quicker.nvim
+    "stevearc/quicker.nvim",
+    ft = "qf",
+    ---@module "quicker"
+    ---@type quicker.SetupOptions
+    opts = {},
   },
 }

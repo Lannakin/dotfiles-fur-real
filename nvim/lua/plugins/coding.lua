@@ -4,17 +4,22 @@
 -- ---@diagnostic disable:undefined-global, unused
 
 -- [ v for mini.surround v ] --
-vim.keymap.set({ "n", "x" }, "s", "<Nop>")
+-- vim.keymap.set({ "n", "x" }, "s", "<Nop>")
 vim.o.timeoutlen = 3000 -- increase timeout b/c slow
 -- [ ^ for mini.surround ^ ] --
 
----@type LazyPluginSpec[]
+-- src: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/plugins/extras/util/dot.lua
+-- yes, for real, I am explicitly adding this so Lua LS can see it without being pointed at it via lazydev
+---@type string
+local xdg_config = vim.env.XDG_CONFIG_HOME or vim.env.HOME .. "/.config"
+
+---@param path string
+local function have(path)
+  return vim.uv.fs_stat(xdg_config .. "/" .. path) ~= nil
+end
+
+---@type LazySpec
 return {
-  {
-    "cuducos/spellfile.nvim",
-    enabled = true,
-    ft = { 'markdown', 'text' },
-  },
   { -- add dotfile parsing to nvim-treesitter
     -- https://github.com/nvim-treesitter/nvim-treesitter
     "nvim-treesitter/nvim-treesitter",
@@ -40,22 +45,14 @@ return {
       }
       vim.treesitter.language.register("bash", "kitty")
 
-      add ("git_config")
+      add "git_config"
 
-      -- if have("hypr") then
-      --   add("hyprlang")
-      -- end
-      --
-      -- if have("fish") then
-      --   add("fish")
-      -- end
-      --
-      -- if have "rofi" or have "wofi" then
-      --   add "rasi"
-      -- end
+      if have "rofi" then
+        add "rasi"
+      end
     end,
   },
-  {
+  { -- used by LSPs
     -- https://github.com/nvim-treesitter/nvim-treesitter-context
     "nvim-treesitter/nvim-treesitter-context",
     event = "LazyFile",
@@ -64,61 +61,13 @@ return {
       return { mode = "cursor", max_lines = 3 }
     end,
   },
-  -- {
-  --   -- https://github.com/nvim-mini.ai
-  --   "nvim-mini/mini.ai",
-  --   opts = function()
-  --     return {
-  --       -- Table with textobject id as fields, textobject specification as values.
-  --       -- Also use this to disable builtin textobjects. See |MiniAi.config|.
-  --       custom_textobjects = nil,
-  --
-  --       -- Module mappings. Use `''` (empty string) to disable one.
-  --       mappings = {
-  --         -- Main textobject prefixes
-  --         around = "",
-  --         inside = "",
-  --
-  --         -- Next/last variants
-  --         -- NOTE: These override built-in LSP selection mappings on Neovim>=0.12
-  --         -- Map LSP selection manually to use it (see `:h MiniAi.config`)
-  --         around_next = "",
-  --         inside_next = "",
-  --         around_last = "",
-  --         inside_last = "",
-  --
-  --         -- Move cursor to corresponding edge of `a` textobject
-  --         goto_left = "",
-  --         goto_right = "",
-  --       },
-  --     }
-  --   end,
-  -- },
   {
     -- https://github.com/nvim-mini/mini.surround"
     "nvim-mini/mini.surround",
-    ---@type LazyKeysSpec
-    keys = function(_, keys)
-      -- Populate the keys based on the user's options
-      local opts = LazyVim.opts "mini.surround"
-      local mappings = {
-        { opts.mappings.add, desc = "Add Surrounding", mode = { "n", "x" } },
-        { opts.mappings.delete, desc = "Delete Surrounding" },
-        { opts.mappings.find, desc = "Find Right Surrounding" },
-        { opts.mappings.find_left, desc = "Find Left Surrounding" },
-        { opts.mappings.highlight, desc = "Highlight Surrounding" },
-        { opts.mappings.replace, desc = "Replace Surrounding" },
-        { opts.mappings.update_n_lines, desc = "Update `MiniSurround.config.n_lines`" },
-      }
-
-      mappings = vim.tbl_filter(function(m)
-        return m[1] and #m[1] > 0
-      end, mappings)
-      return vim.list_extend(mappings, keys)
-    end,
     opts = {
+      -- stylua: ignore
       mappings = {
-        add = "s",             -- Add surrounding in Normal and Visual modes - removed
+        add = "sa",            -- Add surrounding in Normal and Visual modes - removed
         delete = "sd",         -- Delete surrounding
         find = "sf",           -- Find surrounding (to the right)
         find_left = "sF",      -- Find surrounding (to the left)
@@ -128,4 +77,37 @@ return {
       },
     },
   },
+-- --| visual stuff |--------------------------------------------------------------------------------------------------
+  { -- highlights text when undoing
+    "tzachar/highlight-undo.nvim",
+    opts = {
+      hlgroup = "HighlightUndo",
+      duration = 300,
+      pattern = { "*" },
+      ignored_filetypes = { "neo-tree", "fugitive", "TelescopePrompt", "mason", "lazy" },
+    },
+  },
+  --[[
+  { -- dim code outside current scope or something
+    -- https://github.com/folke/twilight.nvim
+    "folke/twilight.nvim",
+    -- stylua: ignore
+    opts = {
+      dimming = {
+        alpha = 0.80, -- dim to this amount
+        -- we try to get the foreground from the highlight groups or fallback color
+        color = { "Normal", "#ffffff" },
+        term_bg = "#000000", -- if guibg=NONE, this will be used to calculate text color
+        inactive = false,    -- when true, other windows will be fully dimmed (unless they contain the same buffer)
+      },
+      context = 10, -- amount of lines we will try to show around the current line
+      expand = {    -- for treesitter, we we always try to expand to the top-most ancestor with these types
+        "function",
+        "method",
+        "table",
+        "if_statement",
+      },
+    },
+  },
+  --]]
 }

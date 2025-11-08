@@ -1,8 +1,14 @@
 -- plugins/lualine-themes/slanted-gaps-la.lua
 -- disabled if below line is active
-if true then return {} end
+-- if true then return {} end
 
-local slanted_gaps_la = {}
+local M = {}
+
+-- src: https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/
+local utils = require('lualine.utils.utils')
+
+-- utils.extract_color_from_hllist(scope, syntaxlist, default)
+-- utils.extract_color_from_hllist('bg', { 'Normal', 'StatusLineNC' }, '#000000'),
 
 local colors = {
   red = "#ca1243",
@@ -87,13 +93,13 @@ local function modified()
   return ""
 end
 
-require("nvim.lua.plugins.telescope.lualine").setup {
-  options = {
+
+  M.options = {
     theme = theme,
     component_separators = "",
     section_separators = { left = "", right = "" },
-  },
-  sections = process_sections {
+  }
+  M.sections = process_sections {
     lualine_a = { "mode" },
     lualine_b = {
       "branch",
@@ -135,11 +141,11 @@ require("nvim.lua.plugins.telescope.lualine").setup {
     lualine_x = {},
     lualine_y = { search_result, "filetype" },
     lualine_z = { "%l:%c", "%p%%/%L" },
-  },
-  inactive_sections = {
+  }
+  M.inactive_sections = {
     lualine_c = { "%f %y %m" },
     lualine_x = {},
-  },
-}
+  }
 
-return slanted_gaps_la
+
+return M

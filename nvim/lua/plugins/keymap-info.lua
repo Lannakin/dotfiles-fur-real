@@ -2,7 +2,7 @@
 -- disabled if below line is active
 -- if true then return {} end
 
----@type LazyPluginSpec[]
+---@type LazySpec
 return {
   {
     -- https://github.com/doctorfree/cheatsheet.nvim

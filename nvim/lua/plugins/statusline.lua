@@ -2,110 +2,97 @@
 -- disabled if below line is active
 -- if true then return {} end
 
----@type LazyPluginSpec
 return {
-  -- https://github.com/nvim-lualine/lualine.nvim
   "nvim-lualine/lualine.nvim",
+  dependencies = { "DaikyXendo/nvim-material-icon" },
   opts = function()
-    return {
-        options = {
-        icons_enabled = true,
-        theme = "auto",
-        component_separators = { left = " ", right = " " },
-        section_separators = { left = " ", right = " " },
-        disabled_filetypes = {
-          winbar = {},
-        },
-        ignore_focus = {},
-        always_divide_middle = true,
-        globalstatus = false,
-        refresh = {
-          statusline = 1000,
-          tabline = 1000,
-          winbar = 1000,
-        },
-      },
+    local lualine_require = require "lualine_require"
+    lualine_require.require = require
 
+    local icons = LazyVim.config.icons
+
+    vim.o.laststatus = vim.g.lualine_laststatus
+    return {
+      options = {
+        theme = "auto",
+        globalstatus = vim.o.laststatus == 3,
+        disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" } },
+      },
       sections = {
-        lualine_a = {
+        lualine_a = { "mode" },
+        lualine_b = { "branch" },
+
+        lualine_c = {
+          LazyVim.lualine.root_dir(),
           {
-            "mode",
-            icon = "",
-            separator = { left = "", right = " " },
-            -- color = {
-            --   fg = "#1c1d21",
-            --   bg = "#b4befe",
-            -- },
+            "diagnostics",
+            symbols = {
+              error = icons.diagnostics.Error,
+              warn = icons.diagnostics.Warn,
+              info = icons.diagnostics.Info,
+              hint = icons.diagnostics.Hint,
+            },
           },
+          { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+          { LazyVim.lualine.pretty_path() },
         },
-        lualine_b = {
+        lualine_x = {
+          Snacks.profiler.status(),
+          -- stylua: ignore
           {
-            "branch",
-            icon = "",
-            separator = { left = "", right = " " },
-            -- color = {
-            --   fg = "#1c1d21",
-            --   bg = "#7d83ac",
-            -- },
+            ---@type NoiceStatus
+            function() return require("noice").api.status.command.get() end,
+            cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
+            color = function() return { fg = Snacks.util.color("Statement") } end,
+          },
+          -- stylua: ignore
+          {
+            function() return require("noice").api.status.mode.get() end,
+            cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+            color = function() return { fg = Snacks.util.color("Constant") } end,
+          },
+          -- stylua: ignore
+          {
+            function() return "  " .. require("dap").status() end,
+            cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
+            color = function() return { fg = Snacks.util.color("Debug") } end,
+          },
+          -- stylua: ignore
+          {
+            require("lazy.status").updates,
+            cond = require("lazy.status").has_updates,
+            color = function() return { fg = Snacks.util.color("Special") } end,
           },
           {
             "diff",
-            separator = { left = "", right = " " },
-            -- color = {
-            --   fg = "#1c1d21",
-            --   bg = "#7d83ac",
-            -- },
+            symbols = {
+              added = icons.git.added,
+              modified = icons.git.modified,
+              removed = icons.git.removed,
+            },
+            source = function()
+              local gitsigns = vim.b.gitsigns_status_dict
+              if gitsigns then
+                return {
+                  added = gitsigns.added,
+                  modified = gitsigns.changed,
+                  removed = gitsigns.removed,
+                }
+              end
+            end,
           },
         },
-        lualine_c = {
-          {
-            "diagnostics",
-            separator = { left = "", right = " " },
-            -- color = {
-            --   bg = "#45475a",
-            -- },
-          },
-          {
-            "filename",
-          },
-        },
-        lualine_x = { "filesize" },
         lualine_y = {
-          {
-            "filetype",
-            icons_enabled = false,
-            -- color = {
-            --   fg = "#1C1D21",
-            --   bg = "#eba0ac",
-            -- },
-          },
+          { "progress", separator = " ", padding = { left = 1, right = 0 } },
+          { "location", padding = { left = 0, right = 1 } },
         },
         lualine_z = {
-          {
-            "location",
-            icon = "",
-            -- color = {
-            --   fg = "#1c1d21",
-            --   bg = "#f2cdcd",
-            -- },
-          },
+          function()
+            return --[[" " .. ]] os.date "%R"
+          end,
         },
       },
-
-      --[[
-      inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = { "filename" },
-        lualine_x = { "location" },
-        lualine_y = {},
-        lualine_z = {},
-      },
-      --]]
-      tabline = {},
-      winbar = {},
-      inactive_winbar = {},
-      extensions = { "neo-tree", "lazy" },
+      extensions = { "neo-tree", "lazy", "fzf" },
     }
   end,
 }

@@ -42,7 +42,7 @@ local bufferline = require('bufferline')
 -- https://fontawesome.com/v3/cheatsheet/
 -- https://fontawesome.com/v4/cheatsheet/
 
----@type LazyPluginSpec[]
+---@type LazySpec
 return {
   {
     -- https://github.com/akinsho/bufferline.nvim

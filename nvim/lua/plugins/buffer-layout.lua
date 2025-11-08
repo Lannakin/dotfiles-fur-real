@@ -4,7 +4,7 @@
 
 -- local wk = require "which-key"
 
----@type LazyPluginSpec[]
+---@type LazySpec
 return {
   {
     -- https://github.com/folke/noice.nvim
@@ -55,13 +55,14 @@ return {
   {
     -- https://github.com/nvim-neo-tree/neo-tree.nvim
     "nvim-neo-tree/neo-tree.nvim",
+    lazy = true,
     opts = {
       popup_border_style = "",
 
       filesystem = {
         filtered_items = {
-          visible = true, -- Makes "hide" mean "dimmed out" instead of completely hidden
-          hide_dotfiles = false, -- Set to false to show dotfiles (hidden files)
+          visible = true,         -- Makes "hide" mean "dimmed out" instead of completely hidden
+          hide_dotfiles = false,  -- Set to false to show dotfiles (hidden files)
           hide_gitignored = true, -- You can adjust this based on your preference
         },
       },
