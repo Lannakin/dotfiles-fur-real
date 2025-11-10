@@ -67,7 +67,8 @@ return {
       -- you can specify also another config if you want
       config = function()
         require("gx").setup {
-          open_browser_app = "os_specific", -- specify your browser app; default for macOS is "open", Linux "xdg-open" and Windows "powershell.exe"
+          open_browser_app = "os_specific", -- specify your browser app; default for macOS is "open", Linux "xdg-open"
+                                            -- and Windows "powershell.exe"
           open_browser_args = { "--background" }, -- specify any arguments, such as --background for macOS' "open".
 
           open_callback = false,
@@ -105,7 +106,9 @@ return {
           },
           handler_options = {
             search_engine = "google", -- you can select between google, bing, duckduckgo, ecosia and yandex
-            select_for_search = false, -- if your cursor is e.g. on a link, the pattern for the link AND for the word will always match. This disables this behaviour for default so that the link is opened without the select option for the word AND link
+            select_for_search = false, -- if your cursor is e.g. on a link, the pattern for the link AND for the word
+                                       -- will always match. This disables this behaviour for default so that the link
+                                       -- is opened without the select option for the word AND link
 
             git_remotes = { "upstream", "origin" }, -- list of git remotes to search for git issue linking, in priority
             git_remote_push = false, -- use the push url for git issue linking,

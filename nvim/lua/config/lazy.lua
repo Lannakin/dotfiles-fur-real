@@ -24,9 +24,8 @@ require("lazy").setup {
     -- add LazyVim + LazyVim's plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
 
-    "DaikyXendo/nvim-material-icon",    -- replace icons
-
     -- import / override default w/ nvim config
+    -- { import = "utils.palettes.cat-neosolarized"},
     { import = "plugins.lazyvim" },
     { import = "plugins" },
     { import = "plugins.lsp" },         -- load LSP-related plugins

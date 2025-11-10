@@ -4,6 +4,7 @@
 
 ---@type LazySpec
 return {
+-- --| colorschemes i probablly don't use |----------------------------------------------------------------------------
   {
     -- https://github.com/EdenEast/nightfox.nvim
     "EdenEast/nightfox.nvim",
@@ -46,6 +47,8 @@ return {
   { "rebelot/kanagawa.nvim" },
   -- https://github.com/sainnhe/gruvbox-material
   { "sainnhe/gruvbox-material" },
+
+-- --| solarized colorschemes |----------------------------------------------------------------------------------------
   {
     -- https://github.com/svrana/neosolarized.nvim
     "svrana/neosolarized.nvim",
@@ -57,10 +60,13 @@ return {
       }
     end,
     dependencies = {
+      -- https://github.com/tjdevries/colorbuddy.nvim
       "tjdevries/colorbuddy.nvim",
     },
   },
--- --- ⚠️ cat themes ahead ⚠️ -----------------------------------------------------
+
+-- --| ⚠️ cat colorschemes ahead ⚠️ |----------------------------------------------------------------------------------
+  -- themes i've made, testing probably
   {
     -- https://github.com/Lannakin/cat-neosolarized.nvim
     "Lannakin/cat-neosolarized.nvim",
@@ -79,7 +85,8 @@ return {
       }
     -- end
   },
-  -- Configure LazyVim to load preferred colorscheme
+
+-- --| set LazyVim to startup with chosen colorscheme |---------------------------------------------------------------
   {
     "LazyVim/LazyVim",
     opts = { colorscheme = "cat-neosolarized" },

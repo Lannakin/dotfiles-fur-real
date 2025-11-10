@@ -6,7 +6,8 @@
 
 ---@type LazySpec
 return {
-  -- --| disabled |------------------------------------------------------------------------------------------------------
+  -- --| replacements / overrides |------------------------------------------------------------------------------------
+  { 'nvim-mini/mini.icons', version = false },
   -- https://github.com/hrsh7th/nvim-cmp
   { "hrsh7th/nvim-cmp", enabled = false },
   { -- replace default project.nvim with actively developed fork
@@ -16,6 +17,7 @@ return {
     dependencies = { "DrKJeff16/project.nvim" },
     opts = {}, -- necessary for lazyvim to call setup for project.nvim
   },
+  -- --| disabled |----------------------------------------------------------------------------------------------------
   { -- unused; hogs keymaps i want to use
     -- https://github.com/folke/flash.nvim
     "folke/flash.nvim",
@@ -31,7 +33,7 @@ return {
     "MagicDuck/grug-far.nvim",
     enabled = false,
   },
-  -- --| reconfigured |--------------------------------------------------------------------------------------------------
+  -- --| reconfigured |------------------------------------------------------------------------------------------------
   {
     -- https://github.com/folke/snacks.nvim
     "folke/snacks.nvim",
@@ -59,7 +61,7 @@ return {
       -- words = { enabled = true },        -- auto-show LSP references and navigage between them
     },
   },
-  -- --| lazydev etc |---------------------------------------------------------------------------------------------------
+  -- --| lazydev etc |-------------------------------------------------------------------------------------------------
   { -- to add luvit to emmylua_ls for lazydev
     -- https://github.com/Bilal2453/luvit-meta
     "Bilal2453/luvit-meta",
