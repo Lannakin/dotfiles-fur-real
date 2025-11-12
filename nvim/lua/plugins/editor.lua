@@ -1,6 +1,7 @@
 -- /plugins/editor.lua
 -- disabled if below line is active
 -- if true then return {} end
+---@module 'lazy'
 
 local excluded_filetypes = { "neo-tree", "alpha", "Outline", "edgy", "floaterm" }
 
@@ -223,5 +224,11 @@ return {
     ---@module "quicker"
     ---@type quicker.SetupOptions
     opts = {},
+  },
+  { -- colorize color text
+    -- https://github.com/catgoose/nvim-colorizer.lua
+    "catgoose/nvim-colorizer.lua",
+    event = "BufReadPre",
+    opts = { user_default_options = { names = false } },
   },
 }

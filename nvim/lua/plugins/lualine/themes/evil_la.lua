@@ -1,8 +1,6 @@
 -- /plugins/lualine-themes/evil.lua
 -- disabled if below line is active
-if true then
-  return {}
-end
+if true then return {} end
 
 -- Eviline config for lualine
 -- Author: shadmansaleh
@@ -10,24 +8,26 @@ end
 
 -- local M = {}
 
-local utils = require "lualine.utils.utils"
-local lualine = require "lualine"
+local lualine = require("lualine")
+local palette = require("utils.palettes.cat-solarized").main
 
 -- Color table for highlights
 -- src: https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/themes/auto.lua
 -- stylua: ignore
 local colors = {
-  bg       = utils.extract_color_from_hllist('bg', { 'Normal', 'StatusLineNC' }, '#000000'),
-  fg       = utils.extract_color_from_hllist('fg', { 'Normal', 'StatusLine' }, '#00000'),
-  yellow   = utils.extract_color_from_hllist('fg', { 'Number', 'Type' }, '#00000'),
-  cyan     = utils.extract_color_from_hllist('fg', { 'Number', 'Type' }, '#00000'),
-  darkblue = utils.extract_color_from_hllist('fg', { 'Title', }, '#000000'),
-  green    = utils.extract_color_from_hllist('fg', { 'String' }, '#000000'),
-  orange   = utils.extract_color_from_hllist('fg', { 'Operator' }, '#000000'),
-  violet   = utils.extract_color_from_hllist('fg', { 'String' }, '#000000'),
-  magenta  = require("cat-neosolarized").colors.light { "magenta" },
-  blue     = utils.extract_color_from_hllist('fg', { 'Special', 'Boolean', 'Constant' }, '#000000'),
-  red      = '#ec5f67',
+  darkblue = palette.base02,
+
+  bg = palette.base03,
+  fg = palette.base01,
+
+  blue    = palette.blue,
+  cyan    = palette.cyan,
+  green   = palette.green,
+  magenta = palette.magenta,
+  orange  = palette.orange,
+  red     = palette.red,
+  violet  = palette.violet,
+  yellow  = palette.yellow,
 }
 
 local conditions = {
@@ -228,5 +228,4 @@ ins_right {
   padding = { left = 1 },
 }
 
--- return M
-require("lualine").setup(config)
+lualine.setup(config)

@@ -25,7 +25,6 @@ require("lazy").setup {
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
 
     -- import / override default w/ nvim config
-    -- { import = "utils.palettes.cat-neosolarized"},
     { import = "plugins.lazyvim" },
     { import = "plugins" },
     { import = "plugins.lsp" },         -- load LSP-related plugins
@@ -35,10 +34,10 @@ require("lazy").setup {
     lazy = false,
     version = false, -- always use the latest git commit
   },
-  install = { colorscheme = { "tokyonight", "habamax" } },
+  -- install = { colorscheme = { "tokyonight", "habamax" } },
   checker = {
     enabled = true, -- check for plugin updates periodically
-    notify = false, -- notify on update
+    notify = true, -- notify on update
   },
   performance = {
     rtp = {
@@ -46,7 +45,7 @@ require("lazy").setup {
         "gzip",
         -- "matchit",
         "matchparen",
-        -- "netrwPlugin",
+        "netrwPlugin",
         "tarPlugin",
         "tohtml",
         "tutor",

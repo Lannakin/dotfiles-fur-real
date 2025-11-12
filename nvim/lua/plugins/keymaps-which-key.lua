@@ -28,6 +28,30 @@ return {
         -- stylua: ignore end
       },
       {
+        mode = { "n" },
+        {
+          "<C-Left>",
+          function() require("smart-splits").resize_left() end,
+          desc = "Resize window left"
+        },
+        {
+          "<C-Right>",
+          function() require('smart-splits').resize_right() end,
+          desc = "Resize window right"
+        },
+        {
+          "<C-Up>",
+          function() require('smart-splits').resize_up() end,
+          desc = "Resize window up"
+        },
+        {
+          "<C-Down>",
+          function() require('smart-splits').resize_down() end,
+          desc = "Resize window down"
+        },
+
+      },
+      {
         mode = { "n", "v" },
         -- --| File Operations |---------------------------------------------------------------------------------------
         { "<leader>f", group = "files" },
@@ -38,15 +62,44 @@ return {
         -- stylua: ignore start
         -- copy relative file path
         { "<leader>fp", function() fanyutils.copy_relative_path() end, desc = "Copy file relative path" },
-        -- { "<leader>fP", '<C-R>=expand("%:p")<CR>', desc = "Copy absolute file path", opts },
         -- copy current file name
         -- FIXME: opens a new buffer and copies nothing?
         { "<leader>fn", function() fanyutils.copy_current_filename() end, desc = "Copy current file name" },
-        -- src: https://github.com/fanlumaster/lazyvim-archlinux/blob/master/lua/fany/fanykeymaps.lua
         -- copy absolute path
         { "<leader>fP", function() fanyutils.copy_absolute_path() end, desc = "Copy absolute path" },
         -- stylua: ignore end
       },
+      -- stylua: ignore
+      {
+        -- mode = { "n", "x" },
+        { "<leader>S", group = "search" },
+        { "<leader>S", function() require("spectre").toggle() end, desc = "Toggle Spectre" },
+        {
+          "<leader>Sw",
+          function() require("spectre").open_visual({select_word=true}) end,
+          desc = "Search current word",
+          mode = { "n", "v" },
+        },
+        {
+          "<leader>Sp",
+          function() require("spectre").open_file_search({select_word=true}) end,
+          desc = "Search current file",
+        },
+      },
     },
   },
 }
+--[[
+vim.keymap.set('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', {
+    desc = "Toggle Spectre"
+})
+vim.keymap.set('n', '<leader>sw', '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
+    desc = "Search current word"
+})
+vim.keymap.set('v', '<leader>sw', '<esc><cmd>lua require("spectre").open_visual()<CR>', {
+    desc = "Search current word"
+})
+vim.keymap.set('n', '<leader>sp', '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
+    desc = "Search on current file"
+})
+--]]

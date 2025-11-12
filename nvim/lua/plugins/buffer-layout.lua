@@ -1,73 +1,28 @@
 -- plugins/buffer-layout.lua
 -- disabled if below line is active
 -- if true then return {} end
-
--- local wk = require "which-key"
+---@module "lazy"
 
 ---@type LazySpec
 return {
   {
-    -- https://github.com/folke/noice.nvim
-    "folke/noice.nvim",
-    enabled = true,
-    opts = {
-      views = {
-        cmdline = {
-          border = {
-            style = "single",
-            padding = { 0, 0 },
-          },
-        },
-
-        cmdline_popup = {
-          border = { style = "single" },
-          position = {
-            row = 5,
-            col = "50%",
-          },
-          size = {
-            width = 60,
-            height = "auto",
-          },
-        },
-
-        popupmenu = {
-          relative = "editor",
-          position = {
-            row = 8,
-            col = "50%",
-          },
-          size = {
-            width = 60,
-            height = 10,
-          },
-          border = {
-            style = "single",
-            padding = { 0, 1 },
-          },
-          win_options = {
-            winhighlight = { Normal = "Normal", FloatBorder = "NoiceCmdlinePopupBorder" },
-          },
-        },
-      },
-    },
-  },
-  {
     -- https://github.com/nvim-neo-tree/neo-tree.nvim
     "nvim-neo-tree/neo-tree.nvim",
     lazy = true,
+    dependencies = { "DaikyXendo/nvim-material-icon", opts = {} },
     opts = {
       popup_border_style = "",
 
       filesystem = {
         filtered_items = {
-          visible = true,         -- Makes "hide" mean "dimmed out" instead of completely hidden
-          hide_dotfiles = false,  -- Set to false to show dotfiles (hidden files)
+          visible = true, -- Makes "hide" mean "dimmed out" instead of completely hidden
+          hide_dotfiles = false, -- Set to false to show dotfiles (hidden files)
           hide_gitignored = true, -- You can adjust this based on your preference
         },
       },
     },
   },
+  -- --| splits |--------------------------------------------------------------------------------------------------------
   {
     -- https://github.com/mrjones2014/smart-splits.nvim
     "mrjones2014/smart-splits.nvim",
@@ -75,12 +30,68 @@ return {
     build = "./kitty/install-kittens.bash",
     opts = {
       ignored_filetypes = { "NvimTree", "neo-tree" },
-      -- wk.add {
-      --   { "<Leader>w", group = "window" },
-      --   { "<Leader>w-ctrl<left>", require("smart-splits").resize_left, desc = "Resize window left" },
-      --   -- { "<Leader>w<left>", require('smart-splits').resize_left, desc = "Resize window right" },
-      -- },
     },
-    keys = {},
   },
+  -- --| appearance |----------------------------------------------------------------------------------------------------
+  {
+    -- https://github.com/folke/noice.nvim
+    "folke/noice.nvim",
+    enabled = true,
+    ---@type NoiceConfig
+    opts = {
+      ---@type NoiceFormatOptions
+      format = {
+        notify = { spinner = "dots" },
+        lsp_progress = {
+          {
+            " ",
+            key = "progress.percentage",
+            contents = {
+              { "{data.progress.message} " },
+            },
+          },
+          progress = nil,
+          "({data.progress.percentage}%) ",
+          { "{spinner} ", hl_group = "NoiceLspProgressSpinner" },
+          { "{data.progress.title} ", hl_group = "NoiceLspProgressTitle" },
+          { "{data.progress.client} ", hl_group = "NoiceLspProgressClient" },
+        },
+        lsp_progress_done = {
+          { "✔ ", hl_group = "NoiceLspProgressSpinner" },
+          { "{data.progress.title} ", hl_group = "NoiceLspProgressTitle" },
+          { "{data.progress.client} ", hl_group = "NoiceLspProgressClient" },
+        },
+      },
+      notify = {
+        enabled = true,
+        view = "mini",
+      },
+      messages = {
+        enabled = true,
+        view = "mini", -- default view for messages
+        view_error = "mini", -- view for errors
+        view_warn = "mini", -- view for warnings
+      },
+      ---@type NoiceConfigViews
+      views = {
+        cmdline = { border = { style = "single" } },
+        cmdline_input = { border = { style = "single" } },
+        cmdline_popup = { border = { style = "single" } },
+        confirm = { border = { style = "single" } },
+        notify = { replace = true },
+        popup = { border = { style = "single" } },
+        popupmenu = { border = { style = "single" } },
+      },
+    },
+  },
+  --[[
+  {
+    -- https://github.com/rcarriga/nvim-notify
+    "rcarriga/nvim-notify",
+    opts = {
+      render = "wrapped-compact",
+      top_down = false,
+    },
+  },
+  --]]
 }

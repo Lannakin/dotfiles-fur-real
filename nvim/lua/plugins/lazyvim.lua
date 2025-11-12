@@ -7,7 +7,11 @@
 ---@type LazySpec
 return {
   -- --| replacements / overrides |------------------------------------------------------------------------------------
-  { 'nvim-mini/mini.icons', version = false },
+  { -- FIXME: wtf is requiring mini.icons
+    "nvim-mini/mini.icons",
+    -- enabled = false
+    dependencies = { "DaikyXendo/nvim-material-icon", opts = {} },
+  },
   -- https://github.com/hrsh7th/nvim-cmp
   { "hrsh7th/nvim-cmp", enabled = false },
   { -- replace default project.nvim with actively developed fork
@@ -44,7 +48,7 @@ return {
       -- bigfile = { enabled = true },      -- deal with big files
       -- bufdelete = { enabled = true },    -- delete buffers conveneiently
       dashboard = { enabled = false },      -- declarative dashboards
-      -- dim = { enabled = false },         -- dim everything outside scope
+     dim = { enabled = true },              -- dim everything outside current scope
       explorer = { enabled = false },       -- file explorer (picker)
       indent = { enabled = true },          -- indent guides and scopes
       -- input = { enabled = true },        -- better vim.ui.input

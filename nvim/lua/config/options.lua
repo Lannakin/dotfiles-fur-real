@@ -4,6 +4,7 @@
 -- Add any additional options here
 local opt = vim.opt
 
+-- stylua: ignore start
 -- --| KEYMAP GLOBALS |-----------------------------------------------------------------------------------------------
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
@@ -24,16 +25,17 @@ opt.wrap = true                                         -- line wrap
 opt.list = true                                         -- Show some invisible characters
 opt.listchars = {
   eol = '⏎',
+  nbsp = '⎵',
   tab = '»·', -- » - OE '␉·'
   trail = '-',
-  nbsp = '⎵',
 --  space = '·'
 }
 vim.o.showtabline = 2                                   -- always show buffer tabline
 opt.termguicolors = true                                -- True color support
 
+
 -- --| BEHAVIOR |-----------------------------------------------------------------------------------------------------
-vim.o.clipboard = "unnamedplus"                         -- yank to system clipboard
+opt.errorbells = true                                   -- error bells
 opt.fileformat = "unix"                                 -- Set fileformat to Unix
 vim.api.nvim_command "filetype plugin on"      -- Enable filetype plugins
 -- LazyVim.terminal.setup("kitty")                      -- terminal to use (optional)
@@ -50,16 +52,19 @@ vim.b.trouble_lualine = true                            -- Show symbols location
 
 opt.autowrite = true -- auto write
 opt.mouse = "a" -- Enable mouse mode
-                                                        -- Sync with system clipboard
-opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- only set clipboard if not in ssh, to make sure the OSC 52 integration works
+vim.o.clipboard = "unnamedplus"                         -- sync w/ system clipboard
+opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- only sync system clipboard if not in ssh, to make sure the OSC 52 integration works
 opt.completeopt = "menu,menuone,noselect"               -- Configure completion options
 opt.confirm = true                                      -- Confirm to save changes before exiting modified buffer
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
 opt.hidden = true                                       -- allows keeping modified buffers in memory when not displayed
 opt.jumpoptions = "view"                                -- jumplist control
+opt.maxmempattern = 20000
+opt.redrawtime = 10000
 opt.ruler = false                                       -- default ruler
-opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
+opt.sessionoptions = { "buffers", "curdir", "globals", "folds", "skiprtp", "tabpages", "winsize", "winpos" }
+                                                        -- src: https://neovim.io/doc/user/options.html#'sessionoptions'
 opt.showmode = false                                    -- Dont show mode since we have a statusline
 -- opt.timeoutlen = vim.g.vscode and 1000 or 300           -- Lower than default (1000) to quickly trigger which-key
 opt.undofile = true
@@ -68,17 +73,19 @@ opt.updatetime = 200                                    -- Save swap file and tr
 opt.virtualedit = "block"                               -- Allow cursor to move where there is no text in visual block
 opt.wildmode = "longest:full,full"                      -- Command-line completion mode
 
--- --| COMMANDS |-----------------------------------------------------------------------------------------------------
-
 -- --| EDITOR |-------------------------------------------------------------------------------------------------------
 -- behavior --
+opt.diffopt:append("linematch:60")
+opt.selection = "inclusive"                             -- Selection behavior: exclusive, inclusive, old
+                                                        -- src: https://neovim.io/doc/user/options.html#'selection'
 opt.smoothscroll = true
 opt.spelllang = { "en" }
 vim.g.autoformat = false                                -- LazyVim auto format
 vim.g.lazyvim_eslint_auto_format = false                -- LazyVim eslint auto format
+opt.showmatch = true                                    -- Highlight matching brackets
 -- context --
-opt.scrolloff = 4                                       -- Lines of context
-opt.sidescrolloff = 8                                   -- Columns of context
+opt.scrolloff = 10                                      -- Lines of context
+opt.sidescrolloff = 10                                  -- Columns of context
 -- indentation --
 vim.g.markdown_recommended_style = 1                    -- Fix markdown indentation settings
 opt.expandtab = true                                    -- Use spaces instead of tabs
@@ -88,7 +95,14 @@ opt.shiftround = true                                   -- Round indent
 opt.shiftwidth = 4                                      -- Size of an indent
 opt.softtabstop = 4
 -- folding --
-opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+opt.fillchars = {
+  diff = "/",
+  eob = " ",
+  fold = " ",
+  foldclose = "",
+  foldopen = "",
+  foldsep = " ",
+}
 opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"
 opt.foldenable = false
@@ -118,12 +132,20 @@ opt.pumheight = 15                                      -- Maximum number of ent
 opt.statuscolumn = [[%!v:lua.LazyVim.statuscolumn()]]
 -- opt.statuscolumn = [[%!v:lua.snacks.statuscolumn()]]
 opt.winminwidth = 5                                     -- Minimum window width
+-- stylua: ignore end
+-- --| CURSOR BLINK |--------------------------------------------------------------------------------------------------
+vim.o.guicursor = table.concat({
+  "n-v-c:block-Cursor/lCursor-blinkon100-blinkoff100",
+  "i-ci:ver25-Cursor/lCursor-blinkon100-blinkoff100",
+  "r:hor50-Cursor/lCursor-blinkon100-blinkoff100",
+}, ",")
 
 -- --| ADD FILETYPES |------------------------------------------------------------------------------------------------
 vim.filetype.add {
   extension = {
     conf = "conf",
     config = "conf",
+    env = "dotenv",
     md = "markdown",
     adoc = "markdown",
     mdx = "mdx",
@@ -142,5 +164,14 @@ vim.filetype.add {
       return "c"
     end,
   },
-}
 
+  filename = {
+    [".env"] = "dotenv",
+    ["env"] = "dotenv",
+  },
+
+  pattern = {
+    ["[jt]sconfig.*.json"] = "jsonc",
+    ["%.env%.[%w_.-]+"] = "dotenv",
+  },
+}

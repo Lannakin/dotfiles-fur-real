@@ -1,6 +1,7 @@
 -- /plugins/telescope.lua
 -- disabled if below line is active
 -- if true then return {} end
+---@module 'lazy'
 ---@diagnostic disable: missing-fields
 
 ---@type LazySpec
@@ -11,6 +12,7 @@ return {
     -- opts = {},
     cmd = "Telescope",
     build = "make",
+    -- stylua: ignore
     dependencies = {
       { "nvim-lua/plenary.nvim" },
       {
@@ -30,20 +32,19 @@ return {
         ---@module "project"
         ---@type Project.Config.Options
         opts = {
+          detection_methods = { "pattern" },
+          allow_patterns_for_lsp = false,
           manual_mode = true,
           -- show_hidden = true,  -- this also shows inside .git/
           base_dirs = { "~/LA-repos/" },
-          -- patterns = { ".git", ".github", "*.sln", "build/env.sh" },
+          patterns = { ".git", ".github", "*.sln", "build/env.sh" },
           exclude_dirs = { "~/.local/nvim/" }, -- directories not to calculate root on
           -- telescope = { prefer_file_browser = true },
+          disable_file_picker = true,
         },
-        -- below should not be needed
-        -- config = function(__, opts)
-        --   require("project").setup(opts)
-        -- end,
       },
-      { "andrew-george/telescope-themes" }, -- https://github.com/andrew-george/telescope-themes
-      { "nyarthan/telescope-code-actions.nvim" }, -- https://github.com/nyarthan/telescope-code-actions.nvim
+      { "andrew-george/telescope-themes" },             -- https://github.com/andrew-george/telescope-themes
+      { "nyarthan/telescope-code-actions.nvim" },       -- https://github.com/nyarthan/telescope-code-actions.nvim
       { "nvim-telescope/telescope-file-browser.nvim" }, -- https://github.com/nvim-telescope/telescope-file-browser.nvim
       -- { "hasansujon786/telescope-ui-select.nvim" },    -- https://github.com/hasansujon786/telescope-ui-select.nvim
     },

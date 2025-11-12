@@ -25,18 +25,6 @@ local solarized_colors = {
 
 local bufferline = require('bufferline')
 
---- [ bufferline config source locals ] ---
--- local lazy = require "bufferline.lazy"
--- local utils = lazy.require("bufferline.utils")            ---@module "bufferline.utils"
--- local highlights = lazy.require("bufferline.highlights")  ---@module "bufferline.highlights"
--- local colors = lazy.require("bufferline.colors")          ---@module "bufferline.colors"
--- local constants = lazy.require "bufferline.constants"     ---@module "bufferline.colors"
-
--- local hex = colors.get_color
--- local normal_fg = hex({ name = "Normal", attribute = "fg" })
--- local normal_bg = hex({ name = "Normal", attribute = "bg" })
--- local string_fg = hex({ name = "String", attribute = "fg" })
-
 -- icons:
 -- https://fontawesome.com/cheatsheet
 -- https://fontawesome.com/v3/cheatsheet/
@@ -48,8 +36,9 @@ return {
     -- https://github.com/akinsho/bufferline.nvim
     "akinsho/bufferline.nvim",
     enabled = true,
+    version = false,
+    dependencies = { "DaikyXendo/nvim-material-icon", opts = {} },
     opts = {
-
       ---@type bufferline.Options
       options = {
         style_preset = bufferline.style_preset.minimal, -- or bufferline.style_preset.minimal,
@@ -88,7 +77,6 @@ return {
         hover = { enabled = false } },
 
       highlights = {
-
         -- sp = special; color of the indicator in indicator_style
 
         --- [ BACKGROUNDEST ] ---
@@ -100,7 +88,6 @@ return {
           bg = solarized_colors.base3,  -- background of background buffers
           fg = solarized_colors.base01, -- text of background buffers
         },
-
         --- [ BUFFERS ] ---
         buffer_selected = { -- selected buffer...
           bg = solarized_colors.base3,
@@ -114,7 +101,6 @@ return {
           bg = solarized_colors.base3,
           fg = solarized_colors.base01,
         },
-
         --- [ TABS ] ---
         tab = { -- on right side of nvim's window
           bg = solarized_colors.base3,
@@ -130,7 +116,6 @@ return {
           sp = solarized_colors.orange, -- color of special
           underline = true,
         },
-
         --- [ TAB SEPARATORS ] ---
         tab_separator = {
           bg = solarized_colors.base3,
@@ -142,7 +127,6 @@ return {
           -- sp = solarized_colors.cyan,
           underline = false,
         },
-
         --- [ BUFFER SEPARATORS ] ---
         offset_separator = { -- separator between offset and buffers
           bg = solarized_colors.base3,
@@ -161,7 +145,6 @@ return {
           fg = solarized_colors.base01,
           bg = solarized_colors.base3,
         },
-
         --- [ BUFFER EXISTENCE INDICATOR ] ---
         indicator_visible = { -- left side by filetype icon
           bg = solarized_colors.base3,
@@ -174,7 +157,6 @@ return {
           sp = solarized_colors.orange, -- color of special
           -- underline = false,
         },
-
         --- [ BUFFER MODIFIED INDICATOR ] ---
         modified = {
           fg = solarized_colors.cyan,
@@ -191,7 +173,6 @@ return {
           fg = solarized_colors.cyan,
           bg = solarized_colors.base3,
         },
-
         --- [ BUFFER DUPLICATE INDICATOR ] ---
         duplicate = {
           bg = solarized_colors.base3,
@@ -209,13 +190,11 @@ return {
           bg = solarized_colors.red,
           fg = solarized_colors.blue,
         },
-
         --- [ BUFFER NAME TRUNCATED INDICATOR ] ---
         trunc_marker = {
           bg = solarized_colors.base3,
           fg = solarized_colors.cyan,
         },
-
         --- [ BUFFER PICK INDICATOR ] ---
         pick = {
           bg = solarized_colors.base3,
@@ -233,7 +212,6 @@ return {
           bg = solarized_colors.base3,
           fg = solarized_colors.violet,
         },
-
         --- [ BUFFER CLOSE BUTTON ] ---
         close_button = {
           bg = solarized_colors.base01,
@@ -247,7 +225,6 @@ return {
           bg = solarized_colors.base01,
           fg = solarized_colors.base3,
         },
-
         --- [ TAB NUMBERS ] ---
         numbers = {
           fg = solarized_colors.base01,
@@ -265,7 +242,6 @@ return {
           fg = solarized_colors.base01,
           bg = solarized_colors.base3,
         },
-
         --- [ BUFFER LSP LIGHTBULB INDICATOR ] ---
         hint = { -- when lightbulb lsp diagnostic
           bg = solarized_colors.base3,
@@ -282,7 +258,6 @@ return {
           bg = solarized_colors.base3,
           fg = solarized_colors.green,
         },
-
         --- [ BUFFER INFO INDICATOR ] ---
         info = {
           fg = solarized_colors.base3,
@@ -315,7 +290,6 @@ return {
           fg = solarized_colors.blue,
           bg = solarized_colors.base3,
         },
-
         --- [ BUFFER WARNING INDICATOR ] ---
         warning = {
           fg = solarized_colors.yellow,
@@ -333,7 +307,6 @@ return {
           fg = solarized_colors.yellow,
           bg = solarized_colors.base3,
         },
-
         --- [ BUFFER LSP WARNING INDICATOR ] ---
         warning_diagnostic = {
           fg = solarized_colors.yellow,
@@ -351,7 +324,6 @@ return {
           fg = solarized_colors.yellow,
           bg = solarized_colors.base3,
         },
-
         --- [ BUFFER ERROR INDICATOR ] ---
         error = {
           fg = solarized_colors.red,
@@ -369,7 +341,6 @@ return {
           fg = solarized_colors.red,
           bg = solarized_colors.base3,
         },
-
         --- [ BUFFER LSP ERROR INDICATOR ] ---
         error_diagnostic = {
           fg = solarized_colors.red,

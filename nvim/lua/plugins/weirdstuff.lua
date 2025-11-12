@@ -1,7 +1,8 @@
--- /plugins/presence.lua
+-- /plugins/weirdstuff.lua
 -- disabled if below line is active
 -- if true then return {} end
 
+-- stuff that i probably really shouldn't have in neovim
 ---@type LazyPluginSpec
 return {
   -- https://github.com/jiriks74/presence.nvim

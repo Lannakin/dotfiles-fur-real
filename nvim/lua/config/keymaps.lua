@@ -1,123 +1,121 @@
 -- /config/keymaps.lua
+-- lazyvim defaults full src: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
+-- ================================================================================================================= --
 
--- defaults full src: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
-
+-- --| local variables |-----------------------------------------------------------------------------------------------
 local map = vim.keymap.set
 local unmap = vim.keymap.del
 
+-- +---------------------------------------------------------+
+-- |                                                         |
+-- | unmap existing keymaps                                  |
+-- |                                                         |
+-- +---------------------------------------------------------+
+
 -- --| unmap existing default neovim keymaps |-------------------------------------------------------------------------
-unmap("n", "<leader>fn") -- file operations: new file
+-- [ various ] --
+unmap("n", "<leader>fn")      -- file operations: new file
 unmap({ "n", "i" }, "<C-F>" ) -- scroll forward
 
--- ----[ v stolen from MeteorNvim v ]----------------------------------------------------------------------------------
--- src: https://github.com/MeteorNvim/MeteorNvim/blob/main/lua/userconfig/mappings.lua
+-- --| unmap existing lazyvim default kemaps |-------------------------------------------------------------------------
+-- [ various ] --
+unmap({ "n", "x" }, "<leader>cf") -- format file
+-- [ buffer operations ] --
+unmap("n", "<S-h>")      -- prev buffer
+unmap("n", "<S-l>")      -- next buffer
+unmap("n", "<C-Up>")     -- resize buffer up
+unmap("n", "<C-Down>")   -- resize buffer down
+unmap("n", "<C-Left>")   -- resize buffer left
+unmap("n", "<C-Right>")  -- resize buffer right
+unmap("n", "<leader>bb") -- switch to other buffer
+unmap("n", "<leader>bd") -- delete buffer
+unmap("n", "<leader>bo") -- delete other buffers
+unmap("n", "<leader>bD") -- delete buffer and window
 
 -- --| Neotree |-------------------------------------------------------------------------------------------------------
 map({ "i", "n" }, "<C-B>", "<CMD>:Neotree toggle<CR>", { desc = "Toggle Neotree pane" })
 
--- --| Theme switcher |------------------------------------------------------------------------------------------------
-map("n", "<Leader>t", ":Telescope themes<CR>", { desc = "Theme Switcher", noremap = true, silent = true })
 
--- --| Hover |---------------------------------------------------------------------------------------------------------
-map("n", "<Leader>h", ":lua vim.lsp.buf.hover()<CR>", { noremap = true, silent = true })
+-- +---------------------------------------------------------+
+-- |                                                         |
+-- | file operations                                         |
+-- |                                                         |
+-- +---------------------------------------------------------+
 
--- --| Signature Help |------------------------------------------------------------------------------------------------
-map(
-  "n",
-  "<Leader>ls",
-  ":lua vim.lsp.buf.signature_help()<CR>",
-  { desc = "LSP signature help", noremap = true, silent = true }
-)
-map("n", "<Leader>l", ":noh<CR>", { desc = "LSP signature help", noremap = true, silent = true })
+-- --| renamer |-------------------------------------------------------------------------------------------------------
+map("n", "<Leader>r", ":lua require('renamer').rename()<CR>", { desc = "Rename file with renamer", noremap = true, silent = true })
 
--- --| Format |--------------------------------------------------------------------------------------------------------
--- map("n", "<Leader>f", ":lua vim.lsp.buf.format()<CR>", { desc = "Format document", noremap = true, silent = true })
+-- +---------------------------------------------------------+
+-- |                                                         |
+-- | editor operations                                       |
+-- |                                                         |
+-- +---------------------------------------------------------+
 
--- --| Renamer |-------------------------------------------------------------------------------------------------------
-map("n", "<Leader>r", ":lua require('renamer').rename()<CR>", { desc = "Rename", noremap = true, silent = true })
+-- --| select all |----------------------------------------------------------------------------------------------------
+map("n", "<C-A>", "ggVG", { desc = "Select all", noremap = true, silent = true })
+map("i", "<C-A>", "<c-o>gg<c-o>VG<cr>", { desc = "Select all", noremap = true, silent = true })
 
--- --| Code Actions |--------------------------------------------------------------------------------------------------
-map(
-  "n",
-  "<Leader>c",
-  ":lua require('telescope').extensions.code_actions.code_actions()<CR>",
-  { desc = "Code actions", noremap = true, silent = true }
-)
-map("n", "<Leader>gg", ":goto<CR>", { desc = "Code actions: go to" })
-
--- --| Ctrl+Delete |---------------------------------------------------------------------------------------------------
-map("i", "<C-BS>", "<C-w>", { desc = "Delete next word" })
-map("i", "<C-h>", "<C-w>", { desc = "Delete next word" })
-
--- --| Splits |--------------------------------------------------------------------------------------------------------
-map("n", "<leader>sv", ":vsp<CR>", { desc = "", noremap = true })
-map("n", "<leader>sh", ":sp<CR>", { desc = "", noremap = true })
-
--- --| Clipboard Functions |-------------------------------------------------------------------------------------------
-map({ "i", "n", "v" }, "<C-C>", '"+y', { desc = "Copy to system clipboard", silent = true })
-map({ "i", "n", "v" }, "<C-V>", '"+p', { desc = "Paste from system clipboard", silent = true })
-map({ "i", "n", "v" }, "<C-X>", '"+d', { desc = "Cut to system clipboard", silent = true })
-
--- --| Undo |----------------------------------------------------------------------------------------------------------
+-- --| undo / redo operations |----------------------------------------------------------------------------------------
+-- [ undo ] --
 map("n", "<C-Z>", ":u<CR>", { desc = "Undo" })
 map("i", "<C-Z>", "<c-o>:u<CR>", { desc = "Undo" })
 map("v", "<C-Z>", "<ESC>:u<CR>", { desc = "Undo" })
+-- [ add undo break-points ] --
+-- src: https://tduyng.com/blog/neovim-basic-setup/
+map("i", ",", ",<c-g>u" )
+map("i", ".", ".<c-g>u" )
+map("i", ";", ";<c-g>u" )
 
--- --| Redo |----------------------------------------------------------------------------------------------------------
+-- [ redo ] --
 map("n", "<C-Y>", ":redo<CR>", { desc = "Redo" })
 map("i", "<C-Y>", "<c-o>:redo<CR>", { desc = "Redo" })
 map("v", "<C-Y>", "<ESC> :redo<CR>", { desc = "Redo" })
 
--- --| Ctrl+Delete |---------------------------------------------------------------------------------------------------
-map("i", "<C-BS>", "<C-w>", { desc = "Control Delete" })
-map("i", "<C-h>", "<C-w>", { desc = "Control Delete" })
+-- --| indent selection |----------------------------------------------------------------------------------------------
+map("v", "<TAB>", ">gv", { desc = "Indent selection right" })
+map("v", "<S-TAB>", "<gv", { desc = "Indent selection left" })
 
--- --| Select all |----------------------------------------------------------------------------------------------------
-map("n", "<C-A>", "ggVG", { desc = "Select all", silent = true })
-map("i", "<C-A>", "<c-o>gg<c-o>VG<cr>", { desc = "Select all", silent = true })
+-- --| move line |-----------------------------------------------------------------------------------------------------
+-- [ up ] --
+map("i", "<C-Up>", "<Esc>:m .-2<CR>==gi", { desc = "Move line up" })
+map("n", "<C-Up>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move line up" })
+map("v", "<C-Up>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move line up" })
+-- map("n", "<C-Up>", ":m .-2<CR>==", { desc = "Move line up" })
+-- map("v", "<C-Up>", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
+-- [ down ] --
+map("i", "<C-Down>", "<Esc>:m .+1<CR>==gi", { desc = "Move line down" })
+map("n", "<C-Down>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move line down" })
+map("v", "<C-Down>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = "Move line down" })
+-- map("n", "<C-Down>", ":m .+1<CR>==", { desc = "Move line down" })
+-- map("v", "<C-Down>", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
 
--- --| Move Selection |------------------------------------------------------------------------------------------------
-map("v", "<TAB>", ">gv", { desc = "Move selection right" })
-map("v", "<S-TAB>", "<gv", { desc = "Move selection left" })
+-- --| clipboard Functions |-------------------------------------------------------------------------------------------
+-- [ cut ] --
+map({ "i", "n", "v" }, "<C-X>", '"+d', { desc = "Cut to system clipboard", silent = true })
 
--- --| Delete Selection in Visual Mode |-------------------------------------------------------------------------------
+-- [ copy ] --
+map({ "i", "n", "v" }, "<C-C>", '"+y', { desc = "Copy to system clipboard", silent = true })
+
+-- [ paste ] --
+map({ "i", "n", "v" }, "<C-V>", '"+p', { desc = "Paste from system clipboard", silent = true })
+map("v", "<C-V>", '"_dP', { desc = "Paste without deleting clipboard contents", noremap = true, silent = true })
+
+-- --| delete operations |---------------------------------------------------------------------------------------------
+-- [ delete selection ] --
 map("v", "<BS>", [["_d]], { desc = "Delete selection" })
 
--- --| Delete Without Overriding Last ClipboardYank |------------------------------------------------------------------
+-- [ clipboard-safe deletion ] --
 map("n", "<C-K>", [["_dd]], { desc = "Clipboard-safe delete" })
 map("i", "<C-K>", [[<c-o>"_dd]], { desc = "Clipboard-safe delete" })
 map("v", "<C-K>", [["_d]], { desc = "Clipboard-safe delete" })
 
--- --| BufferLine Next / Prev |----------------------------------------------------------------------------------------
--- next
-map("n", "<C-PageDown>", ":BufferLineCycleNext<CR>", { desc = "Cycle to next BufferLine" })
-map("i", "<C-PageDown>", "<c-o>:BufferLineCycleNext<CR>", { desc = "Cycle to next BufferLine" })
--- prev
-map("n", "<C-PageUp>", ":BufferLineCyclePrev<CR>", { desc = "Cycle to previous BufferLine" })
-map("i", "<C-PageUp>", "<c-o>:BufferLineCyclePrev<CR>", { desc = "Cycle to previous BufferLine" })
+-- [ control-delete ] --
+map("i", "<C-BS>", "<C-w>", { desc = "Control Delete" })
+map("i", "<C-h>", "<C-w>", { desc = "Control Delete" })
+map("i", "<C-BS>", "<C-w>", { desc = "Delete next word" })
+map("i", "<C-h>", "<C-w>", { desc = "Delete next word" })
 
--- --| Bufferline Move Tab |-------------------------------------------------------------------------------------------
--- next
-map("n", "<C-ScrollWheelUp>", ":BufferLineMoveNext<CR>", { desc = "Move BufferLine to next position" })
-map("i", "<C-ScrollWheelUp>", "<c-o>:BufferLineMoveNext<CR>", { desc = "Move BufferLine to next position" })
--- prev
-map("n", "<C-ScrollWheelDown>", ":BufferLineMovePrev<CR>", { desc = "Move BufferLine to previous position" })
-map("i", "<C-ScrollWheelDown>", "<c-o>:BufferLineMovePrev<CR>", { desc = "Move BufferLine to previous position" })
-
--- --| Move Lines |----------------------------------------------------------------------------------------------------
--- normal mode
-map("n", "<C-Down>", ":m .+1<CR>==", { desc = "Move line down" })
-map("n", "<C-Up>", ":m .-2<CR>==", { desc = "Move line up" })
--- editor mode
-map("i", "<C-Down>", "<Esc>:m .+1<CR>==gi", { desc = "Move line down" })
-map("i", "<C-Up>", "<Esc>:m .-2<CR>==gi", { desc = "Move line up" })
--- visual mode
-map("v", "<C-Down>", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
-map("v", "<C-Up>", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
-
--- ----[ ^ stolen from MeteorNvim ^ ]----------------------------------------------------------------------------------
-
--- Smart Delete (preserves clipboard while deleting empty lines) --
+-- [ smart delete (preserves clipboard while deleting empty lines) ] --
 map("n", "dd", function()
   if vim.api.nvim_get_current_line():match "^%s*$" then
     return '"_dd'
@@ -126,45 +124,116 @@ map("n", "dd", function()
   end
 end, { desc = "Delete (smart)", noremap = true, expr = true })
 
--- ----[ LazyVim Default Keymaps: start ]------------------------------------------------------------------------------
-
 -- --| formatting |----------------------------------------------------------------------------------------------------
--- unmap existing
-unmap({ "n", "x" }, "<leader>cf")
-
+-- [ lazyformat ] --
 map({ "n", "x" }, "<leader>cf", ":LazyFormat<CR>", { desc = "Format with Lazyformat" })
 
--- src: https://github.com/dpetka2001/dotfiles/blob/main/dot_config/nvim/lua/config/keymaps.lua
--- map("v", "<leader>cf", "<cmd>lua vim.lsp.buf.format({async=true})<cr>", { desc = "Format selection" })
+-- --| auto-pairing |---------------------------------------------------------------------------------------------------
+map("i", "`", "``<left>", { desc = "Auto-pair ` `" })
+map("i", '"', '""<left>', { desc = 'Auto-pair " "' })
+map("i", "(", "()<left>", { desc = "Auto-pair ( )" })
+map("i", "[", "[]<left>", { desc = "Auto-pair [ ]" })
+map("i", "{", "{}<left>", { desc = "Auto-pair { }" })
+map("i", "<", "<><left>", { desc = "Auto-pair < >" })
 
--- --| buffers |-------------------------------------------------------------------------------------------------------
---[ unmap existing ]--
--- prev / next
-unmap("n", "<S-h>") -- prev
-unmap("n", "<S-l>") -- next
--- 
-unmap("n", "<leader>bb")
-unmap("n", "<leader>bd")
-unmap("n", "<leader>bo")
-unmap("n", "<leader>bD")
+-- --| search |--------------------------------------------------------------------------------------------------------
+-- [ next search result ] --
+map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next search result" })
+map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search Result" })
+map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search Result" })
+-- [ prev search result ] --
+map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev search result" })
+map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search Result" })
+map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search Result" })
 
---[ remap ]--
---prev / next
-map("n", "<S-Left>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
-map("n", "<S-Right>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
+-- +---------------------------------------------------------+
+-- |                                                         |
+-- | buffer navigation & management                          |
+-- |                                                         |
+-- +---------------------------------------------------------+
 
--- switch
-map("n", "<leader>Bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
+-- --| bufferline buffer navigation |----------------------------------------------------------------------------------
+-- [ cycle next / prev ] --
+map("i", "<C-PageDown>", "<c-o>:BufferLineCycleNext<CR>", { desc = "Cycle to next buffer in BufferLine" })
+map("n", "<C-PageDown>", ":BufferLineCycleNext<CR>", { desc = "Cycle to next buffer in BufferLine" })
+map("i", "<C-PageUp>", "<c-o>:BufferLineCyclePrev<CR>", { desc = "Cycle to previous buffer in BufferLine" })
+map("n", "<C-PageUp>", ":BufferLineCyclePrev<CR>", { desc = "Cycle to previous buffer in BufferLine" })
 
+-- --| bufferline move tab |-------------------------------------------------------------------------------------------
+-- [ next / prev position ] --
+map("i", "<C-ScrollWheelUp>", "<c-o>:BufferLineMoveNext<CR>", { desc = "Move BufferLine to next position" })
+map("n", "<C-ScrollWheelUp>", ":BufferLineMoveNext<CR>", { desc = "Move BufferLine to next position" })
+map("i", "<C-ScrollWheelDown>", "<c-o>:BufferLineMovePrev<CR>", { desc = "Move BufferLine to previous position" })
+map("n", "<C-ScrollWheelDown>", ":BufferLineMovePrev<CR>", { desc = "Move BufferLine to previous position" })
+
+-- --| buffer navigation |---------------------------------------------------------------------------------------------
+-- [ cycle next / prev ] --
+map("n", "<S-Right>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+map("n", "<S-Left>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+
+-- [ switch ] --
+map("n", "<leader>Bb", "<cmd>e #<cr>", { desc = "Switch to other buffer" })
+
+-- [ delete (close) ] --
 ---@diagnostic disable: undefined-global
-map("n", "<leader>Bd", function()
-  Snacks.bufdelete()
-end, { desc = "Delete Buffer" })
-map("n", "<leader>Bo", function()
-  Snacks.bufdelete.other()
-end, { desc = "Delete Other Buffers" })
-map("n", "<leader>BD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
+map("n", "<leader>Bd", function() Snacks.bufdelete() end, { desc = "Close buffer" })
+map("n", "<leader>Bo", function() Snacks.bufdelete.other() end, { desc = "Close other buffers" })
+map("n", "<leader>BD", "<cmd>:bd<cr>", { desc = "Close buffer and window" })
 ---@diagnostic enable
 
--- ---[ LazyVim Default Keymaps: end ]---
+-- +---------------------------------------------------------+
+-- |                                                         |
+-- | tab nagivation & management                             |
+-- |                                                         |
+-- +---------------------------------------------------------+
 
+-- --| tab navigation |------------------------------------------------------------------------------------------------
+-- [ prev / next ] --
+map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+map("n", "<leader><tab><right>", "<cmd>tabnext<cr>", { desc = "Next Tab" })
+map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+map("n", "<leader><tab><left>", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+-- [ first / last ] --
+map("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
+map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
+
+-- --| tab management |------------------------------------------------------------------------------------------------
+-- [ new tab ] --
+map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
+-- [ close tabs ] --
+map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
+map("n", "<leader><tab>o", "<cmd>tabonly<cr>", { desc = "Close Other Tabs" })
+
+-- +---------------------------------------------------------+
+-- |                                                         |
+-- | development operations                                  |
+-- |                                                         |
+-- +---------------------------------------------------------+
+
+-- --| code actions |--------------------------------------------------------------------------------------------------
+map("n", "<Leader>ca", ":lua require('telescope').extensions.code_actions.code_actions()<CR>", { desc = "Code actions", noremap = true, silent = true })
+-- map("n", "<Leader>gg", ":goto<CR>", { desc = "Code actions: go to" })
+
+-- --| -keyword program (K for help on word under cursor) |------------------------------------------------------------
+map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
+
+-- --| inspect ui |----------------------------------------------------------------------------------------------------
+map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
+map("n", "<leader>uI", "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
+
+-- --| LSP operations |------------------------------------------------------------------------------------------------
+-- [ hover ] --
+map("n", "<Leader>h", ":lua vim.lsp.buf.hover()<CR>", { noremap = true, silent = true })
+
+-- [ signature help ] --
+map("n", "<Leader>ls", ":lua vim.lsp.buf.signature_help()<CR>", { desc = "LSP signature help", noremap = true, silent = true })
+map("n", "<Leader>l", ":noh<CR>", { desc = "LSP signature help", noremap = true, silent = true })
+
+-- +---------------------------------------------------------+
+-- |                                                         |
+-- | search                                                  |
+-- |                                                         |
+-- +---------------------------------------------------------+
+
+map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
+map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })

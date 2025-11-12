@@ -13,6 +13,12 @@ local autocmd = vim.api.nvim_create_autocmd
 local usercmd = vim.api.nvim_create_user_command
 local map = vim.keymap.set
 
+-- --| enable spellcheck in certain buffers |--------------------------------------------------------------------------
+autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.txt", "*.md", "*.tex" },
+  command = "setlocal spell",
+})
+
 -- --| Disable autoformat for lua files |------------------------------------------------------------------------------
 autocmd({ "FileType" }, {
   pattern = { "lua" },

@@ -1,57 +1,15 @@
 -- /plugins/coding.lua
 -- disabled if below line is active
 -- if true then return {} end
--- ---@diagnostic disable:undefined-global, unused
+---@module 'lazy'
 
 -- [ v for mini.surround v ] --
 -- vim.keymap.set({ "n", "x" }, "s", "<Nop>")
 vim.o.timeoutlen = 3000 -- increase timeout b/c slow
 -- [ ^ for mini.surround ^ ] --
 
--- src: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/plugins/extras/util/dot.lua
--- yes, for real, I am explicitly adding this so Lua LS can see it without being pointed at it via lazydev
----@type string
-local xdg_config = vim.env.XDG_CONFIG_HOME or vim.env.HOME .. "/.config"
-
----@param path string
-local function have(path)
-  return vim.uv.fs_stat(xdg_config .. "/" .. path) ~= nil
-end
-
 ---@type LazySpec
 return {
-  { -- add dotfile parsing to nvim-treesitter
-    -- https://github.com/nvim-treesitter/nvim-treesitter
-    "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      local function add(lang)
-        if type(opts.ensure_installed) == "table" then
-          table.insert(opts.ensure_installed, lang)
-        end
-      end
-
-      vim.filetype.add {
-        extension = { rasi = "rasi", rofi = "rasi", wofi = "rasi" },
-        filename = {
-          ["vifmrc"] = "vim",
-        },
-        pattern = {
-          [".*/waybar/config"] = "jsonc",
-          [".*/mako/config"] = "dosini",
-          [".*/kitty/.+%.conf"] = "kitty",
-          [".*/hypr/.+%.conf"] = "hyprlang",
-          ["%.env%.[%w_.-]+"] = "sh",
-        },
-      }
-      vim.treesitter.language.register("bash", "kitty")
-
-      add "git_config"
-
-      if have "rofi" then
-        add "rasi"
-      end
-    end,
-  },
   { -- used by LSPs
     -- https://github.com/nvim-treesitter/nvim-treesitter-context
     "nvim-treesitter/nvim-treesitter-context",
@@ -77,7 +35,7 @@ return {
       },
     },
   },
--- --| visual stuff |--------------------------------------------------------------------------------------------------
+  -- --| visual stuff |--------------------------------------------------------------------------------------------------
   { -- highlights text when undoing
     "tzachar/highlight-undo.nvim",
     opts = {
@@ -85,6 +43,32 @@ return {
       duration = 300,
       pattern = { "*" },
       ignored_filetypes = { "neo-tree", "fugitive", "TelescopePrompt", "mason", "lazy" },
+    },
+  },
+  {
+    -- https://github.com/lukas-reineke/indent-blankline.nvim
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    version = false,
+    ---@module "ibl"
+    ---@type ibl.config
+    opts = {
+      enabled = true,
+      debounce = 200,
+      indent = {
+        repeat_linebreak = vim.o.bri and vim.o.briopt ~= "",
+        smart_indent_cap = false,
+        char = { "┆" }, -- ┆ ┇ ┊ ╎ •
+        -- tab_char = { '▏', '▎', '▍', '▌', '▋', '▊', '▉', '█' },
+      },
+      scope = {
+        enabled = true,
+        char = { "╎" },
+      },
+      whitespace = {
+        highlight = { "Whitespace", "NonText" },
+        remove_blankline_trail = false,
+      },
     },
   },
   --[[

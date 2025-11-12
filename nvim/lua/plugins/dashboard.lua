@@ -6,6 +6,7 @@
 return {
   { -- https://github.com/goolord/alpha-nvim
     "goolord/alpha-nvim",
+    dependencies = { "DaikyXendo/nvim-material-icon", opts = {} },
     event = "VimEnter",
     enabled = true,
     init = false,
