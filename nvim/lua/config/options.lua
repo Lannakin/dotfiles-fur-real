@@ -133,12 +133,6 @@ opt.statuscolumn = [[%!v:lua.LazyVim.statuscolumn()]]
 -- opt.statuscolumn = [[%!v:lua.snacks.statuscolumn()]]
 opt.winminwidth = 5                                     -- Minimum window width
 -- stylua: ignore end
--- --| CURSOR BLINK |--------------------------------------------------------------------------------------------------
-vim.o.guicursor = table.concat({
-  "n-v-c:block-Cursor/lCursor-blinkon100-blinkoff100",
-  "i-ci:ver25-Cursor/lCursor-blinkon100-blinkoff100",
-  "r:hor50-Cursor/lCursor-blinkon100-blinkoff100",
-}, ",")
 
 -- --| ADD FILETYPES |------------------------------------------------------------------------------------------------
 vim.filetype.add {

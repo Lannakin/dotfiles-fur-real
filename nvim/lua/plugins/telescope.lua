@@ -32,9 +32,9 @@ return {
         ---@module "project"
         ---@type Project.Config.Options
         opts = {
-          detection_methods = { "pattern" },
           allow_patterns_for_lsp = false,
           manual_mode = true,
+          use_lsp = true,
           -- show_hidden = true,  -- this also shows inside .git/
           base_dirs = { "~/LA-repos/" },
           patterns = { ".git", ".github", "*.sln", "build/env.sh" },
