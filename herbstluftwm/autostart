@@ -455,6 +455,9 @@ echo "${TIMESTAMP} herbstluftwm|info: setting xwallpaper  --zoom \"${HOME}/.loca
 
 xrandr --dpi 122.38/DisplayPort-0 --dpi 109.68/DisplayPort-1 --dpi 96/DisplayPort-2 > "${XRANDRLOG}" &
 
+"${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --conky
+echo "${TIMESTAMP} herbstluftwm|info: starting conky using herbstluftwm-start.sh --conky"
+
 input-remapper-control --config-dir "${HOME}"/.config/input-remapper-2/ --command autoload
 echo "${TIMESTAMP} herbstluftwm|info: setting input-remapper-control --config-dir ${HOME}/.config/input-remapper-2/ --command autoload"
 
