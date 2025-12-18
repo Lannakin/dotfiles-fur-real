@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 #via https://wiki.archlinux.org/title/Dunst#Using_dunstify_as_volume/brightness_level_indicator
 # changeVolume

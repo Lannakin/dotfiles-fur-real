@@ -1,21 +1,18 @@
 #!/usr/bin/env bash
 #
 # herbstluftwm setup's temporary environment variables
+# usage:
+# source "/home/lannakin/LA-repos/dotfiles.herbstluftwm/herbstluftwm/herbstluftwm-env"
 
-#***********************#
-#   LOG FILES SECTION   #
-#***********************#
+# --| LOG FILES |--------------------------------------------------------------
+export HERBSTLUFTWMLOG="${HOME}/LOGS/desktop-env/herbstluftwm.log"
+export NOTIFICATIONDAEMONLOG="${HOME}/LOGS/desktop-env/herbstluftwm-dunst.log"
+export STATUSBARLOG="${HOME}/LOGS/desktop-env/herbstluftwm-polybar.log"
+export XRANDRLOG="${HOME}/LOGS/desktop-env/herbstluftwm-xrandr.log"
+export KEYBINDMANAGERLOG="${HOME}/LOGS/desktop-env/herbstluftwm-sxhkd.log"
+export CONKYLOG="${HOME}/LOGS/desktop-env/herbstluftwm-conky.log"
 
-export HERBSTLUFTWMLOG="${HOME}/LOGS/herbstluftwm.log"
-export NOTIFICATIONDAEMONLOG="${HOME}/LOGS/herbstluftwm-dunst.log"
-export STATUSBARLOG="${HOME}/LOGS/herbstluftwm-polybar.log"
-export XRANDRLOG="${HOME}/LOGS/herbstluftwm-xrandr.log"
-export KEYBINDMANAGERLOG="${HOME}/LOGS/herbstluftwm-sxhkd.log"
-
-#******************************#
-#   SECTION GLOBAL VARIABLES   #
-#******************************#
-
+# --| GLOBAL VARIABLES |-------------------------------------------------------
 export STATUSBARHEIGHT=20
 
 # split to avoid masking return values

@@ -22,23 +22,23 @@ SAVE () {
 
     # # Saving windows configurations
     # for id in $(herbstclient foreach C clients. echo C|grep -oE '0x[0-9a-fA-F]*') ; do
-	# client="clients.${id}"
-	# rule=(
+  # client="clients.${id}"
+  # rule=(
     #         class="$(herbstclient get_attr ${client}.class)"
     #         instance="$(herbstclient get_attr ${client}.instance)"
     #         tag="$(herbstclient get_attr ${client}.tag)"
     #         title="$(herbstclient get_attr ${client}.title)"
-	# )
-	# if herbstclient compare "${client}.floating" = on ; then
+  # )
+  # if herbstclient compare "${client}.floating" = on ; then
     #         rule+=( "floating=on" )
     #         consequence=
-	# else
+  # else
     #         rule+=(
-	# 	"index=$(herbstclient get_attr ${client}.parent_frame.index)"
+  #   "index=$(herbstclient get_attr ${client}.parent_frame.index)"
     #         )
-	# fi
-	# echo herbstclient rule once "${rule[@]}" "# $id" >> "$DIR/$name"
-	# echo herbstclient apply_tmp_r`ule --all "${rule[@]}" "# $id" >> "$DIR/$name"
+  # fi
+  # echo herbstclient rule once "${rule[@]}" "# $id" >> "$DIR/$name"
+  # echo herbstclient apply_tmp_r`ule --all "${rule[@]}" "# $id" >> "$DIR/$name"
     # done
 }
 

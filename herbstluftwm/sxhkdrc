@@ -3,16 +3,14 @@
 # valid modifier names:
 #super, hyper, meta, alt, control, ctrl, shift, mode_switch, lock, mod1, mod2, mod3, mod4, mod5, any.
 #
-#   SXHKD CTL
-#================================================================================
+# --| SXHKD CTL |--------------------------------------------------------------
 
 # make sxhkd reload its configuration files:
 # just kidding, this seems not to work with herbstluftwm running
 super + Escape
     pkill -USR1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
 
-# AUDIO
-#================================================================================
+# --| AUDIO |------------------------------------------------------------------
 
 XF86AudioRaiseVolume
     pactl set-sink-volume @DEFAULT_SINK@ +1%
@@ -29,8 +27,7 @@ XF86AudioPrev
 XF86AudioNext
     mpc next
 
-#   APPLICATIONS
-#================================================================================
+# --| APPLICATIONS |-----------------------------------------------------------
 
 # window selector
 super + m
@@ -47,8 +44,11 @@ Super_L; @Super_L
 super + shift + s
     maim --select --format=png "${HOME}"/Pictures/herbstluftwm_screenshots/screenshot"$(date +%s)".png | xclip -selection clipboard -t image/png
 
-#   HERBSTLUFTWM
-#================================================================================
+# screensaver
+ctrl + shift + r
+    xscreensaver-command -lock
+
+# --| HERBSTLUFTWM |-----------------------------------------------------------
 
 # toggle dual head on focused monitor
 alt + shift + o

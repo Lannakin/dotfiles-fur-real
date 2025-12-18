@@ -38,17 +38,8 @@
 #
 ###############################################################################
 #                                                                             #
-# COMMENT SYNTAX:                                                             #
-# # --- SECTION NAME --- #                                                    #
-# # -- section description                                               -- # #
-#     an empty line                                                           #
-# # - each command's explanation                                          - # #
-# whatever-code()                                                             #
-#                                                                             #
-###############################################################################
-#                                                                             #
 # LOGFILE MESSAGE SYNTAX:                                                     #
-# script-name|loglevel: the message                                           #
+# YYYY-MM-DD HH:MM:SS script-name|loglevel: the message                       #
 #                                                                             #
 # LOG LEVELS:                                                                 #
 # error: a fatal fucking error                                                #
@@ -58,85 +49,73 @@
 #                                                                             #
 ###############################################################################
 
-# --- GLOBAL VARIABLES --- #
-# -- define path to each CONKY display to be launched                      -- #
+# --| GLOBAL VARIABLES |-------------------------------------------------------
+# use paths from herbstluftwm-env
+source "/home/lannakin/LA-repos/dotfiles.herbstluftwm/herbstluftwm/herbstluftwm-env"
 
-# - CONKY display config files' containing directory                        - #
+# CONKY display config files' containing directory
 DIR="${HOME}/.config/herbstluftwm/conky"
 
-# -- CONKY display config files                                            -- #
+# CONKY display config files
 SYSTEMSTATS="${DIR}/solarized-systemstats.conf"
 KEYBINDS_NVIM="${DIR}/solarized-keybinds-lazyvim.conf"
 # NEOFETCH="${DIR}/solarized-neofetch-rice.conf"
 # KEYBINDS_HLWM="${DIR}/solarized-keybinds-herbstluftwm.conf"
 
-# --- LOG SETUP --- #
-# -- define logging parameters for herbstluftwm-conky                      -- #
+# --| LOG SETUP |--------------------------------------------------------------
+# define logging parameters for herbstluftwm-conky
+LOG="${CONKYLOG}"
+TIMESTAMP="$(date +"%Y-%m-%d %H:%M:%S")"
 
-# - NOTE: comment out "LOG= ..." and "exec ... " lines to disable logging
-# - log path                                                                - #
-LOG=${HOME}/LOGS/herbstluftwm-conky.log
-# - clear log and send all stdout messages to stderr                        - #
+# clear log and send all stdout messages to stderr
 exec > "${LOG}" 2>&1
 
-# - [info]: mark start of log file                                          - #
-echo "herbstluftwm-conky|info: starting..."
+# mark start of log file#
+echo "${TIMESTAMP} herbstluftwm-conky|info: starting..."
 
-# --- CLOSE EXISING CONKY DISPLAYS --- #
-# -- terminate all existing CONKY processes to prevent launching excess    -- #
-# -- instances                                                             -- #
+# --| CLOSE EXISING CONKY DISPLAYS |-------------------------------------------
 
-# - terminate the processes                                                 - #
-# - If all modules have IPC enabled, can use conky-msg cmd quit             - #
+# terminate the processes
+# If all modules have IPC enabled, can use conky-msg cmd quit
 killall -q conky
+echo "${TIMESTAMP} herbstluftwm-conky|debug: SIGKILL ALL sent."
 
-# - [debug]: confirm killall signal                                         - #
-echo "herbstluftwm-conky|debug: SIGKILL ALL sent."
-
-# - wait for all existing CONKY processes to terminate                      - #
+# wait for all existing CONKY processes to terminate
 while pgrep -u "${UID}" -x conky >/dev/null;
   do sleep 1;
 done
 
-# - [info]: confirm end of process termination                              - #
-echo "herbstluftwm-conky|info: conky processes terminated."
+echo "${TIMESTAMP} herbstluftwm-conky|info: conky processes terminated."
 
-# - [info]: mark start of display intitiation                               - #
-echo "herbstluftwm-conky|info: initiating display..."
 
-# --- LAUNCH DISPLAYS --- #
+# --| LAUNCH DISPLAYS |--------------------------------------------------------
+echo "${TIMESTAMP} herbstluftwm-conky|info: initiating display..."
+
 # -- launch each desired CONKY display                                     -- #
-
 # - layout of each command set:                                             - #
 # - conky --config="${CONFIG_FILE_PATH}"                                    - #
-# - [info] display initiation messages                                      - #
-# - [debug] display path sanity check                                       - #
 
 # - display: systemstats                                                    - #
 conky --config="${SYSTEMSTATS}" &
-echo "herbstluftwm-conky|info: systemstats display initiated."
-echo "herbstluftwm-conky|debug: path is ${SYSTEMSTATS}"
+echo "${TIMESTAMP} herbstluftwm-conky|info: systemstats display initiated."
+echo "${TIMESTAMP} herbstluftwm-conky|debug: path is ${SYSTEMSTATS}"
 
 # - display: nvim keybinds                                                  - #
 conky --config="${KEYBINDS_NVIM}" &
-echo "herbstluftwm-conky|info: LazyVim-NeoVim keybinds display initiated."
-echo "herbstluftwm-conky|debug: path is ${KEYBINDS_NVIM}"
+echo "${TIMESTAMP} herbstluftwm-conky|info: LazyVim-NeoVim keybinds display initiated."
+echo "${TIMESTAMP} herbstluftwm-conky|debug: path is ${KEYBINDS_NVIM}"
 
 # - display: neofetch rice                                                  - #
 # conky --config="${NEOFETCH}" &
-# echo "herbstluftwm-conky|info: neofetch rice display initiated."
-# echo "herbstluftwm-conky|debug: path is ${NEOFETCH}"
+# echo "${TIMESTAMP} herbstluftwm-conky|info: neofetch rice display initiated."
+# echo "${TIMESTAMP} herbstluftwm-conky|debug: path is ${NEOFETCH}"
 
 # - display: herbstluftwm keybinds                                          - #
 # conky --config="${KEYBINDS_HLWM}" &
-# echo "herbstluftwm-conky|info: herbstluftwm keybinds display initiated."
-# echo "herbstluftwm-conky|debug: path is ${KEYBINDS_HLWM}"
+# echo "${TIMESTAMP} herbstluftwm-conky|info: herbstluftwm keybinds display initiated."
+# echo "${TIMESTAMP} herbstluftwm-conky|debug: path is ${KEYBINDS_HLWM}"
 
 # - mark end of display initiation calls                                    - #
-echo "herbstluftwm-conky|info: initiation of displays completed."
+echo "${TIMESTAMP} herbstluftwm-conky|info: initiation of displays completed."
 
-# - show notification                                                       - #
-dunstify --appname="herbstluftwm-conky" --urgency=low \
- --timeout=5 "herbstluftwm-conky" "Restarted displays."
-
-# --- END OF FILE --- #
+# --| END OF FILE |------------------------------------------------------------

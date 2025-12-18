@@ -1,11 +1,7 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 #
 # Script to toggle dunst notification history
-#
 # Author : https://github.com/Crash-Zeus
-#
-#edits to shut Trunk up added by LiterallySomeCat
-
 
 readonly command=$1
 readonly maxDisplayNumber=$2

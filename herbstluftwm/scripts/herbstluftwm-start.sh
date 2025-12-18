@@ -1,24 +1,23 @@
 #!/usr/bin/env bash
-#
-### HERBSTLUFTWM APPLICATIONS START SCRIPT
 
-############################
-###    GETOPT PHASE 0    ###
+# +----------------------------------------------------------+
+# |          HERBSTLUFTWM APPLICATIONS START SCRIPT          |
+# +----------------------------------------------------------+
+
+# --| GLOBAL VARIABLES |-------------------------------------------------------
 ## specify shortcut variables in a more conveniently compact location ##
 HERBSTLUFTWM="${HOME}/.config/herbstluftwm" # base directory for the Window Manager
 HERBSTLUFTWM_POLYBAR="${HERBSTLUFTWM}/polybar/herbstluftwm-polybar.sh"
 HERBSTLUFTWM_CONKY="${HERBSTLUFTWM}/conky/herbstluftwm-conky.sh"
-KEYBINDMANAGER="${HOME}/LOGS/herbstluftwm-sxhkd.log"
+KEYBINDMANAGER="${HOME}/LOGS/desktop-env/herbstluftwm-sxhkd.log"
 
 ## define path for this script to log to ##
-# BTW we're sending it to the Window Manager's log; directory name is in CAPS because I AM DERANGED and named it in CAPS
-LOG="${HOME}/LOGS/herbstluftwm-start.log"
+LOG="${HOME}/LOGS/desktop-env/herbstluftwm-start.log"
 exec >"${LOG}" 2>&1
 
 # echo "herbstluftwm-start|debug: GETOPT P0 completed."
 
-############################
-###    GETOPT PHASE 0    ###
+# --| GETOPT PHASE 0 |---------------------------------------------------------
 ## specify what GETOPT arguments are vallid; if they are not valid, terminate execution and           ##
 ## return "Invalid input." in STDERR (standard error; diagnostic output. it is not limited to errors) ##
 # syntax for this scenario: getopt [options] -o|--options optstring [options] [--] parameters
@@ -27,8 +26,7 @@ vars=$(getopt -o chps --long conky,help,polybar,sxhkd -n "herbstluftwm-start.sh"
 
 # echo "herbstluftwm-start|debug: GETOPT P0 completed."
 
-############################
-###   GETOPT PHASE 1.0   ###
+# --| GETOPT PHASE 1.0 |--------------------------------------------------------
 ## reset (?) the positional parameters to the parsed options ##
 eval set -- "${vars}"
 # eval = tells shell to run another round of shell expansions
@@ -36,8 +34,7 @@ eval set -- "${vars}"
 # --   = break out of this iterational loop
 # echo "herbstluftwm-start|debug: GETOPT P1.0 completed."
 
-############################
-###   GETOPT PHASE 1.1   ###
+# --| GETOPT PHASE 1.1 |-------------------------------------------------------
 ## initialize GETOPT variables by setting them to an initialized value ##
 export CONKY_RUNCHECK=false
 export POLYBAR_RUNCHECK=false
@@ -45,8 +42,7 @@ export SXHKD_RUNCHECK=false
 export HELP_RUNCHECK=false
 # echo "herbstluftwm-start|debug: GETOPT P1.1 completed."
 
-############################
-###   GETOPT PHASE 2.0   ###
+# --| GETOPT PHASE 2.0 |-------------------------------------------------------
 ## Process the options
 while true; do # while this statement returns 1, execute...
   ## for this case... ##
@@ -88,9 +84,9 @@ while true; do # while this statement returns 1, execute...
     echo "herbstluftwm-start|info: sxhkd initiating..."
     sleep 1
     ## start SXHKD config...##
-    sxhkd -c "${HOME}/.config/herbstluftwm/sxhkdrc" 2>"${KEYBINDMANAGER}"
-    dunstify 'sxhkd' 'reloading config ~/.config/herbstluftwm/sxhkdrc'
-    echo "[INFO] starting sxhkd using ${HOME}/.config/herbstluftwm/sxhkdrc"
+    sxhkd -c "${HOME}/.config/herbstluftwm/sxhkdrc" "${KEYBINDMANAGER}"
+    dunstify "sxhkd" "reloading config ~/.config/herbstluftwm/sxhkdrc"
+    echo "herbstluftwm-start|info: starting sxhkd using ${HOME}/.config/herbstluftwm/sxhkdrc"
     # cat "${sxhkd_fifo}" >"${KEYBINDMANAGER}" &
     # trap 'rm -f ${hlwm_sxhkd_fifo}' EXIT
     SXHKD_RUNCHECK=true # set GETOPT variable for SXHKD to TRUE so that this loop ends

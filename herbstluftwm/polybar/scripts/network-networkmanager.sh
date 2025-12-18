@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 network_print() {
     connection_list=$(nmcli -t -f name,type,device,state connection show --order name --active 2>/dev/null | grep -v ':bridge:\|:lo:')

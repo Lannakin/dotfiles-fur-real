@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 #
-# yeah for real i don't know how to neatly separate this.  that's a problem for tomorrow, smile
-FILE="${HOME}/Pictures/herbstluftwm_screenshots/screenshot$(date +%s).png"
+# source SCREENSHOTOUTPUT variable
+source "/home/lannakin/LA-repos/dotfiles.herbstluftwm/herbstluftwm/herbstluftwm-env"
 
-# we have options. scrot leaves lines everywhere if conky updates during the selection
+# scrot leaves lines everywhere if conky updates during selection:
 # scrot -s "${FILE}" && xclip -selection c -t image/png < "${FILE}"
-maim --select --format=png "${FILE}" && xclip -selection clipboard -t image/png < "${FILE}"
+
+# maim:
+maim --select --format=png "${SCREENSHOTOUTPUT}" && xclip -selection \
+  clipboard -t image/png < "${SCREENSHOTOUTPUT}"
