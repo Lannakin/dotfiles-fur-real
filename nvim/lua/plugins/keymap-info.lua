@@ -49,7 +49,7 @@ return {
     opts = function()
       return {
         ---@type false | "classic" | "modern" | "helix"
-        preset = "helix",
+        preset = "classic",
         win = {
           border = "single",
           relative = "win",

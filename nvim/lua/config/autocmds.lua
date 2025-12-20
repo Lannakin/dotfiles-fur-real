@@ -9,15 +9,15 @@
 
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
-
 local usercmd = vim.api.nvim_create_user_command
+
 local map = vim.keymap.set
 
 -- --| enable spellcheck in certain buffers |--------------------------------------------------------------------------
-autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = { "*.txt", "*.md", "*.tex" },
-  command = "setlocal spell",
-})
+-- autocmd({ "BufRead", "BufNewFile" }, {
+--   pattern = { "*.txt", "*.md", "*.tex" },
+--   command = "setlocal spell",
+-- })
 
 -- --| Disable autoformat for lua files |------------------------------------------------------------------------------
 autocmd({ "FileType" }, {
@@ -27,17 +27,26 @@ autocmd({ "FileType" }, {
   end,
 })
 
--- --| seriously, stop autoformatting |--------------------------------------------------------------------------------
--- vim.api.nvim_clear_autocmds({ group = "lsp_auto_format", event = "BufWritePre" })
+--| Create a dir when saving a file if it doesnt exist |---------------------------------------------------------------
+-- src: https://github.com/Matt-FTW/dotfiles/blob/main/.config/nvim/lua/config/autocmds.lua
+autocmd("BufWritePre", {
+  group = augroup("auto_create_dir", { clear = true }),
+  callback = function(args)
+    if args.match:match "^%w%w+://" then
+      return
+    end
+    local file = vim.uv.fs_realpath(args.match) or args.match
+    vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+  end,
+})
 
--- --| tab expansion on save |------------------------------------------------------
+-- --| tab expansion on save |-----------------------------------------------------------------------------------------
 -- src: fucking google ai overview so i hope it's fucking wrong.
-local expand_tabs_augroup = augroup("ExpandTabsOnSave", { clear = true })
 
 -- Add an autocmd that triggers before a buffer is written
 -- stylua: ignore
 autocmd("BufWritePre", {
-  group = expand_tabs_augroup,
+  group = augroup("ExpandTabsOnSave", { clear = true }),
   callback = function()
     -- Temporarily set 'expandtab' and then run 'retab!' for the current buffer
     vim.cmd [[setlocal expandtab]]  -- Enable expandtab for this buffer
@@ -50,11 +59,11 @@ autocmd("BufWritePre", {
 -- src: another google ai overview special
 autocmd({ "BufNewFile", "BufRead" }, {
   group = augroup("JsoncSyntax", { clear = true }),
-  pattern = { "*.jsonc", "*.cjson", "*.cjsn", "appsettings*.json" },
+  pattern = { "*.jsonc", "*.cjson", "*.cjsn", "*.json" },
   callback = function()
-    vim.opt.filetype = "json"
+    vim.opt.filetype = "jsonc"
   end,
-  desc = "Set filetype to json for jsonc files within a specific group",
+  desc = "Set filetype to jsonc for certain types of json files",
 })
 
 -- --| Automatically open Trouble Quickfix |---------------------------------------------------------------------------
@@ -64,49 +73,8 @@ autocmd("QuickFixCmdPost", {
   end,
 })
 
--- --| Open plugin repos with gx |-------------------------------------------------------------------------------------
--- src: https://github.com/dpetka2001/dotfiles/blob/main/dot_config/nvim/lua/config/autocmds.lua
-autocmd("BufReadPost", {
-  group = augroup("GxWithPlugins", { clear = true }),
-  callback = function()
-    if vim.fn.getcwd() == vim.fn.stdpath "config" then
-      map("n", "gx", function()
-        local file = vim.fn.expand "<cfile>" --[[@as string]]
-
-        -- First try default behavior
-        -- see https://github.com/neovim/neovim/blob/b0f9228179bf781eec76d1aaf346b56a7e64cd5d/runtime/lua/vim/_defaults.lua#L101
-        -- current 2025-11-05: https://github.com/neovim/neovim/blob/master/runtime/lua/vim/_defaults.lua#L140
-        local cmd, err = vim.ui.open(file)
-        local rv = cmd and cmd:wait(1000) or nil
-        if cmd and rv and rv.code ~= 0 then
-          err = ("vim.ui.open: command %s (%d): %s"):format(
-            (rv.code == 124 and "timeout" or "failed"),
-            rv.code,
-            vim.inspect(cmd.cmd)
-          )
-        end
-        if not err then
-          return
-        end
-
-        -- Consider anything that looks like string/string a GitHub link.
-        local link = file:match "%w[%w%-]+/[%w%-%._]+"
-        if link then
-          vim.ui.open("https://www.github.com/" .. link)
-          err = nil
-        end
-
-        -- Else show the error
-        if err then
-          vim.notify(err, vim.log.levels.ERROR)
-        end
-      end, { desc = "Open filepath or URI under cursor" })
-    end
-  end,
-  desc = "Make `gx` open repos in default browser",
-})
-
 -- --| User command for diffing current buffer when not in .git repo |-------------------------------------------------
+-- src: https://github.com/dpetka2001/dotfiles/blob/main/dot_config/nvim/lua/config/autocmds.lua
 -- stylua: ignore
 usercmd("DiffOrig", function()
   local scratch_buffer = vim.api.nvim_create_buf(false, true)
@@ -118,10 +86,10 @@ usercmd("DiffOrig", function()
   vim.cmd.diffthis()      -- scratch_buffer
   vim.cmd.wincmd "p"
   vim.cmd.diffthis()      -- current buffer
-  vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = scratch_buffer, silent = true })
+  map("n", "q", "<cmd>close<cr>", { buffer = scratch_buffer, silent = true })
 end, { desc = "Diff current buffer not .git" })
 
--- --| AUTOMATICALLY SET COLORCOLUMN BASED ON FILETYPE |---------------------------------------------------------------
+-- --| automatically set colorcolumn based on filetype |---------------------------------------------------------------
 -- src: https://github.com/hollowillow/nvim/blob/main/lua/minimal/autocmds.lua
 -- ccolumn position by filetype
 local ft_ccolumn = {

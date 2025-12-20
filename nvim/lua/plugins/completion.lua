@@ -2,6 +2,11 @@
 -- disabled if below line is active
 -- if true then return {} end
 ---@diagnostic disable: missing-fields
+---@module "lazy"
+
+-- +---------------------------------------------------------+
+-- |                 neovim text completion                  |
+-- +---------------------------------------------------------+
 
 -- Specify the trigger character(s) used for luasnip
 -- local trigger_text = ";"

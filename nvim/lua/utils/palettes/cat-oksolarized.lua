@@ -1,16 +1,27 @@
 -- /utils/palettes/cat-oksolarized.lua
+-- disabled if below line is active
+-- if true then return {} end
 
--- --| OKsolarized |---------------------------------------------------------------------------------------------------
--- stylua: ignore
+-- --| cat_oksolarized |-----------------------------------------------------------------------------------------------
 
+--- create palette tables for cat_oksolarized
+---@class cat_oksolarized
 local cat_oksolarized = {}
 
+--- default settings: dark palette
+---@class defaults
 local defaults = {
   palette_mode = "dark",
 }
 
+--- initialize options or something
 cat_oksolarized.options = nil
 
+-- --| cat_oksolarized: setup |----------------------------------------------------------------------------------------
+
+--- create dark and light mode palette tables swapping for cat_oksolarized
+---@param options string|table
+---@return string|table
 function cat_oksolarized.setup(options)
 
   cat_oksolarized.options = vim.tbl_deep_extend("force", {}, defaults, options or {})
@@ -26,8 +37,21 @@ function cat_oksolarized.setup(options)
 
   return cat_oksolarized.options.palette_mode
 end
+--stylua: ignore start
 
+-- --| cat_oksolarized: main |-----------------------------------------------------------------------------------------
+
+--- cat_oksolarized: base palette colors to be used by dark and light palette_mode
 cat_oksolarized.main = {
+
+  bg0 = "#002B38",
+  bg1 = "#093946",
+  bg2 = "#002B38",
+
+  fg0 = "#5B7279",
+  fg1 = "#657377",
+  fg2 = "#5B7279",
+
   yellow  = "#AC8300",
   orange  = "#D56500",
   red     = "#F23749",
@@ -47,12 +71,16 @@ cat_oksolarized.main = {
   base2 = "#F1E9D2",
   base3 = "#FBF7EF",
 
-  bg_red = "#da0000",
+  bg_red = "#DA0000",
 }
 
 local palette = cat_oksolarized.main
 
+-- --| cat_oksolarized: dark |-----------------------------------------------------------------------------------------
+
+--- cat_oksolarized: dark palette_mode colors
 cat_oksolarized.dark = {
+
   bg0 = palette.base03,
   bg1 = palette.base02,
   bg2 = palette.base03,
@@ -71,7 +99,11 @@ cat_oksolarized.dark = {
   yellow  = palette.yellow,
 }
 
+-- --| cat_oksolarized: light |----------------------------------------------------------------------------------------
+
+--- cat_oksolarized: light palette_mode colors
 cat_oksolarized.light =  {
+
   bg0 = palette.base3,
   bg1 = palette.base2,
   bg2 = palette.base3,
@@ -89,4 +121,6 @@ cat_oksolarized.light =  {
   violet  = palette.violet,
   yellow  = palette.yellow,
 }
+-- stylua: ignore end
 
+return cat_oksolarized

@@ -1,12 +1,13 @@
 -- /plugins/utils.lua
 -- disabled if below line is active
--- if true then return {} end
+if true then return {} end
 ---@module 'lazy'
 -- src: https://github.com/MeteorNvim/MeteorNvim/blob/main/lua/plugins/config/color-picker.lua
 
 ---@type LazySpec
 return {
-  { -- color picker
+-- --| color picker |--------------------------------------------------------------------------------------------------
+  { -- color picker formatting
     -- https://github.com/uga-rosa/ccc.nvim
     "uga-rosa/ccc.nvim",
     opts = function()
@@ -92,18 +93,9 @@ return {
       end
 
       return {
-
         highlighter = { auto_enable = false },
         mappings = { disable_default_mappings = true },
-
         inputs = { RgbHslCmykInput },
-
-        --[[
-        highlighter = {
-          auto_enable = true,
-          lsp = true,
-        },
-        --]]
       }
     end,
   },

@@ -27,24 +27,24 @@ local colors = {
 
 -- SOLARIZED --
 --[[
-base03  = #002B36
-base02  = #073642
-base01  = #586E75
-base00  = #657B83
+base03  = "#002B36
+base02  = "#073642
+base01  = "#586E75
+base00  = "#657B83
 
-base0   = #839496
-base1   = #93A1A1
-base2   = #EEE8D5
-base3   = #FDF6E3
+base0   = "#839496
+base1   = "#93A1A1
+base2   = "#EEE8D5
+base3   = "#FDF6E3
 
-yellow  = #B58900
-orange  = #CB4B16
-red     = #DC322F
-magenta = #D33682
-violet  = #6C71C4
-blue    = #268BC2
-cyan    = #2AA198
-green   = #859900
+yellow  = "#B58900
+orange  = "#CB4B16
+red     = "#DC322F
+magenta = "#D33682
+violet  = "#6C71C4
+blue    = "#268BC2
+cyan    = "#2AA198
+green   = "#859900
 --]]
 
 -- OEM --
@@ -191,7 +191,7 @@ end
 -- local function check_git_workspace()
 --  local filepath = vim.fn.expand('%:p:h')               -- Get the current file's directory
 --  local gitdir = vim.fn.finddir('.git', filepath .. ';') -- Search for a `.git` directory in the file path
---  return gitdir and #gitdir > 0 and #gitdir < #filepath -- Returns true if a `.git` directory is found
+--  return gitdir and "#gitdir > 0 and "#gitdir < "#filepath -- Returns true if a `.git` directory is found
 -- end
 
 -- -- Set random seed based on current time for randomness

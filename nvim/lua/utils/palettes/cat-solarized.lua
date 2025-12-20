@@ -1,16 +1,28 @@
 -- /utils/cat-neosolarized.lua
--- colorscheme solarized palettes tables
+-- disabled if below line is active
+-- if true then return {} end
 
+-- --| cat_solarized |-------------------------------------------------------------------------------------------------
+
+--- create palette tables for cat_solarized color theme
+---@class cat_solarized
 local cat_solarized = {}
 
 -- src: https://github.com/Tsuzat/NeoSolarized.nvim/blob/master/lua/NeoSolarized/config.lua
+--- default settings: dark palette
+---@class defaults
 local defaults = {
   palette_mode = "dark",
 }
 
--- cat_solarized.options = {}
+--- initialize options or something
 cat_solarized.options = nil
 
+-- --| cat_solarized: setup |------------------------------------------------------------------------------------------
+
+--- create dark and light mode palette tables swapping for cat_solarized
+---@param options string|table
+---@return string|table
 function cat_solarized.setup(options)
 
   cat_solarized.options = vim.tbl_deep_extend("force", {}, defaults, options or {})
@@ -25,9 +37,11 @@ function cat_solarized.setup(options)
   end
   return cat_solarized.options.palette_mode
 end
-
--- --| solarized |-----------------------------------------------------------------------------------------------------
 -- stylua: ignore start
+
+-- --| cat_solarized: main |-------------------------------------------------------------------------------------------
+
+--- cat_solarized: base palette colors to be used by dark and light palette_mode
 cat_solarized.main = {
 
   bg0 = "#002B36",
@@ -60,10 +74,12 @@ cat_solarized.main = {
   bg_red = "#da0000",
 }
 local palette = cat_solarized.main
--- print("utils.cat-neosolarized: palette is ", palette)
 
--- cat_solarized.dark = {
+-- --| cat_solarized: dark |-------------------------------------------------------------------------------------------
+
+--- cat_solarized: dark palette_mode colors
 cat_solarized.dark = {
+
   bg0 = palette.base03,
   bg1 = palette.base02,
   bg2 = palette.base03,
@@ -82,7 +98,9 @@ cat_solarized.dark = {
   yellow  = palette.yellow,
 }
 
--- cat_solarized.light = {
+-- --| cat_solarized: light |------------------------------------------------------------------------------------------
+
+--- cat_solarized: light palette_mode colors
 cat_solarized.light = {
 
   bg0 = palette.base3,
@@ -104,23 +122,4 @@ cat_solarized.light = {
 }
 -- stylua: ignore end
 
--- local cat_solarized = {
--- cat_solarized = {
---
---   main_palette = cat_solarized.main_palette,
---   dark = cat_solarized.dark,
---   light = cat_solarized.light,
--- }
-
--- cat_solarized.setup()
-
 return cat_solarized
-
---]]
--- function cat_solarized.setup(opts)
---    opts = opts or {}
--- end
--- function M.setup(opts)
---   opts = opts or {}
--- end
--- return M

@@ -6,10 +6,12 @@
 -- |  Custom Command Keymaps for Which-Key Integration  |
 -- +----------------------------------------------------+
 
-local wk = require "which-key"
 local fanyutils = require "utils.fanyutils"
 local diag = require "utils.jellydn_diagnostics"
+
 local opts = { noremap = true, silent = true }
+
+-- local unmap = vim.keymap.del
 
 ---@type LazySpec
 
@@ -17,7 +19,9 @@ return {
   {
     -- https://github.com/folke/which-key.nvim
     "folke/which-key.nvim",
-    wk.add {
+    lazy = false,
+    priority = 0,
+    require "which-key".add {
       {
         mode = { "n" },
         -- --| jellydn: toggle diagnostics level |---------------------------------------------------------------------
@@ -51,27 +55,25 @@ return {
         },
 
       },
+      -- stylya: ignore
       {
-        mode = { "n", "v" },
         -- --| File Operations |---------------------------------------------------------------------------------------
+        mode = { "n", "v" },
         { "<leader>f", group = "files" },
-
         -- --| fanyutils: file path copying |--------------------------------------------------------------------------
         -- src: https://github.com/fanlumaster/lazyvim-archlinux/blob/master/lua/fany/fanykeymaps.lua
 
-        -- stylua: ignore start
-        -- copy relative file path
+        -- [ copy relative file path ] --
         { "<leader>fp", function() fanyutils.copy_relative_path() end, desc = "Copy file relative path" },
-        -- copy current file name
+        -- [ copy current file name ] --
         -- FIXME: opens a new buffer and copies nothing?
         { "<leader>fn", function() fanyutils.copy_current_filename() end, desc = "Copy current file name" },
-        -- copy absolute path
+        -- [ copy absolute path ] --
         { "<leader>fP", function() fanyutils.copy_absolute_path() end, desc = "Copy absolute path" },
-        -- stylua: ignore end
       },
       -- stylua: ignore
       {
-        -- mode = { "n", "x" },
+        -- --| Spectre: Search Operations |----------------------------------------------------------------------------
         { "<leader>S", group = "search" },
         { "<leader>S", function() require("spectre").toggle() end, desc = "Toggle Spectre" },
         {
@@ -86,20 +88,15 @@ return {
           desc = "Search current file",
         },
       },
+      {
+        -- --| Neotree |-----------------------------------------------------------------------------------------------
+        mode = "n",
+        -- [ leader ] --
+        { "<leader>d", group = "directory" },
+        { "<leader>dg", "<CMD>:Neotree float git_status<CR>", desc = "Toggle git status with Neotree" },
+        { "<leader>ds", "<CMD>:Neotree right document_symbols<CR>", desc = "Toggle toggle document symbols with Neotree" },
+      },
     },
   },
 }
---[[
-vim.keymap.set('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', {
-    desc = "Toggle Spectre"
-})
-vim.keymap.set('n', '<leader>sw', '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
-    desc = "Search current word"
-})
-vim.keymap.set('v', '<leader>sw', '<esc><cmd>lua require("spectre").open_visual()<CR>', {
-    desc = "Search current word"
-})
-vim.keymap.set('n', '<leader>sp', '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
-    desc = "Search on current file"
-})
---]]
+

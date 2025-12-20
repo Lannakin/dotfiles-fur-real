@@ -1,6 +1,7 @@
 -- /plugins/documentation.lua
 -- disabled if below line is active
 -- if true then return {} end
+---@module "lazy"
 
 ---@type LazySpec
 return {
@@ -19,13 +20,7 @@ return {
     "danymat/neogen",
     ---@type LazyKeysSpec[]
     keys = {
-      {
-        "<leader>cn",
-        function()
-          require("neogen").generate()
-        end,
-        desc = "Generate Annotations (Neogen)",
-      },
+      { "<leader>cn", function() require("neogen").generate() end, desc = "Generate Annotations (Neogen)" },
     },
     opts = {
       languages = {

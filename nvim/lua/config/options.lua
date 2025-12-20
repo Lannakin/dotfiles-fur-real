@@ -3,15 +3,17 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 local opt = vim.opt
+local glob = vim.g
+local buf = vim.b
 
 -- stylua: ignore start
 -- --| KEYMAP GLOBALS |-----------------------------------------------------------------------------------------------
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+glob.mapleader = " "
+glob.maplocalleader = "\\"
 
 -- --| APPEARANCE |---------------------------------------------------------------------------------------------------
 vim.api.nvim_command "syntax enable"           -- Enable syntax highlighting
-vim.g.snacks_animate = false                            -- snacks animations
+glob.snacks_animate = false                             -- snacks animations
 
 opt.colorcolumn = "80"
 opt.cmdheight = 1
@@ -30,7 +32,7 @@ opt.listchars = {
   trail = '-',
 --  space = '·'
 }
-vim.o.showtabline = 2                                   -- always show buffer tabline
+opt.showtabline = 2                                     -- always show buffer tabline
 opt.termguicolors = true                                -- True color support
 
 
@@ -40,20 +42,19 @@ opt.fileformat = "unix"                                 -- Set fileformat to Uni
 vim.api.nvim_command "filetype plugin on"      -- Enable filetype plugins
 -- LazyVim.terminal.setup("kitty")                      -- terminal to use (optional)
 
-vim.g.lazyvim_picker = "telescope"                      -- tell LazyVim to use Telescope as picker
-vim.g.lazyvim_cmp = "auto"                              -- values: auto, nvim-cmp, blink.cmp
--- vim.g.ai_cmp = true                                  -- use ai for completion if supported
-vim.g.root_spec = { "lsp", { ".git", "Makefile" }, "cwd" } -- LazyVim root dir detection
-vim.g.root_lsp_ignore = { "copilot" }                   -- Set LSP servers to be ignored when used with `util.root.detectors.lsp`
-                                                        -- for detecting the LSP root
-vim.g.deprecation_warnings = true
-vim.g.trouble_lualine = true                            -- Show symbols location from Trouble in lualine
-vim.b.trouble_lualine = true                            -- Show symbols location from Trouble in lualine (buffer)
+glob.lazyvim_picker = "telescope"                       -- tell LazyVim to use Telescope as picker
+glob.lazyvim_cmp = "auto"                               -- values: auto, nvim-cmp, blink.cmp
+-- glob.ai_cmp = true                                   -- use ai for completion if supported
+glob.root_spec = { "lsp", { ".git", "Makefile" }, "cwd" } -- LazyVim root dir detection
+glob.root_lsp_ignore = { "copilot" }                    -- Set LSP servers to be ignored with `util.root.detectors.lsp`
+glob.deprecation_warnings = true
+glob.trouble_lualine = true                             -- Show symbols location from Trouble in lualine
+buf.trouble_lualine = true                              -- Show symbols location from Trouble in lualine (buffer)
 
 opt.autowrite = true -- auto write
 opt.mouse = "a" -- Enable mouse mode
-vim.o.clipboard = "unnamedplus"                         -- sync w/ system clipboard
-opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- only sync system clipboard if not in ssh, to make sure the OSC 52 integration works
+opt.clipboard = "unnamedplus"                           -- sync w/ system clipboard
+opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- only sync system clipboard if not in ssh
 opt.completeopt = "menu,menuone,noselect"               -- Configure completion options
 opt.confirm = true                                      -- Confirm to save changes before exiting modified buffer
 opt.grepformat = "%f:%l:%c:%m"
@@ -63,10 +64,9 @@ opt.jumpoptions = "view"                                -- jumplist control
 opt.maxmempattern = 20000
 opt.redrawtime = 10000
 opt.ruler = false                                       -- default ruler
-opt.sessionoptions = { "buffers", "curdir", "globals", "folds", "skiprtp", "tabpages", "winsize", "winpos" }
                                                         -- src: https://neovim.io/doc/user/options.html#'sessionoptions'
+opt.sessionoptions = { "buffers", "curdir", "globals", "folds", "skiprtp", "tabpages", "winsize", "winpos" }
 opt.showmode = false                                    -- Dont show mode since we have a statusline
--- opt.timeoutlen = vim.g.vscode and 1000 or 300           -- Lower than default (1000) to quickly trigger which-key
 opt.undofile = true
 opt.undolevels = 10000
 opt.updatetime = 200                                    -- Save swap file and trigger CursorHold
@@ -80,14 +80,14 @@ opt.selection = "inclusive"                             -- Selection behavior: e
                                                         -- src: https://neovim.io/doc/user/options.html#'selection'
 opt.smoothscroll = true
 opt.spelllang = { "en" }
-vim.g.autoformat = false                                -- LazyVim auto format
-vim.g.lazyvim_eslint_auto_format = false                -- LazyVim eslint auto format
+glob.autoformat = false                                 -- LazyVim auto format
+glob.lazyvim_eslint_auto_format = false                 -- LazyVim eslint auto format
 opt.showmatch = true                                    -- Highlight matching brackets
 -- context --
 opt.scrolloff = 10                                      -- Lines of context
 opt.sidescrolloff = 10                                  -- Columns of context
 -- indentation --
-vim.g.markdown_recommended_style = 1                    -- Fix markdown indentation settings
+glob.markdown_recommended_style = 1                     -- Fix markdown indentation settings
 opt.expandtab = true                                    -- Use spaces instead of tabs
 opt.tabstop = 4                                         -- Number of spaces tabs count for
 opt.smartindent = true                                  -- Insert indents automatically
@@ -115,7 +115,7 @@ opt.inccommand = "nosplit"                              -- preview incremental s
 opt.number = true                                       -- Print line number
 vim.wo.relativenumber = false                           -- relative line numbers
 opt.relativenumber = false                              -- Relative line numbers
-opt.signcolumn = "yes"                                   -- Always show the signcolumn, otherwise it will shift the text each time
+opt.signcolumn = "yes"                                  -- Always show the signcolumn
 
 -- --| SEARCH |-------------------------------------------------------------------------------------------------------
 opt.incsearch = true
@@ -146,8 +146,10 @@ vim.filetype.add {
     lua = "lua",
     sh = "sh",
     h = function(_, bufnr)
+      local buf_get_lines = vim.api.nvim_buf_get_lines
+      local buf_line_count = vim.api.nvim_buf_line_count
       -- check whether header file is C or C++
-      local lines = vim.api.nvim_buf_get_lines(bufnr, 0, math.min(20, vim.api.nvim_buf_line_count(bufnr)), false)
+      local lines = buf_get_lines(bufnr, 0, math.min(20, buf_line_count(bufnr)), false)
 
       for _, line in ipairs(lines) do
         if line:match "^%s*#include%s*<[^>.]+>$" then

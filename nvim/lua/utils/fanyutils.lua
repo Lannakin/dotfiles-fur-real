@@ -2,6 +2,11 @@
 -- disabled if below line is active
 -- if true then return {} end
 -- src: https://github.com/fanlumaster/lazyvim-archlinux/blob/master/lua/fany/utils/fanyutils.lua
+
+-- +------------------------------------------+
+-- |         fany filename operations         |
+-- +------------------------------------------+
+
 local myutils = {}
 
 -- Get the relative path of the current file

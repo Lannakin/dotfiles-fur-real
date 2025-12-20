@@ -71,7 +71,7 @@ return {
         --              multiple lines are selected, line style comments
         --              otherwise
         comment_style = "line",
-        doc_width = 120, -- width of the document
+        doc_width = 80, -- width of the document
         box_width = 60, -- width of the boxes
         borders = { -- symbols used to draw a box
           top = "-",
@@ -91,9 +91,9 @@ return {
           title_left = "-|",
           title_right = "|",
         },
-        outer_blank_lines_above = true, -- insert a blank line above the box
-        outer_blank_lines_below = true, -- insert a blank line below the box
-        inner_blank_lines = true,       -- insert a blank line above and below the text
+        outer_blank_lines_above = false, -- insert a blank line above the box
+        outer_blank_lines_below = false, -- insert a blank line below the box
+        inner_blank_lines = false,       -- insert a blank line above and below the text
         line_blank_line_above = false,   -- insert a blank line above the line
         line_blank_line_below = false,   -- insert a blank line below the line
       }

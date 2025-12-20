@@ -2,9 +2,52 @@
 -- disabled if below line is active
 if true then return {} end
 
-M = {}
--- --| selenized |-----------------------------------------------------------------------------------------------------
+-- --| cat_selenized |-----------------------------------------------------------------------------------------------------
 
+--- create palette tables for cat_selenized color theme
+---@class cat_selenized
+local cat_selenized = {}
+
+-- src: https://github.com/Tsuzat/NeoSolarized.nvim/blob/master/lua/NeoSolarized/config.lua
+--- default settings: dark palette
+---@class defaults
+local defaults = {
+  palette_mode = "dark",
+}
+
+--- initialize options or something
+cat_selenized.options = nil
+
+-- --| cat_selenized: setup |------------------------------------------------------------------------------------------
+
+--- create dark and light mode palette tables swapping for cat_selenized
+---@param options string|table
+---@return string|table
+function cat_selenized.setup(options)
+
+  cat_selenized.options = vim.tbl_deep_extend("force", {}, defaults, options or {})
+  cat_selenized.options.palette_mode = "dark"
+
+  if vim.o.background == "light" then
+    cat_selenized.options.palette_mode = cat_selenized.light
+    print("utils.cat-neosolarized: palette_mode = light")
+  else
+    cat_selenized.options.palette_mode = cat_selenized.dark
+    print("utils.cat-neosolarized: palette_mode = dark")
+  end
+  return cat_selenized.options.palette_mode
+end
+-- stylua: ignore start
+
+-- --| cat_solarized: main |-------------------------------------------------------------------------------------------
+
+-- +---------------------------------------------------------+
+-- |                                                         |
+-- |                          HEX                            |
+-- |                                                         |
+-- +---------------------------------------------------------+
+
+--- cat_solarized: base palette colors to be used by dark and light palette_mode
 --[[
 =================================================================================
 || NAME    || RGB                   || OKLCH                || HEX      "APPLE"||
@@ -12,110 +55,111 @@ M = {}
 
 selenized dark
 --------------
-bg_0         rgb(016.0 060.0 072.0) oklch(0.33 0.050 219.64) #103C48 #112E38
-bg_1         rgb(024.0 073.0 086.0) oklch(0.38 0.060 218.63) #184956 #163945
-bg_2         rgb(039.0 090.0 105.0) oklch(0.44 0.060 220.09) #2D5B69 #254A57
-dim_0        rgb(114.0 137.0 143.0) oklch(0.61 0.030 215.29) #72898F #61777C
-fg_0         rgb(169.0 188.0 188.0) oklch(0.78 0.020 196.82) #ADBCBC #9FAEAE
-fg_1         rgb(198.0 216.0 218.0) oklch(0.87 0.020 202.03) #CAD8D9 #BFD0D0
+bg_0         = "#103C48",
+bg_1         = "#184956",
+bg_2         = "#2D5B69",
+dim_0        = "#72898F",
+fg_0         = "#ADBCBC",
+fg_1         = "#CAD8D9",
 
-.red         rgb(250.0 087.0 080.0) oklch(0.68 0.200 026.38) #FA5750 #F13C3E
-.green       rgb(117.0 185.0 056.0) oklch(0.71 0.170 133.25) #75B938 #69AD21
-.yellow      rgb(219.0 179.0 045.0) oklch(0.78 0.150 090.93) #DBB32D #D1A416
-.blue        rgb(070.0 149.0 247.0) oklch(0.67 0.170 255.32) #4695F7 #3A82F8
-.magenta     rgb(242.0 117.0 190.0) oklch(0.73 0.170 346.17) #F275BE #E75BB3
-.cyan        rgb(065.0 199.0 185.0) oklch(0.75 0.120 185.06) #36C6B8 #42BDAA
-.orange      rgb(237.0 134.0 073.0) oklch(0.72 0.150 049.35) #ED8649 #E26F35
-.violet      rgb(175.0 136.0 235.0) oklch(0.70 0.150 300.90) #AF88EB #9B72E9
+red          = "#FA5750",
+green        = "#75B938",
+yellow       = "#DBB32D",
+blue         = "#4695F7",
+magenta      = "#F275BE",
+cyan         = "#36C6B8",
+orange       = "#ED8649",
+violet       = "#AF88EB",
 
-br_red       rgb(255.0 102.0 092.0) oklch(0.70 0.190 026.76) #FF665C #FF4B49
-br_green     rgb(132.0 199.0 071.0) oklch(0.76 0.170 132.73) #84C747 #78BE2E
-br_yellow    rgb(235.0 193.0 061.0) oklch(0.83 0.150 090.45) #EBC13D #E4B424
-br_blue      rgb(088.0 163.0 255.0) oklch(0.71 0.150 254.74) #58A3FF #4A91FF
-br_magenta   rgb(255.0 132.0 205.0) oklch(0.77 0.170 345.24) #FF84CD #FB69C4
-br_cyan      rgb(083.0 214.0 199.0) oklch(0.80 0.120 184.65) #53D6C7 #50CFBA
-br_orange    rgb(253.0 148.0 086.0) oklch(0.77 0.150 049.68) #FD9456 #F67E41
-br_violet    rgb(189.0 150.0 250.0) oklch(0.75 0.150 300.93) #BD96FA #AB80FC
+br_red       = "#FF665C",
+br_green     = "#84C747",
+br_yellow    = "#EBC13D",
+br_blue      = "#58A3FF",
+br_magenta   = "#FF84CD",
+br_cyan      = "#53D6C7",
+br_orange    = "#FD9456",
+br_violet    = "#BD96FA",
 
 selenized light
 ---------------
-bg_0         rgb(251.0 243.0 219.0) oklch(0.96 0.03 091.67) #FBF3DB   #FAF0D2
-bg_1         rgb(236.0 227.0 204.0) oklch(0.92 0.03 089.15) #ECE3CC   #E7DDC0
-bg_2         rgb(213.0 205.0 182.0) oklch(0.85 0.03 091.05) #D5CDB6   #CBC2A6
-dim_0        rgb(144.0 153.0 149.0) oklch(0.67 0.01 167.62) #909995   #7E8783
-fg_0         rgb(083.0 103.0 109.0) oklch(0.50 0.03 217.93) #53676D   #43545A
-fg_1         rgb(058.0 077.0 083.0) oklch(0.41 0.03 219.13) #3A4D53   #2D3C42
+bg_0         = "#FBF3DB",
+bg_1         = "#ECE3CC",
+bg_2         = "#D5CDB6",
+dim_0        = "#909995",
+fg_0         = "#53676D",
+fg_1         = "#3A4D53",
 
-.red         rgb(210.0 033.0 045.0) oklch(0.56 0.21 024.79) #D2212D   #C00221
-.green       rgb(072.0 145.0 000.0) oklch(0.59 0.17 135.48) #489100   #3F8100
-.yellow      rgb(173.0 137.0 000.0) oklch(0.65 0.13 090.01) #AD8900   #9B7600
-.blue        rgb(000.0 114.0 212.0) oklch(0.55 0.17 253.44) #0072D4   #005DCC
-.magenta     rgb(202.0 072.0 152.0) oklch(0.60 0.18 346.12) #CA4898   #B73088
-.cyan        rgb(000.0 156.0 143.0) oklch(0.62 0.11 184.53) #009C8F   #038D7C
-.orange      rgb(194.0 093.0 030.0) oklch(0.59 0.15 047.71) #C25D1E   #B04713
-.violet      rgb(135.0 098.0 198.0) oklch(0.58 0.15 298.67) #8762C6   #714CBC
+red          = "#D2212D",
+green        = "#489100",
+yellow       = "#AD8900",
+blue         = "#0072D4",
+magenta      = "#CA4898",
+cyan         = "#009C8F",
+orange       = "#C25D1E",
+violet       = "#8762C6",
 
-br_red       rgb(204.0 023.0 041.0) oklch(0.54 0.21 024.46) #CC1729   #B9001E
-br_green     rgb(066.0 139.0 000.0) oklch(0.57 0.17 136.05) #428B00   #3A7B00
-br_yellow    rgb(167.0 131.0 000.0) oklch(0.63 0.13 089.20) #A78300   #957000
-br_blue      rgb(000.0 109.0 206.0) oklch(0.54 0.17 253.98) #006DCE   #0059C6
-br_magenta   rgb(196.0 067.0 146.0) oklch(0.59 0.18 346.49) #C44392   #B12B82
-br_cyan      rgb(000.0 151.0 138.0) oklch(0.61 0.11 184.23) #00978A   #008777
-br_orange    rgb(188.0 088.0 025.0) oklch(0.58 0.15 047.41) #BC5819   #A9430F
-br_violet    rgb(130.0 093.0 192.0) oklch(0.56 0.15 298.72) #825DC0   #6B47B6
+br_red       = "#CC1729",
+br_green     = "#428B00",
+br_yellow    = "#A78300",
+br_blue      = "#006DCE",
+br_magenta   = "#C44392",
+br_cyan      = "#00978A",
+br_orange    = "#BC5819",
+br_violet    = "#825DC0",
 
 selenized white
 ---------------
-bg_0         rgb(255.0 255.0 255.0) oklch(1.00 0.00 000.00) #FFFFFF  #FFFFFF
-bg_1         rgb(235.0 235.0 235.0) oklch(0.94 0.00 000.00) #EBEBEB  #E6E6E6
-bg_2         rgb(205.0 205.0 205.0) oklch(0.85 0.00 000.00) #CDCDCD  #C2C2C2
-dim_0        rgb(135.0 135.0 135.0) oklch(0.62 0.00 000.00) #878787  #747474
-fg_0         rgb(071.0 071.0 071.0) oklch(0.40 0.00 000.00) #474747  #373737
-fg_1         rgb(040.0 040.0 040.0) oklch(0.28 0.00 000.00) #282828  #1E1E1E
+bg_0         = "#FFFFFF",
+bg_1         = "#EBEBEB",
+bg_2         = "#CDCDCD",
+dim_0        = "#878787",
+fg_0         = "#474747",
+fg_1         = "#282828",
 
-.red         rgb(214.0 000.0 012.0) oklch(0.55 0.23 028.25) #D6000C  #C5000D
-.green       rgb(029.0 151.0 000.0) oklch(0.59 0.20 141.32) #1D9700  #288800
-.yellow      rgb(196.0 151.0 000.0) oklch(0.70 0.14 087.21) #C49700  #B58400
-.blue        rgb(000.0 100.0 228.0) oklch(0.54 0.21 259.18) #0064E4  #004FE0
-.magenta     rgb(221.0 015.0 157.0) oklch(0.60 0.25 346.54) #DD0F9D  #CC008E
-.cyan        rgb(000.0 173.0 156.0) oklch(0.67 0.12 182.68) #00AD9C  #00A08A
-.orange      rgb(208.0 074.0 000.0) oklch(0.59 0.18 040.76) #D04A00  #BF3400
-.violet      rgb(127.0 081.0 214.0) oklch(0.55 0.19 295.23) #7F51D6  #673AD0
+red          = "#D6000C",
+green        = "#1D9700",
+yellow       = "#C49700",
+blue         = "#0064E4",
+magenta      = "#DD0F9D",
+cyan         = "#00AD9C",
+orange       = "#D04A00",
+violet       = "#7F51D6",
 
-br_red       rgb(191.0 000.0 000.0) oklch(0.51 0.21 029.23) #BF0000  #AA0000
-br_green     rgb(000.0 132.0 000.0) oklch(0.53 0.18 142.50) #008400  #147300
-br_yellow    rgb(175.0 133.0 000.0) oklch(0.64 0.13 086.17) #AF8500  #9D7100
-br_blue      rgb(000.0 084.0 207.0) oklch(0.49 0.20 260.36) #0054CF  #0040C8
-br_magenta   rgb(199.0 000.0 139.0) oklch(0.55 0.23 347.06) #C7008B  #B3007A
-br_cyan      rgb(000.0 154.0 138.0) oklch(0.62 0.11 182.14) #009A8A  #008A77
-br_orange    rgb(186.0 055.0 000.0) oklch(0.53 0.18 037.38) #BA3700  #A62300
-br_violet    rgb(107.0 064.0 195.0) oklch(0.50 0.19 293.12) #6B40C3  #542BB9
+br_red       = "#BF0000",
+br_green     = "#008400",
+br_yellow    = "#AF8500",
+br_blue      = "#0054CF",
+br_magenta   = "#C7008B",
+br_cyan      = "#009A8A",
+br_orange    = "#BA3700",
+br_violet    = "#6B40C3",
 
 selenized black
 ---------------
-bg_0         rgb(024.0 024.0 024.0) oklch(0.21 0.00 000.00) #181818  #121212
-bg_1         rgb(036.0 036.0 036.0) oklch(0.26 0.00 000.00) #252525  #1C1C1C
-bg_2         rgb(059.0 059.0 059.0) oklch(0.35 0.00 000.00) #3B3B3B  #2D2D2D
-dim_0        rgb(119.0 119.0 119.0) oklch(0.57 0.00 000.00) #777777  #636363
-fg_0         rgb(185.0 185.0 185.0) oklch(0.79 0.00 000.00) #B9B9B9  #AAAAAA
-fg_1         rgb(222.0 222.0 222.0) oklch(0.90 0.00 000.00) #DEDEDE  #D6D6D6
+bg_0         = "#181818",
+bg_1         = "#252525",
+bg_2         = "#3B3B3B",
+dim_0        = "#777777",
+fg_0         = "#B9B9B9",
+fg_1         = "#DEDEDE",
 
-.red         rgb(237.0 074.0 070.0) oklch(0.64 0.20 026.03) #ED4A46  #E13136
-.green       rgb(113.0 180.0 055.0) oklch(0.70 0.17 133.41) #70B433  #64A81D
-.yellow      rgb(219.0 179.0 039.0) oklch(0.78 0.15 090.93) #DBB32D  #D1A416
-.blue        rgb(054.0 138.0 235.0) oklch(0.63 0.17 254.49) #368AEB  #2D76E9
-.magenta     rgb(235.0 110.0 183.0) oklch(0.71 0.17 346.36) #EB6EB7  #DE54AB
-.cyan        rgb(063.0 197.0 183.0) oklch(0.75 0.12 185.01) #3FC5B7  #40BBA8
-.orange      rgb(230.0 127.0 067.0) oklch(0.70 0.15 048.76) #E67F43  #DA6930
-.violet      rgb(165.0 128.0 226.0) oklch(0.68 0.14 299.96) #A580E2  #9169DD
+red          = "#ED4A46",
+green        = "#70B433",
+yellow       = "#DBB32D",
+blue         = "#368AEB",
+magenta      = "#EB6EB7",
+cyan         = "#3FC5B7",
+orange       = "#E67F43",
+violet       = "#A580E2",
 
-br_red       rgb(255.0 094.0 086.0) oklch(0.69 0.20 026.41) #FF5E56  #FB4343
-br_green     rgb(131.0 199.0 070.0) oklch(0.76 0.17 132.88) #83C746  #77BD2D
-br_yellow    rgb(239.0 197.0 065.0) oklch(0.84 0.15 090.59) #EFC541  #E9B928
-br_blue      rgb(079.0 156.0 254.0) oklch(0.69 0.16 255.62) #4F9CFE  #4289FF
-br_magenta   rgb(255.0 129.0 202.0) oklch(0.77 0.17 346.14) #FF81CA  #F767C0
-br_cyan      rgb(086.0 216.0 201.0) oklch(0.81 0.12 184.66) #56D8C9  #53D2BD
-br_orange    rgb(250.0 145.0 083.0) oklch(0.76 0.15 049.58) #FA9153  #F37B3F
-br_violet    rgb(184.0 145.0 245.0) oklch(0.73 0.15 300.85) #B891F5  #A67BF5
+br_red       = "#FF5E56",
+br_green     = "#83C746",
+br_yellow    = "#EFC541",
+br_blue      = "#4F9CFE",
+br_magenta   = "#FF81CA",
+br_cyan      = "#56D8C9",
+br_orange    = "#FA9153",
+br_violet    = "#B891F5",
 --]]
 
+return cat_selenized

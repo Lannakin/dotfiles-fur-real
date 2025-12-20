@@ -1,9 +1,9 @@
 -- /plugins/editor.lua
 -- disabled if below line is active
 -- if true then return {} end
----@module 'lazy'
+---@module "lazy"
 
-local excluded_filetypes = { "neo-tree", "alpha", "Outline", "edgy", "floaterm" }
+local excluded_filetypes = { "neo-tree", "neo-tree-popup", "alpha", "floaterm", "Outline", "edgy", "lazy", "mason" }
 
 ---@type LazySpec
 return {
@@ -33,23 +33,9 @@ return {
     -- https://github.com/monkoose/matchparen.nvim
     "monkoose/matchparen.nvim",
     opts = {
-      -- Set to `false` to disable at matchpren at startup
-      -- Enable matchparen manually with `:MatchParenEnable`
       enabled = true,
-      -- Highlight group of the matched brackets
-      -- Change it to any other or adjust colors of "MathParen" highlight group
-      -- in your colorscheme to your likin    hl_group = "MatchParen",
-      -- Debounce time in milliseconds for rehighlighting brackets
-      -- Set to 0 to disable debouncing
       debounce_time = 60,
     },
-  },
-  { -- browse github for repos tagged neovim-plugin
-    -- https://github.com/alex-popov-tech/store.nvim
-    "alex-popov-tech/store.nvim",
-    dependencies = { "OXY2DEV/markview.nvim" },
-    opts = {},
-    cmd = "Store",
   },
   --[[
   { -- open github repo links etc via placing cursor over + (visual mode) typing gx
@@ -87,7 +73,7 @@ return {
               name = "jira", -- set name of handler
               handle = function(mode, line, _)
                 local ticket = require("gx.helper").find(line, mode, "(%u+-%d+)")
-                if ticket and #ticket < 20 then
+                if ticket and "#ticket < 20 then
                   return "http://jira.company.com/browse/" .. ticket
                 end
               end,
@@ -173,10 +159,11 @@ return {
       local builtin = require "statuscol.builtin"
       return {
         setopt = true,
-        ft_ignore = { "neo-tree", "neo-tree-popup", "alpha", "lazy", "mason", "dashboard" },
+        ft_ignore = excluded_filetypes,
         segments = {
           {
-            sign = {
+            -- segments go from left to right
+            sign = { -- diagnostic signs
               namespace = { "diagnostic.*" },
               text = { ".*" },
               -- condition = { true, builtin.not_empty },
@@ -189,19 +176,19 @@ return {
             },
             click = "v:lua.ScSa",
           },
-          {
+          { -- line numbers
             text = { builtin.lnumfunc },
             condition = { true, builtin.not_empty },
             -- click = "v:lua.ScLa"
           },
           {
-            sign = {
+            sign = { -- git signs
               namespace = { "gitsigns.*" },
               name = { "gitsigns.*" },
               maxwidth = 1,
               colwidth = 1,
               auto = true,
-              fillchar = " ", -- "█",
+              fillchar = " ",
               fillcharhl = "LineNr",
             },
           },
@@ -218,17 +205,102 @@ return {
     opts = {},
   },
   { -- quickfix gui
-    --https://github.com/stevearc/quicker.nvim
+    -- https://github.com/stevearc/quicker.nvim
     "stevearc/quicker.nvim",
     ft = "qf",
     ---@module "quicker"
     ---@type quicker.SetupOptions
-    opts = {},
+    opts = {
+      buflisted = false,
+      number = false,
+      relativenumber = false,
+      signcolumn = "auto",
+      winfixheight = true,
+      wrap = false,
+      follow = {
+        -- When quickfix window is open, scroll to closest item to the cursor
+        enabled = false,
+      },
+      borders = {
+        vert = "┃",
+        -- Strong headers separate results from different files
+        strong_header = "━",
+        strong_cross = "╋",
+        strong_end = "┫",
+        -- Soft headers separate results within the same file
+        soft_header = "╌",
+        soft_cross = "╂",
+        soft_end = "┨",
+      },
+    },
   },
   { -- colorize color text
     -- https://github.com/catgoose/nvim-colorizer.lua
     "catgoose/nvim-colorizer.lua",
-    event = "BufReadPre",
-    opts = { user_default_options = { names = false } },
+    -- event = "VeryLazy",
+    opts = {
+      -- lazy_load = true,
+      user_default_options = {
+        names = false,
+        -- Highlighting mode.  'background'|'foreground'|'virtualtext'
+        mode = "virtualtext", -- Set the display mode
+        -- Virtualtext character to use
+        virtualtext = "■",
+        -- Display virtualtext inline with color. true sets to 'after'
+        virtualtext_inline = false,
+        -- Virtualtext highlight mode: 'background'|'foreground'
+        virtualtext_mode = "foreground",
+      },
+    },
+  },
+  { -- color number line by mode
+    -- https://github.com/mawkler/modicator.nvim
+    "mawkler/modicator.nvim",
+    dependencies = "Lannakin/cat-neosolarized.nvim", -- Add your colorscheme plugin here
+    init = function()
+      -- These are required for Modicator to work
+      vim.o.cursorline = true
+      vim.o.number = true
+      vim.o.termguicolors = true
+    end,
+    opts = {
+      show_warnings = false,
+    },
+  },
+  { -- snacks image rendering
+    -- https://github.com/folke/snacks.nvim/blob/main/docs/image.md
+    "folke/snacks.nvim",
+    ---@type snacks.Config
+    opts = {
+      doc = {
+        enabled = true,
+        inline = true,
+        max_width = 80,
+        max_height = 40,
+      },
+      image = { ---@class snacks.image.Config{
+        img_dirs = { "img", "images", "assets", "static", "public", "media", "attachments" },
+        wo = {
+          wrap = false,
+          number = false,
+          relativenumber = false,
+          cursorcolumn = false,
+          signcolumn = "no",
+          foldcolumn = "0",
+          list = false,
+          spell = false,
+          statuscolumn = "",
+        },
+        ---@class snacks.image.convert.Config
+        convert = {
+          notify = false, -- show a notification on error
+          ---@type snacks.image.args
+          ---@type table<string,snacks.image.args>
+          magick = {
+            default = { "{src}[0]", "-scale", "1920x1080>" }, -- default for raster images
+          },
+        },
+      },
+    },
   },
 }

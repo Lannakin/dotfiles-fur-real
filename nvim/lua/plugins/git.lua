@@ -23,32 +23,32 @@ return {
     enabled = true,
     opts = function()
       return {
-        signs = {
-          add = { text = "+" },
-          change = { text = "=" },
-          delete = { text = "-" },
-          topdelete = { text = "‾" },
-          changedelete = { text = "~" },
-          untracked = { text = "┆" },
-        },
-        signs_staged = {
-          add = { text = "+" },
-          change = { text = "=" },
-          delete = { text = "-" },
-          topdelete = { text = "‾" },
-          changedelete = { text = "~" },
-          untracked = { text = "┆" },
-        },
         -- stylua: ignore start
+        signs = {
+          add          = { text = "+" },
+          change       = { text = "=" },
+          delete       = { text = "-" },
+          topdelete    = { text = "‾" },
+          changedelete = { text = "~" },
+          untracked    = { text = "┆" },
+        },
+
+        signs_staged = {
+          add          = { text = "+" },
+          change       = { text = "=" },
+          delete       = { text = "-" },
+          topdelete    = { text = "‾" },
+          changedelete = { text = "~" },
+          untracked    = { text = "┆" },
+        },
+
         signs_staged_enable = false,
         signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-        numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
-        linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
+        numhl = false,     -- Toggle with `:Gitsigns toggle_numhl`
+        linehl = false,    -- Toggle with `:Gitsigns toggle_linehl`
         word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
         -- stylua: ignore end
-        watch_gitdir = {
-          follow_files = true,
-        },
+        watch_gitdir = { follow_files = true },
         auto_attach = true,
         attach_to_untracked = false,
         current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
@@ -92,7 +92,7 @@ return {
         keepAbortedMsgSecs = 300,
         border = "single",
         spellcheck = false, -- vim's builtin spellcheck
-        wrap = "hard", ---@type "hard"|"soft"|"none"
+        wrap = "hard",      ---@type "hard"|"soft"|"none"
         keymaps = {
           normal = { abort = "q", confirm = "<CR>" },
           insert = { confirm = "<C-CR>" },
@@ -117,7 +117,6 @@ return {
 
       push = {
         preventPushingFixupCommits = true,
-        confirmationSound = true, -- currently macOS only, PRs welcome
 
         -- If pushed commits contain references to issues, open them in the browser
         -- (not used when force-pushing).
@@ -129,7 +128,7 @@ return {
         diffPopup = {
           width = 0.8, -- between 0-1
           height = 0.8,
-          border = "single", -- `vim.o.winborder` on nvim 0.11, otherwise "rounded"
+          border = "single", -- `vim.o.winborder` on nvim 0.11
         },
       },
 
@@ -146,9 +145,10 @@ return {
     "3dyuval/diffview.nvim",
     cmd = { "DiffviewOpen" },
     opts = function()
-      local Actions = require "diffview.actions"
+      -- local Actions = require "diffview.actions"
       local min = math.min
       local floor = math.floor
+      local nvim_set_option_value= vim.api.nvim_set_option_value
 
       return {
         diff_binaries = false,
@@ -176,10 +176,10 @@ return {
           },
         },
         file_panel = {
-          listing_style = "list", ---@type DiffView.ListStyle
+          listing_style = "list",        ---@type DiffView.ListStyle
           tree_options = {
             flatten_dirs = true,
-            folder_statuses = "always", ---@type 'never'|'only_folded'|'always'
+            folder_statuses = "always",  ---@type 'never'|'only_folded'|'always'
           },
           win_config = function()
             local tab = vim.api.nvim_get_current_tabpage()
@@ -247,9 +247,9 @@ return {
         default_args = { DiffviewOpen = {}, DiffviewFileHistory = {} },
         hooks = {
           diff_buf_read = function(_)
-            vim.api.nvim_set_option_value("wrap", true, { scope = "local" })
-            vim.api.nvim_set_option_value("list", true, { scope = "local" })
-            vim.api.nvim_set_option_value("colorcolumn", "120", { scope = "local" })
+            nvim_set_option_value("wrap", true, { scope = "local" })
+            nvim_set_option_value("list", true, { scope = "local" })
+            nvim_set_option_value("colorcolumn", "120", { scope = "local" })
           end,
           view_opened = function(view) ---@param view View
             vim.notify(("A new %s was opened on tab page %d!"):format(view.class:name(), view.tabpage))

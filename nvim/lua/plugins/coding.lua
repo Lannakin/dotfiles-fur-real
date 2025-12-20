@@ -35,7 +35,13 @@ return {
       },
     },
   },
-  -- --| visual stuff |--------------------------------------------------------------------------------------------------
+  -- --| syntax additions |--------------------------------------------------------------------------------------------
+  { -- syntax highlighting for kitty config files
+    -- https://github.com/fladson/vim-kitty
+    "fladson/vim-kitty",
+    ft = "kitty",
+  },
+  -- --| visual stuff |------------------------------------------------------------------------------------------------
   { -- highlights text when undoing
     "tzachar/highlight-undo.nvim",
     opts = {
@@ -71,27 +77,17 @@ return {
       },
     },
   },
-  --[[
-  { -- dim code outside current scope or something
-    -- https://github.com/folke/twilight.nvim
-    "folke/twilight.nvim",
-    -- stylua: ignore
+  {
+    -- https://github.com/otavioschwanck/new-file-template.nvim
+    "otavioschwanck/new-file-template.nvim",
+    enabled = false,
     opts = {
-      dimming = {
-        alpha = 0.80, -- dim to this amount
-        -- we try to get the foreground from the highlight groups or fallback color
-        color = { "Normal", "#ffffff" },
-        term_bg = "#000000", -- if guibg=NONE, this will be used to calculate text color
-        inactive = false,    -- when true, other windows will be fully dimmed (unless they contain the same buffer)
-      },
-      context = 10, -- amount of lines we will try to show around the current line
-      expand = {    -- for treesitter, we we always try to expand to the top-most ancestor with these types
-        "function",
-        "method",
-        "table",
-        "if_statement",
-      },
+      disable_insert = false,  -- Enter in insert mode after inserting the template?,
+      disable_autocmd = false, -- Disable the autocmd that creates the template.  You can use manually by calling :InsertTemplateFile,
+      disable_filetype = {},   -- Disable templates for a filetype (disable only default templates.  User templates will work).
+      disable_specific = {},   -- Disable specific regexp for the default templates.
+                               --   Example: { ruby = { ".*" } }.
+      suffix_as_filetype = false, -- use suffix of filename rather than vim.bo.filetype as filetype
     },
   },
-  --]]
 }

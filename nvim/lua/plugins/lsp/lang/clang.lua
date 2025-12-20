@@ -94,6 +94,8 @@ return {
         clangd = function(_, opts)
           local clangd_ext_opts = require("lazyvim.util").opts "clangd_extensions.nvim"
           require("clangd_extensions").setup(vim.tbl_deep_extend("force", clangd_ext_opts or {}, { server = opts }))
+          -- <https://www.reddit.com/r/raspberrypipico/comments/m5lsmw/comment/l8lov9j/> rpi stuff
+          table.insert(opts.cmd, "--query-driver=/usr/bin/arm-none-eabi-g*")
           return false
         end,
       },

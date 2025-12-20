@@ -1,5 +1,6 @@
 -- /config/keymaps.lua
 -- lazyvim defaults full src: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
+-- stylua: ignore start
 -- ================================================================================================================= --
 
 -- --| local variables |-----------------------------------------------------------------------------------------------
@@ -8,7 +9,7 @@ local unmap = vim.keymap.del
 
 -- +---------------------------------------------------------+
 -- |                                                         |
--- | unmap existing keymaps                                  |
+-- |                 unmap existing keymaps                  |
 -- |                                                         |
 -- +---------------------------------------------------------+
 
@@ -16,9 +17,11 @@ local unmap = vim.keymap.del
 -- [ various ] --
 unmap("n", "<leader>fn")      -- file operations: new file
 unmap({ "n", "i" }, "<C-F>" ) -- scroll forward
+-- unmap( "n", "dd" ) -- delete
 
 -- --| unmap existing lazyvim default kemaps |-------------------------------------------------------------------------
 -- [ various ] --
+unmap("n", "<leader>uD")          -- toggle dimming
 unmap({ "n", "x" }, "<leader>cf") -- format file
 -- [ buffer operations ] --
 unmap("n", "<S-h>")      -- prev buffer
@@ -32,13 +35,9 @@ unmap("n", "<leader>bd") -- delete buffer
 unmap("n", "<leader>bo") -- delete other buffers
 unmap("n", "<leader>bD") -- delete buffer and window
 
--- --| Neotree |-------------------------------------------------------------------------------------------------------
-map({ "i", "n" }, "<C-B>", "<CMD>:Neotree toggle<CR>", { desc = "Toggle Neotree pane" })
-
-
 -- +---------------------------------------------------------+
 -- |                                                         |
--- | file operations                                         |
+-- |                     file operations                     |
 -- |                                                         |
 -- +---------------------------------------------------------+
 
@@ -47,7 +46,7 @@ map("n", "<Leader>r", ":lua require('renamer').rename()<CR>", { desc = "Rename f
 
 -- +---------------------------------------------------------+
 -- |                                                         |
--- | editor operations                                       |
+-- |                   editor operations                     |
 -- |                                                         |
 -- +---------------------------------------------------------+
 
@@ -90,15 +89,15 @@ map("v", "<C-Down>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { de
 -- map("v", "<C-Down>", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
 
 -- --| clipboard Functions |-------------------------------------------------------------------------------------------
--- [ cut ] --
+-- [ clipboard cut ] --
 map({ "i", "n", "v" }, "<C-X>", '"+d', { desc = "Cut to system clipboard", silent = true })
 
--- [ copy ] --
+-- [ clipboard copy ] --
 map({ "i", "n", "v" }, "<C-C>", '"+y', { desc = "Copy to system clipboard", silent = true })
 
--- [ paste ] --
+-- [clipboard paste ] --
 map({ "i", "n", "v" }, "<C-V>", '"+p', { desc = "Paste from system clipboard", silent = true })
-map("v", "<C-V>", '"_dP', { desc = "Paste without deleting clipboard contents", noremap = true, silent = true })
+map({ "v",  "x" }, "<C-V>", function() return 'pgv"' .. vim.v.register .. "y" end, { desc = "Paste without deleting clipboard contents", noremap = true, silent = true, expr = true })
 
 -- --| delete operations |---------------------------------------------------------------------------------------------
 -- [ delete selection ] --
@@ -116,13 +115,14 @@ map("i", "<C-BS>", "<C-w>", { desc = "Delete next word" })
 map("i", "<C-h>", "<C-w>", { desc = "Delete next word" })
 
 -- [ smart delete (preserves clipboard while deleting empty lines) ] --
-map("n", "dd", function()
+--[[map("n", "dd", function()
   if vim.api.nvim_get_current_line():match "^%s*$" then
     return '"_dd'
   else
     return "dd"
   end
 end, { desc = "Delete (smart)", noremap = true, expr = true })
+--]]
 
 -- --| formatting |----------------------------------------------------------------------------------------------------
 -- [ lazyformat ] --
@@ -148,7 +148,7 @@ map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search Result
 
 -- +---------------------------------------------------------+
 -- |                                                         |
--- | buffer navigation & management                          |
+-- |             buffer navigation & management              |
 -- |                                                         |
 -- +---------------------------------------------------------+
 
@@ -183,7 +183,7 @@ map("n", "<leader>BD", "<cmd>:bd<cr>", { desc = "Close buffer and window" })
 
 -- +---------------------------------------------------------+
 -- |                                                         |
--- | tab nagivation & management                             |
+-- |              tab nagivation & management                |
 -- |                                                         |
 -- +---------------------------------------------------------+
 
@@ -204,9 +204,12 @@ map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>o", "<cmd>tabonly<cr>", { desc = "Close Other Tabs" })
 
+-- --| neotree |-------------------------------------------------------------------------------------------------------
+map({ "i", "n" }, "<C-B>", "<CMD>:Neotree toggle<CR>", { desc = "Toggle Neotree pane" })
+
 -- +---------------------------------------------------------+
 -- |                                                         |
--- | development operations                                  |
+-- |           coding and development operations             |
 -- |                                                         |
 -- +---------------------------------------------------------+
 
@@ -231,9 +234,30 @@ map("n", "<Leader>l", ":noh<CR>", { desc = "LSP signature help", noremap = true,
 
 -- +---------------------------------------------------------+
 -- |                                                         |
--- | search                                                  |
+-- |            search operations and navigation             |
 -- |                                                         |
 -- +---------------------------------------------------------+
 
+-- --| search navigation |---------------------------------------------------------------------------------------------
 map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
 map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
+
+-- --| search current word in browser |--------------------------------------------------------------------------------
+-- src: https://github.com/Matt-FTW/dotfiles/blob/main/.config/nvim/lua/config/keymaps.lua
+local searching_brave = function()
+  vim.fn.system({ "xdg-open", "https://search.brave.com/search?q=" .. vim.fn.expand("<cword>") })
+end
+map("n", "<leader>?", searching_brave, { noremap = true, silent = true, desc = "Search Current Word on Brave Search" })
+
+-- +---------------------------------------------------------+
+-- |                                                         |
+-- |                  utility operations                     |
+-- |                                                         |
+-- +---------------------------------------------------------+
+
+-- --| reload neovim |-------------------------------------------------------------------------------------------------
+-- FIXME: "needs at least one plugin"
+-- map("n", "<C-R>", "<CMD>:Lazy reload<CR>", { desc = "Reload Neovim configurations using Lazy" } )
+
+-- ================================================================================================================= --
+-- stylua: ignore end

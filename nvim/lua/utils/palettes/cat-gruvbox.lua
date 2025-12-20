@@ -1,19 +1,32 @@
 -- /utils/palettes/cat-gruvbox.lua
+-- disabled if below line is active
+-- if true then return {} end
 
 -- src: https://github.com/ellisonleao/gruvbox.nvim/blob/main/lua/gruvbox.lua
 -- license: MIT License
 -- https://github.com/ellisonleao/gruvbox.nvim/blob/main/LICENSE
 
--- --| gruvbox |-------------------------------------------------------------------------------------------------------
+-- --| cat_gruvbox |---------------------------------------------------------------------------------------------------
+
+--- create palette tables for cat_gruvbox color theme
+---@class cat_gruvbox
 local cat_gruvbox = {}
 
 -- src: https://github.com/Tsuzat/NeoSolarized.nvim/blob/master/lua/NeoSolarized/config.lua
+--- default settings: dark palette
+---@class defaults
 local defaults = {
   palette_mode = "dark",
 }
 
+--- initialize options or something
 cat_gruvbox.options = nil
 
+-- --| cat_gruvbox: setup |--------------------------------------------------------------------------------------------
+
+--- create dark and light mode palette tables swapping for cat_gruvbox
+---@param options string|table
+---@return string|table
 function cat_gruvbox.setup(options)
 
   cat_gruvbox.options = vim.tbl_deep_extend("force", {}, defaults, options or {})
@@ -29,9 +42,11 @@ function cat_gruvbox.setup(options)
 
   return cat_gruvbox.options.palette_mode
 end
+-- stylua: ignore start
 
--- --| gruvbox: main |-----------------------------------------------------------------------------------------------
---stylua: ignore
+-- --| cat_gruvbox: main |---------------------------------------------------------------------------------------------
+
+--- cat_gruvbox: base palette colors to be used by dark and light palette_mode
 cat_gruvbox.main = {
   dark0      = "#282828",
   dark0_hard = "#1d2021",
@@ -101,8 +116,10 @@ cat_gruvbox.main = {
 }
 
 local palette = cat_gruvbox.main
--- --| gruvbox: dark |-----------------------------------------------------------------------------------------------
--- stylua: ignore
+
+-- --| cat_gruvbox: dark |---------------------------------------------------------------------------------------------
+
+--- cat_gruvbox: dark palette_mode colors
 cat_gruvbox.dark = {
   bg0 = palette.dark0,
   bg1 = palette.dark1,
@@ -137,8 +154,9 @@ cat_gruvbox.dark = {
   dark_red   = palette.dark_red,
 }
 
--- --| gruvbox: light |----------------------------------------------------------------------------------------------
--- stylua: ignore
+-- --| cat_gruvbox: light |--------------------------------------------------------------------------------------------
+
+--- cat_gruvbox: light palette_mode colors
 cat_gruvbox.light = {
   bg0 = palette.light0,
   bg1 = palette.light1,
@@ -172,4 +190,6 @@ cat_gruvbox.light = {
   dark_green = palette.light_green,
   dark_red   = palette.light_red,
 }
+-- stylua: ignore end
 
+return cat_gruvbox
