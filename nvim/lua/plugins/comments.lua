@@ -4,6 +4,13 @@
 
 ---@type LazySpec
 return {
+  { -- add more languages
+    -- https://github.com/folke/ts-comments.nvim
+    "folke/ts-comments.nvim",
+    opts = {},
+    event = "VeryLazy",
+    enabled = vim.fn.has("nvim-0.10.0") == 1,
+  },
   { -- comments out lines
     -- https://github.com/nvim-mini/mini.comment
     "nvim-mini/mini.comment",
@@ -27,8 +34,8 @@ return {
     -- cmd = { "TodoTrouble", "TodoTelescope" },
     -- event = { "BufReadPost", "BufWritePost", "BufNewFile" },
     opts = {},
-    keys = -- function()
-      --[[return]] {
+    keys =
+      {
         { "<leader>xt", "<cmd>Trouble todo toggle<cr>", desc = "[T]odo" },
         { "<leader>xT", "<cmd>Trouble todo toggle filter = {tag = {TODO,FIX,FIXME}}<cr>", desc = "[T]odo/Fix/Fixme" },
         { "<leader>St", "<cmd>todo Telescope<cr>", desc = "Todo" },
@@ -36,13 +43,20 @@ return {
       }
     -- end,
   },
+  -- --| comment boxes |-----------------------------------------------------------------------------------------------
   { -- adds ridiculous boxes around stuff in comments, which will be great b/c i am fucking blind
     -- https://github.com/Nitestack/comment-box.nvim
     "Nitestack/comment-box.nvim",
     dependencies = "folke/ts-comments.nvim", -- wonder if needed
     opts = function()
       local wk = require "which-key"
-      local opts = { noremap = true, silent = true }
+      local key_opts = { noremap = true, silent = true }
+      local current_textwidth = vim.opt_local.textwidth:get()
+
+      -- Use textwidth if set, otherwise default to 80
+      if current_textwidth == 0 then
+        current_textwidth = 80
+      end
 
       -- Commands:
       -- CB<position><alignment><type>[catalog_number]
@@ -51,16 +65,16 @@ return {
       wk.add {
         { "<Leader>b", group = "boxes" },
         -- boxes --
-        { "<Leader>bbc",  "<Cmd>CBlcbox2<CR>",  desc = "Box title, centered", opts },
-        { "<Leader>bbll", "<Cmd>CBllbox2<CR>",  desc = "Box title, left-aligned", opts },
-        { "<Leader>bbca", "<Cmd>CBlcbox10<CR>", desc = "ASCII box title, centered", opts },
-        { "<Leader>bbla", "<Cmd>CBllbox10<CR>", desc = "ASCII box title, left-aligned", opts },
+        { "<Leader>bbc",  "<Cmd>CBlcbox2<CR>",  desc = "Box title, centered", key_opts },
+        { "<Leader>bbll", "<Cmd>CBllbox2<CR>",  desc = "Box title, left-aligned", key_opts },
+        { "<Leader>bbca", "<Cmd>CBlcbox10<CR>", desc = "ASCII box title, centered", key_opts },
+        { "<Leader>bbla", "<Cmd>CBllbox10<CR>", desc = "ASCII box title, left-aligned", key_opts },
         -- lines --
-        { "<Leader>bl",    "<Cmd>CBline<CR>",      desc = "Simple line", opts },
-        { "<Leader>bll",   "<Cmd>CBllline<CR>",    desc = "Line title, left-aligned", opts },
-        { "<Leader>bla",   "<Cmd>CBllline15<CR>", desc = "ASCII line title, left-aligned", opts },
+        { "<Leader>bl",    "<Cmd>CBline<CR>",      desc = "Simple line", key_opts },
+        { "<Leader>bll",   "<Cmd>CBllline<CR>",    desc = "Line title, left-aligned", key_opts },
+        { "<Leader>bla",   "<Cmd>CBllline15<CR>", desc = "ASCII line title, left-aligned", key_opts },
         -- marks (also boxes) --
-        { "<Leader>bmr",   "<Cmd>CBllbox14<CR>",   desc = "Marked comment, right", opts },
+        { "<Leader>bmr",   "<Cmd>CBllbox14<CR>",   desc = "Marked comment, right", key_opts },
       }
 
       return {
@@ -71,7 +85,7 @@ return {
         --              multiple lines are selected, line style comments
         --              otherwise
         comment_style = "line",
-        doc_width = 80, -- width of the document
+        doc_width = current_textwidth, -- width of the document
         box_width = 60, -- width of the boxes
         borders = { -- symbols used to draw a box
           top = "-",

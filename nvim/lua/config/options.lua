@@ -94,6 +94,7 @@ opt.smartindent = true                                  -- Insert indents automa
 opt.shiftround = true                                   -- Round indent
 opt.shiftwidth = 4                                      -- Size of an indent
 opt.softtabstop = 4
+opt.textwidth = 80
 -- folding --
 opt.fillchars = {
   diff = "/",

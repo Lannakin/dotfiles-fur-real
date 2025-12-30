@@ -1,7 +1,6 @@
--- plugins/file-browser.lua
+-- ./plugins/file-browser.lua
 -- disabled if below line is active
 -- if true then return {} end
----@module "lazy"
 
 ---@type LazySpec
 return {
@@ -68,8 +67,10 @@ return {
     },
   },
   {
-    -- https://github.com/antosha417/nvim-lsp-file-operations
-    "antosha417/nvim-lsp-file-operations",
+    -- orig: https://github.com/antosha417/nvim-lsp-file-operations
+    -- "antosha417/nvim-lsp-file-operations",
+    -- fixes: https://github.com/jinzhongjia/nvim-lsp-file-operations
+    "jinzhongjia/nvim-lsp-file-operations",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-neo-tree/neo-tree.nvim",

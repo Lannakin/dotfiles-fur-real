@@ -12,6 +12,8 @@ return {
     -- enabled = false
     dependencies = { "DaikyXendo/nvim-material-icon", opts = {} },
   },
+  -- https://github.com/nvim-mini/mini.ai
+  { "nvim-mini/mini.ai", enabled = false },
   -- https://github.com/hrsh7th/nvim-cmp
   { "hrsh7th/nvim-cmp", enabled = false },
   { -- replace default project.nvim with actively developed fork
@@ -89,6 +91,7 @@ return {
         { path = "blink.cmp" },
         { path = "auto-session" },
         { path = "noice.nvim" },
+        { path = "esqueleto.nvim" },
         -- { path = ""--[[, words = { "" } ]] },
       },
     },

@@ -13,12 +13,6 @@ local usercmd = vim.api.nvim_create_user_command
 
 local map = vim.keymap.set
 
--- --| enable spellcheck in certain buffers |--------------------------------------------------------------------------
--- autocmd({ "BufRead", "BufNewFile" }, {
---   pattern = { "*.txt", "*.md", "*.tex" },
---   command = "setlocal spell",
--- })
-
 -- --| Disable autoformat for lua files |------------------------------------------------------------------------------
 autocmd({ "FileType" }, {
   pattern = { "lua" },
@@ -26,6 +20,21 @@ autocmd({ "FileType" }, {
     vim.b.autoformat = false
   end,
 })
+
+-- --| format cmake on save |------------------------------------------------------------------------------------------
+-- local cmake_format_group = augroup("CmakeFormat", { clear = true })
+--
+-- -- Create an autocommand for the BufWritePre event
+-- autocmd("BufWritePre", {
+--   pattern = { "*.cmake", "CMakeLists.txt" }, -- Match CMake files
+--   group = cmake_format_group,
+--   desc = "Auto-format CMake files before saving using cmake-format",
+--   callback = function(args)
+--     -- The external command is run synchronously so the buffer is updated before the write completes
+--     vim.fn.system("cmake-format -i " .. vim.fn.expand "<afile>")
+--     -- Check the return code and handle errors if necessary
+--   end,
+-- })
 
 --| Create a dir when saving a file if it doesnt exist |---------------------------------------------------------------
 -- src: https://github.com/Matt-FTW/dotfiles/blob/main/.config/nvim/lua/config/autocmds.lua
@@ -89,7 +98,7 @@ usercmd("DiffOrig", function()
   map("n", "q", "<cmd>close<cr>", { buffer = scratch_buffer, silent = true })
 end, { desc = "Diff current buffer not .git" })
 
--- --| automatically set colorcolumn based on filetype |---------------------------------------------------------------
+-- --| automatically set color |---------------------------------------------------------------
 -- src: https://github.com/hollowillow/nvim/blob/main/lua/minimal/autocmds.lua
 -- ccolumn position by filetype
 local ft_ccolumn = {

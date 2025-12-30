@@ -1,6 +1,6 @@
 -- /after/ftplugin/man.lua
 -- disabled if below line is active
-if true then return {} end
+-- if true then return {} end
 -- vim:set softtabstop=2 shiftwidth=2 tabstop=2 expandtab ft=lua:
 
 local opt = vim.opt

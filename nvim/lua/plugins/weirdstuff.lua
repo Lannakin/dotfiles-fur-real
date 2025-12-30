@@ -50,6 +50,7 @@ return {
       maxkeys = 5,
     },
   },
+  --[[
   { -- browse github for repos tagged neovim-plugin
     -- https://github.com/alex-popov-tech/store.nvim
     "alex-popov-tech/store.nvim",
@@ -85,4 +86,5 @@ return {
       logging = "off",                   -- Levels: off, error, warn, log, debug
     },
   },
+  --]]
 }

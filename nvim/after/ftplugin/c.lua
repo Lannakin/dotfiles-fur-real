@@ -5,11 +5,14 @@
 
 local opt = vim.opt_local
 
-opt.autoindent = true
 opt.errorformat = "%f:%l:%c: %t%*[^:]:%m,%f:%l:%c: %t%*[^:]:%m,%-G%.%#"
+-- opt.makeprg = "gcc -Wall -o %:r %"
+
+opt.autoindent = true
 opt.expandtab = true
-opt.makeprg = "gcc -Wall -o %:r %"
 opt.shiftwidth = 4
 opt.smarttab = true
 opt.tabstop = 4
+
 opt.textwidth = 80
+opt.colorcolumn = "81"

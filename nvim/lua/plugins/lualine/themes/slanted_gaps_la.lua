@@ -4,10 +4,6 @@
 
 local M = {}
 
--- src: https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/
--- local utils = require('lualine.utils.utils')
-
--- require("utils.la-palettes")
 local palette = require("utils.palettes.cat-solarized").main
 
 local colors = {
@@ -36,7 +32,7 @@ local autocolors = {
   insert  = utils.extract_color_from_hllist('fg', { 'String', 'MoreMsg' }, '#000000'),
   normal  = utils.extract_color_from_hllist('bg', { 'PmenuSel', 'PmenuThumb', 'TabLineSel' }, '#000000'),
   replace = utils.extract_color_from_hllist('fg', { 'Number', 'Type' }, '#000000'),:qa
-  
+
   visual  = utils.extract_color_from_hllist('fg', { 'Special', 'Boolean', 'Constant' }, '#000000'),
 }
 --]]
@@ -117,13 +113,11 @@ M.sections = process_sections {
     {
       "branch",
       color = { bg = colors.violet },
-    }
+    },
   },
   lualine_b = {
     -- "branch",
-    { "diff",
-      colored = true,
-    },
+    { "diff", colored = true },
     {
       "diagnostics",
       source = { "nvim" },

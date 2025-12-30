@@ -48,65 +48,63 @@ end
 -- +---------------------------------------------------------+
 
 --- cat_solarized: base palette colors to be used by dark and light palette_mode
+
+cat_selenized.dark = {
+
+  bg_0         = "#103C48",
+  bg_1         = "#184956",
+  bg_2         = "#2D5B69",
+  dim_0        = "#72898F",
+  fg_0         = "#ADBCBC",
+  fg_1         = "#CAD8D9",
+
+  red          = "#FA5750",
+  green        = "#75B938",
+  yellow       = "#DBB32D",
+  blue         = "#4695F7",
+  magenta      = "#F275BE",
+  cyan         = "#36C6B8",
+  orange       = "#ED8649",
+  violet       = "#AF88EB",
+
+  br_red       = "#FF665C",
+  br_green     = "#84C747",
+  br_yellow    = "#EBC13D",
+  br_blue      = "#58A3FF",
+  br_magenta   = "#FF84CD",
+  br_cyan      = "#53D6C7",
+  br_orange    = "#FD9456",
+  br_violet    = "#BD96FA",
+}
+
+cat_selenized.light = {
+  bg_0         = "#FBF3DB",
+  bg_1         = "#ECE3CC",
+  bg_2         = "#D5CDB6",
+  dim_0        = "#909995",
+  fg_0         = "#53676D",
+  fg_1         = "#3A4D53",
+
+  red          = "#D2212D",
+  green        = "#489100",
+  yellow       = "#AD8900",
+  blue         = "#0072D4",
+  magenta      = "#CA4898",
+  cyan         = "#009C8F",
+  orange       = "#C25D1E",
+  violet       = "#8762C6",
+
+  br_red       = "#CC1729",
+  br_green     = "#428B00",
+  br_yellow    = "#A78300",
+  br_blue      = "#006DCE",
+  br_magenta   = "#C44392",
+  br_cyan      = "#00978A",
+  br_orange    = "#BC5819",
+  br_violet    = "#825DC0",
+}
+
 --[[
-=================================================================================
-|| NAME    || RGB                   || OKLCH                || HEX      "APPLE"||
-=================================================================================
-
-selenized dark
---------------
-bg_0         = "#103C48",
-bg_1         = "#184956",
-bg_2         = "#2D5B69",
-dim_0        = "#72898F",
-fg_0         = "#ADBCBC",
-fg_1         = "#CAD8D9",
-
-red          = "#FA5750",
-green        = "#75B938",
-yellow       = "#DBB32D",
-blue         = "#4695F7",
-magenta      = "#F275BE",
-cyan         = "#36C6B8",
-orange       = "#ED8649",
-violet       = "#AF88EB",
-
-br_red       = "#FF665C",
-br_green     = "#84C747",
-br_yellow    = "#EBC13D",
-br_blue      = "#58A3FF",
-br_magenta   = "#FF84CD",
-br_cyan      = "#53D6C7",
-br_orange    = "#FD9456",
-br_violet    = "#BD96FA",
-
-selenized light
----------------
-bg_0         = "#FBF3DB",
-bg_1         = "#ECE3CC",
-bg_2         = "#D5CDB6",
-dim_0        = "#909995",
-fg_0         = "#53676D",
-fg_1         = "#3A4D53",
-
-red          = "#D2212D",
-green        = "#489100",
-yellow       = "#AD8900",
-blue         = "#0072D4",
-magenta      = "#CA4898",
-cyan         = "#009C8F",
-orange       = "#C25D1E",
-violet       = "#8762C6",
-
-br_red       = "#CC1729",
-br_green     = "#428B00",
-br_yellow    = "#A78300",
-br_blue      = "#006DCE",
-br_magenta   = "#C44392",
-br_cyan      = "#00978A",
-br_orange    = "#BC5819",
-br_violet    = "#825DC0",
-
 selenized white
 ---------------
 bg_0         = "#FFFFFF",

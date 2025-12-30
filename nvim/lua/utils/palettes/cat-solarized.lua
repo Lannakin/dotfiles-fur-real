@@ -23,7 +23,7 @@ cat_solarized.options = nil
 --- create dark and light mode palette tables swapping for cat_solarized
 ---@param options string|table
 ---@return string|table
-function cat_solarized.setup(options)
+function cat_solarized.init(options)
 
   cat_solarized.options = vim.tbl_deep_extend("force", {}, defaults, options or {})
   cat_solarized.options.palette_mode = "dark"
@@ -53,13 +53,13 @@ cat_solarized.main = {
   fg2 = "#586E75",
 
   blue    = "#268BC2",
-  cyan    = "#2aa198",
+  cyan    = "#2AA198",
   green   = "#859900",
-  magenta = "#d33682",
-  orange  = "#cb4b16",
-  red     = "#dc322f",
-  violet  = "#6c71c4",
-  yellow  = "#b58900",
+  magenta = "#D33682",
+  orange  = "#CB4B16",
+  red     = "#DC322F",
+  violet  = "#6C71C4",
+  yellow  = "#B58900",
 
   base00 = "#657B83",
   base01 = "#586E75",
@@ -67,11 +67,12 @@ cat_solarized.main = {
   base03 = "#002B36",
 
   base0 = "#839496",
-  base1 = "#93a1a1",
-  base2 = "#eee8d5",
-  base3 = "#fdf6e3",
+  base1 = "#93A1A1",
+  base2 = "#EEE8D5",
+  base3 = "#FDF6E3",
+  base4 = "#FBF3DB",
 
-  bg_red = "#da0000",
+  bg_red = "#DA0000",
 }
 local palette = cat_solarized.main
 

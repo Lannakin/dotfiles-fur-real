@@ -1,18 +1,38 @@
--- /plugins/lsp/lang/bash.lua
+-- ./plugins/lsp/bash.lua
 -- disabled if below line is active
 -- if true then return {} end
--- disabled until set up
+
+local function fmt(diagnostic)
+  if diagnostic.code then
+    return ("[%s] %s"):format(diagnostic.code, diagnostic.message)
+  end
+  return diagnostic.message
+end
+
+vim.diagnostic.config({
+  virtual_text = {
+    source = true, # "always",
+    format = fmt,
+  },
+  float = {
+    source = true, # "always",
+    format = fmt,
+  },
+})
 
 ---@type vim.lsp.Config
 return {
-  --[[  { -- Add lang_name to treesitter
+  --[[
+  { -- Add bash to treesitter
     -- https://github.com/nvim-treesitter/nvim-treesitter
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
       util.list_insert_unique(opts.ensure_installed, { "lang_name" })
     end,
-  }, --]]
-  --[[  { -- Add tools to mason
+  },
+  --]]
+  --[[
+  { -- Add tools to mason
     -- https://github.com/mason-org/mason.nvim
     "mason-org/mason.nvim",
     opts = function(_, opts)
@@ -32,16 +52,13 @@ return {
           cmd = { "bash-language-server", "start" },
           filetypes = { "bash", "sh" },
           root_markers = { ".git" },
-          settings =   {
+          settings = {
             bashIde = {
-              globPattern = "*@(.sh|.inc|.bash|.command)"
-            }
-          }
+              globPattern = "*@(.sh|.inc|.bash|.command)",
+            },
+          },
         },
-        -- shellcheck = {
-        --   cmd = { "shellcheck" },
-        -- },
-        },
+      },
     },
   },
 }

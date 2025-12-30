@@ -22,7 +22,7 @@ cat_oksolarized.options = nil
 --- create dark and light mode palette tables swapping for cat_oksolarized
 ---@param options string|table
 ---@return string|table
-function cat_oksolarized.setup(options)
+function cat_oksolarized.init(options)
 
   cat_oksolarized.options = vim.tbl_deep_extend("force", {}, defaults, options or {})
   cat_oksolarized.options.palette_mode = "dark"

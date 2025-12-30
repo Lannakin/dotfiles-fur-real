@@ -16,13 +16,8 @@ return {
   {
     -- https://github.com/Saghen/blink.compat
     "saghen/blink.compat",
-    -- lazy.nvim will automatically load the plugin when it's required by blink.cmp
     lazy = true,
-    -- make sure to set opts so that lazy.nvim calls blink.compat's setup
-    opts = {
-      -- print some debug information. Might be useful for troubleshooting
-      debug = true,
-    },
+    opts = { debug = true },
   },
   { -- use blink.cmp for command-line completion
     -- https://github.com/Saghen/blink.cmp
@@ -32,10 +27,10 @@ return {
       { "rafamadriz/friendly-snippets" },
       { "moyiz/blink-emoji.nvim" },
       { "Kaiser-Yang/blink-cmp-dictionary" },
-      { "dmitmel/cmp-digraphs" },
+      -- { "dmitmel/cmp-digraphs" },
       { "L3MON4D3/LuaSnip" },
     },
-    ---@module 'blink.cmp'
+    ---@module "blink.cmp"
     ---@type blink.cmp.Config
     opts = {
       fuzzy = { implementation = "lua" },
@@ -60,33 +55,33 @@ return {
       completion = {
         ghost_text = { enabled = false },
         list = { selection = { preselect = false, auto_insert = true } },
+        menu = { border = "none" },
       },
       cmdline = {
         enabled = true,
         keymap = { preset = "inherit" },
-        completion = { menu = { auto_show = true } },
+        completion = {
+          menu = { auto_show = true },
+          ghost_text = { enabled = true },
+        },
       },
       sources = { -- add lazydev to blink.cmp completion providers
-        default = { "buffer", "cmdline", "digraphs", "lazydev", "lsp", "path", "snippets" }, -- do not put luasnip here
+        default = { "buffer", "cmdline", --[["digraphs",]] "lazydev", "lsp", "path", "snippets" }, -- do not put luasnip here
         providers = {
           -- buffers = {},
           -- cmdline = {},
 
           -- create provider
+          -- note: deprecated functions
+          --[[
           digraphs = {
             -- IMPORTANT: use the same name as you would for nvim-cmp
             name = "digraphs",
             module = "blink.compat.source",
             score_offset = -3,
-            opts = {
-              cache_digraphs_on_start = true, -- this is an option from cmp-digraphs
-
-              -- If you'd like to use a `name` that does not exactly match nvim-cmp,
-              -- set `cmp_name` to the name you would use for nvim-cmp, for instance:
-              -- cmp_name = "digraphs"
-              -- then, you can set the source's `name` to whatever you like.
-            },
+            opts = {},
           },
+          --]]
           lazydev = { name = "LazyDev", module = "lazydev.integrations.blink", score_offset = 100 },
           -- lsp = {},
           -- path = {},

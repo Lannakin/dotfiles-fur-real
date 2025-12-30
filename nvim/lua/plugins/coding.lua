@@ -10,15 +10,6 @@ vim.o.timeoutlen = 3000 -- increase timeout b/c slow
 
 ---@type LazySpec
 return {
-  { -- used by LSPs
-    -- https://github.com/nvim-treesitter/nvim-treesitter-context
-    "nvim-treesitter/nvim-treesitter-context",
-    event = "LazyFile",
-    opts = function()
-      -- local tsc = require "treesitter-context"
-      return { mode = "cursor", max_lines = 3 }
-    end,
-  },
   {
     -- https://github.com/nvim-mini/mini.surround"
     "nvim-mini/mini.surround",
@@ -31,7 +22,7 @@ return {
         find_left = "sF",      -- Find surrounding (to the left)
         highlight = "sh",      -- Highlight surrounding
         replace = "sr",        -- Replace surrounding
-        update_n_lines = "sn", -- Update `n_lines`
+        update_n_lines = "",   -- Update `n_lines`
       },
     },
   },
@@ -77,17 +68,71 @@ return {
       },
     },
   },
+  { -- use treesitter to autoclose and autorename html tag
+    -- https://github.com/windwp/nvim-ts-autotag
+    "windwp/nvim-ts-autotag",
+    opts = {},
+  },
+  -- --| templates |---------------------------------------------------------------------------------------------------
   {
-    -- https://github.com/otavioschwanck/new-file-template.nvim
-    "otavioschwanck/new-file-template.nvim",
-    enabled = false,
+    -- https://github.com/cvigilv/esqueleto.nvim
+    "cvigilv/esqueleto.nvim",
+    dependencies = { "dressing.nvim" },
+    -- event = { "BufNewFile" },
+    -- ---@type Esqueleto.Config
+    --[[ USAGE:
+    --    mkdir <filename>
+    --    ln -s $(pwd)/<template-filetype-dir>/<desired-template-filename> $(pwd)/<filename>
+    --    ???????
+    --]]
     opts = {
-      disable_insert = false,  -- Enter in insert mode after inserting the template?,
-      disable_autocmd = false, -- Disable the autocmd that creates the template.  You can use manually by calling :InsertTemplateFile,
-      disable_filetype = {},   -- Disable templates for a filetype (disable only default templates.  User templates will work).
-      disable_specific = {},   -- Disable specific regexp for the default templates.
-                               --   Example: { ruby = { ".*" } }.
-      suffix_as_filetype = false, -- use suffix of filename rather than vim.bo.filetype as filetype
+      directories = { vim.fn.stdpath "config" .. "/templates" }, -- template directory
+      patterns = {
+        -- file names
+        "LICENSE",
+        -- filetypes
+        "c",
+        "cpp",
+        -- "python",
+        "bash",
+        -- "yaml"
+      },
+      --[[
+      wildcards = {
+        lookup = { -- wild-cards look-up table
+          -- for reference
+          -- --| file operations |----------------------------------------------------------------------------------
+          "filename"
+            return vim.fn.expand "%:t:r"
+          "fileabspath"
+            return vim.fn.expand "%:p"
+          "filerelpath"
+            return vim.fn.expand "%:p:~"
+          "fileext"
+            return vim.fn.expand "%:e"
+          "filetype"
+            return vim.bo.filetype
+
+          -- --| date |----------------------------------------------------------------------------------------------
+          "date"
+            return os.date("%Y%m%d", os.time())
+          "year"
+            return os.date("%Y", os.time())
+          "month"
+            return os.date("%m", os.time())
+          "day"
+            return os.date("%d", os.time())
+          "time"
+          return os.date("%T", os.time())
+        },
+      },
+      advanced = {
+        ignored = {},
+        ignore_os_files = true,
+        ignore_patterns = { "^/tmp", ".bak$" },
+      },
+      --]]
+      -- },
     },
   },
 }

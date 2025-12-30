@@ -5,6 +5,30 @@
 
 local bufferline = require "bufferline"
 
+local palette = require("utils.palettes.cat-solarized").main
+
+local colors = {
+  base04  = palette.base04,
+  base03  = palette.base03,
+  base02  = palette.base02,
+  base01  = palette.base01,
+  base00  = palette.base00,
+  base0   = palette.base0,
+  base1   = palette.base1,
+  base2   = palette.base2,
+  base3   = palette.base3,
+  base4   = palette.base4,
+  blue    = palette.blue,
+  cyan    = palette.cyan,
+  orange  = palette.orange,
+  red     = palette.red,
+  violet  = palette.violet,
+  yellow  = palette.yellow,
+  green   = palette.green,
+  magenta = palette.magenta,
+
+}
+
 -- theme color variables that I have yet to migrate to my /utils/palettes system
 -- stylua: ignore
 local solarized_colors = {
@@ -17,7 +41,7 @@ local solarized_colors = {
   base1   = "#93A1A1",
   base2   = "#EEE8D5",
   base3   = "#FDF6E3",
-  base4   = "#fbf3db",
+  base4   = "#FBF3DB",
   blue    = "#268BD2",
   cyan    = "#2AA198",
   orange  = "#CB4B16",
@@ -230,7 +254,7 @@ return {
             -- underline = true,
           },
           duplicate_visible = {
-            bg = solarized_colors.red,
+            bg = solarized_colors.base3,
             fg = solarized_colors.blue,
           },
           --- [ BUFFER NAME TRUNCATED INDICATOR ] ---

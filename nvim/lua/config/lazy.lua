@@ -20,6 +20,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- stylua: ignore
 require("lazy").setup {
+  opts = { rocks = { enabled = false } },
   spec = {
     -- add LazyVim + LazyVim's plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },

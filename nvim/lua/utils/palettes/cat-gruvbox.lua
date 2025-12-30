@@ -27,7 +27,7 @@ cat_gruvbox.options = nil
 --- create dark and light mode palette tables swapping for cat_gruvbox
 ---@param options string|table
 ---@return string|table
-function cat_gruvbox.setup(options)
+function cat_gruvbox.init(options)
 
   cat_gruvbox.options = vim.tbl_deep_extend("force", {}, defaults, options or {})
   cat_gruvbox.options.palette_mode = "dark"

@@ -8,21 +8,22 @@ local map = vim.keymap.set
 local unmap = vim.keymap.del
 
 -- +---------------------------------------------------------+
--- |                                                         |
 -- |                 unmap existing keymaps                  |
--- |                                                         |
 -- +---------------------------------------------------------+
 
 -- --| unmap existing default neovim keymaps |-------------------------------------------------------------------------
 -- [ various ] --
 unmap("n", "<leader>fn")      -- file operations: new file
-unmap({ "n", "i" }, "<C-F>" ) -- scroll forward
 -- unmap( "n", "dd" ) -- delete
+-- [ movement ] --
+unmap({ "n", "i" }, "<C-F>" ) -- scroll forward
+unmap({ "n", "x" }, "k" )     -- move up one line
 
 -- --| unmap existing lazyvim default kemaps |-------------------------------------------------------------------------
 -- [ various ] --
 unmap("n", "<leader>uD")          -- toggle dimming
 unmap({ "n", "x" }, "<leader>cf") -- format file
+unmap("n", "<leader>K")
 -- [ buffer operations ] --
 unmap("n", "<S-h>")      -- prev buffer
 unmap("n", "<S-l>")      -- next buffer
@@ -36,18 +37,14 @@ unmap("n", "<leader>bo") -- delete other buffers
 unmap("n", "<leader>bD") -- delete buffer and window
 
 -- +---------------------------------------------------------+
--- |                                                         |
 -- |                     file operations                     |
--- |                                                         |
 -- +---------------------------------------------------------+
 
 -- --| renamer |-------------------------------------------------------------------------------------------------------
 map("n", "<Leader>r", ":lua require('renamer').rename()<CR>", { desc = "Rename file with renamer", noremap = true, silent = true })
 
 -- +---------------------------------------------------------+
--- |                                                         |
 -- |                   editor operations                     |
--- |                                                         |
 -- +---------------------------------------------------------+
 
 -- --| select all |----------------------------------------------------------------------------------------------------
@@ -147,9 +144,7 @@ map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search Result
 map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search Result" })
 
 -- +---------------------------------------------------------+
--- |                                                         |
 -- |             buffer navigation & management              |
--- |                                                         |
 -- +---------------------------------------------------------+
 
 -- --| bufferline buffer navigation |----------------------------------------------------------------------------------
@@ -182,9 +177,7 @@ map("n", "<leader>BD", "<cmd>:bd<cr>", { desc = "Close buffer and window" })
 ---@diagnostic enable
 
 -- +---------------------------------------------------------+
--- |                                                         |
 -- |              tab nagivation & management                |
--- |                                                         |
 -- +---------------------------------------------------------+
 
 -- --| tab navigation |------------------------------------------------------------------------------------------------
@@ -205,12 +198,10 @@ map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>o", "<cmd>tabonly<cr>", { desc = "Close Other Tabs" })
 
 -- --| neotree |-------------------------------------------------------------------------------------------------------
-map({ "i", "n" }, "<C-B>", "<CMD>:Neotree toggle<CR>", { desc = "Toggle Neotree pane" })
+map({ "i", "n" }, "<C-F>", "<CMD>:Neotree toggle<CR>", { desc = "Toggle Neotree pane" })
 
 -- +---------------------------------------------------------+
--- |                                                         |
 -- |           coding and development operations             |
--- |                                                         |
 -- +---------------------------------------------------------+
 
 -- --| code actions |--------------------------------------------------------------------------------------------------
@@ -229,13 +220,11 @@ map("n", "<leader>uI", "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
 map("n", "<Leader>h", ":lua vim.lsp.buf.hover()<CR>", { noremap = true, silent = true })
 
 -- [ signature help ] --
-map("n", "<Leader>ls", ":lua vim.lsp.buf.signature_help()<CR>", { desc = "LSP signature help", noremap = true, silent = true })
-map("n", "<Leader>l", ":noh<CR>", { desc = "LSP signature help", noremap = true, silent = true })
+-- map("n", "<Leader>ls", ":lua vim.lsp.buf.signature_help()<CR>", { desc = "LSP signature help", noremap = true, silent = true })
+-- map("n", "<Leader>l", ":noh<CR>", { desc = "LSP signature help", noremap = true, silent = true })
 
 -- +---------------------------------------------------------+
--- |                                                         |
 -- |            search operations and navigation             |
--- |                                                         |
 -- +---------------------------------------------------------+
 
 -- --| search navigation |---------------------------------------------------------------------------------------------
@@ -250,9 +239,7 @@ end
 map("n", "<leader>?", searching_brave, { noremap = true, silent = true, desc = "Search Current Word on Brave Search" })
 
 -- +---------------------------------------------------------+
--- |                                                         |
 -- |                  utility operations                     |
--- |                                                         |
 -- +---------------------------------------------------------+
 
 -- --| reload neovim |-------------------------------------------------------------------------------------------------

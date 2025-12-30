@@ -6,10 +6,11 @@
 local opt = vim.opt_local
 
 opt.autoindent = true
-opt.colorcolumn = "120"
 opt.expandtab = true
 opt.shiftwidth = 2
 opt.smarttab = true
 opt.softtabstop = 2
 opt.tabstop = 2
+
 opt.textwidth = 120
+opt.colorcolumn = "120"
