@@ -54,19 +54,21 @@
 
 # --| GLOBAL VARIABLES |-------------------------------------------------------
 # source env variables for herbstluftwm-env
-source "/home/lannakin/LA-repos/dotfiles.herbstluftwm/herbstluftwm/herbstluftwm-env"
+# source "${HOME}/.xprofile"
+# source "${XDG_CONFIG_HOME}/herbstluftwm/herbstluftwm-env"
 
 # define containing directory for this theme
-DIR="${HOME}/.config/herbstluftwm/polybar/"
+DIR="${XDG_CONFIG_HOME}/herbstluftwm/polybar/"
 
 # define path for this Window Manager's POLYBAR to use for log
 LOG="${STATUSBARLOG}"
 TIMESTAMP="$(date +"%Y-%m-%d %H:%M:%S")"
 
 # send the entirety of herbstlustwm-polybar's execution to the log
-exec >"${LOG}" 3>&1
+exec >"${LOG}" 2>&1
 
 echo "${TIMESTAMP} herbstluftwm-polybar|debug: starting..."
+echo "${TIMESTAMP} herbstluftwm-polybar|debug: \$HOME is $HOME"
 # --| terminate all existing POLYBAR processes |-------------------------------
 # If all bars have ipc enabled, can use
 # polybar-msg cmd quit
@@ -82,14 +84,14 @@ done
 # --| launch the bars... |-----------------------------------------------------
 echo "${TIMESTAMP} herbstluftwm-polybar|info: initiating..."
 
-polybar top -c "$DIR"/config.ini &
+polybar top -c "$DIR/config.ini" &
 echo "${TIMESTAMP} herbstluftwm-polybar|debug: top bar initiated."
-polybar bottom -c "$DIR"/config.ini &
+polybar bottom -c "$DIR/config.ini" &
 echo "${TIMESTAMP} herbstluftwm-polybar|debug: bottom bar initiated."
-polybar aux0 -c "$DIR"/config.ini &
+polybar aux0 -c "$DIR/config.ini" &
 sleep 1
 echo "${TIMESTAMP} herbstluftwm-polybar|debug: auxillary0 bar initiated."
-polybar aux1 -c "$DIR"/config.ini &
+polybar aux1 -c "$DIR/config.ini" &
 echo "${TIMESTAMP} herbstluftwm-polybar|debug: auxillary1 bar initiated."
 
 echo "${TIMESTAMP} herbstluftwm-polybar|info: initiation complete."

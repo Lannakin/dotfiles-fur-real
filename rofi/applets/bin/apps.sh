@@ -23,8 +23,8 @@ setting_cmd="xfce4-settings-manager"
 
 # Set up variables to contain:
 #  - the working directory (bin)
-#	 - the parent directory (applets)
-#	 - rofi's directory (rofi)
+#  - the parent directory (applets)
+#  - rofi's directory (rofi)
 
 # directory that this script is in
 WORKINGDIR=$(
@@ -36,7 +36,7 @@ WORKINGDIR=$(
 )
 # directory that the directory this script is in is in
 PARENTDIR=$(
-  builtin cd "${WORKINGDIR}"
+  builtin cd "${WORKINGDIR}" \
     cd .. || {
     echo "[ERROR] cd failed on PARENTDIR."
     exit 1
@@ -46,7 +46,7 @@ PARENTDIR=$(
 # the directory that the directory that this script is in is in
 # presumably, that's the rofi directory
 ROFIDIR=$(
-  builtin cd "${PARENTDIR}"
+  builtin cd "${PARENTDIR}" \
     cd .. || {
     echo "[ERROR] cd failed on ROFIDIR."
     exit 1

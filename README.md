@@ -7,4 +7,5 @@
 - [dunst](https://dunst-project.org/)
 - [sxhkd](https://github.com/baskerville/sxhkd)
 - [conky](https://github.com/brndnmtthws/conky)
-  - shameless use of VinDSL's conky config (comments mostly removed to make reading it easier for me)
+  - shameless use of VinDSL's conky config (comments mostly removed to make
+  reading it easier for me)

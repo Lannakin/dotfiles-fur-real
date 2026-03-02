@@ -39,10 +39,10 @@ ctrl + t
 
 # program launcher; must specify as _L b/c support
 Super_L; @Super_L
-   "${HOME}/.config/rofi/launchers/type-1/launcher.sh"
+   "${XDG_CONFIG_HOME}/rofi/launchers/type-1/launcher.sh"
 
 super + shift + s
-    maim --select --format=png "${HOME}"/Pictures/herbstluftwm_screenshots/screenshot"$(date +%s)".png | xclip -selection clipboard -t image/png
+   "${XDG_CONFIG_HOME}/herbstluftwm/scripts/screenshot.sh"
 
 # screensaver
 ctrl + shift + r
@@ -52,7 +52,7 @@ ctrl + shift + r
 
 # toggle dual head on focused monitor
 alt + shift + o
-    "${HOME}/.config/herbstluftwm/scripts/toggledualhead.sh"
+    "${XDG_CONFIG_HOME}/herbstluftwm/scripts/toggledualhead.sh"
 
 # launch neovim in kitty
 F12

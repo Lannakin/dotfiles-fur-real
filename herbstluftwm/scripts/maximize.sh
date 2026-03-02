@@ -44,3 +44,4 @@ cmd=(
   . unlock
 )
 herbstclient "${cmd[@]}"
+

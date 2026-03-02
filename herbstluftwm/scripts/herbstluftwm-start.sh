@@ -4,18 +4,37 @@
 # |          HERBSTLUFTWM APPLICATIONS START SCRIPT          |
 # +----------------------------------------------------------+
 
+source "${HOME}/.xprofile"
+source "${XDG_CONFIG_HOME}/herbstluftwm/herbstluftwm-env"
+
 # --| GLOBAL VARIABLES |-------------------------------------------------------
 ## specify shortcut variables in a more conveniently compact location ##
-HERBSTLUFTWM="${HOME}/.config/herbstluftwm" # base directory for the Window Manager
+HERBSTLUFTWM="${XDG_CONFIG_HOME}/herbstluftwm" # base directory for the Window Manager
 HERBSTLUFTWM_POLYBAR="${HERBSTLUFTWM}/polybar/herbstluftwm-polybar.sh"
 HERBSTLUFTWM_CONKY="${HERBSTLUFTWM}/conky/herbstluftwm-conky.sh"
-KEYBINDMANAGER="${HOME}/LOGS/desktop-env/herbstluftwm-sxhkd.log"
+# KEYBINDMANAGER="${HOME}/LOGS/desktop-env/herbstluftwm-sxhkd.log"
 
 ## define path for this script to log to ##
-LOG="${HOME}/LOGS/desktop-env/herbstluftwm-start.log"
-exec >"${LOG}" 2>&1
+LOGFILE="${HOME}/LOGS/desktop-env/herbstluftwm-start.log"
 
-# echo "herbstluftwm-start|debug: GETOPT P0 completed."
+# --| LOGGING VARIABLES |------------------------------------------------------
+# warning: lazy AF
+SCRIPTNAME="herbstluftwm-start"
+# timestamp format
+TIMESTAMP="$(date +"%Y-%m-%d %H:%M:%S")"
+# LOGLEVEL: decrease index with increasing severity
+L3="${TIMESTAMP} ${SCRIPTNAME}|debug:"
+L2="${TIMESTAMP} ${SCRIPTNAME}|info:"
+# L1="${TIMESTAMP} ${SCRIPTNAME}|warning:"
+L0="${TIMESTAMP} ${SCRIPTNAME}|error:"
+
+# log all output
+exec >> "${LOGFILE}" >&2
+
+echo "${L3} LOGFILE path is ${LOGFILE}."
+echo "${L3} HOME is $HOME."
+echo "${L3} XDG_CONFIG_HOME is $XDG_CONFIG_HOME."
+echo "${L3} HERBSTLUFTWM is $HERBSTLUFTWM."
 
 # --| GETOPT PHASE 0 |---------------------------------------------------------
 ## specify what GETOPT arguments are vallid; if they are not valid, terminate execution and           ##
@@ -24,7 +43,7 @@ exec >"${LOG}" 2>&1
 # IDK: does it need to be 'filenameofscript.sh' or can it be 'nameofscript'?
 vars=$(getopt -o chps --long conky,help,polybar,sxhkd -n "herbstluftwm-start.sh" -- "$@")
 
-# echo "herbstluftwm-start|debug: GETOPT P0 completed."
+echo "${L3} GETOPT P0 completed."
 
 # --| GETOPT PHASE 1.0 |--------------------------------------------------------
 ## reset (?) the positional parameters to the parsed options ##
@@ -32,7 +51,7 @@ eval set -- "${vars}"
 # eval = tells shell to run another round of shell expansions
 # set  = this is a set of parameters
 # --   = break out of this iterational loop
-# echo "herbstluftwm-start|debug: GETOPT P1.0 completed."
+echo "${L3} GETOPT P1.0 completed."
 
 # --| GETOPT PHASE 1.1 |-------------------------------------------------------
 ## initialize GETOPT variables by setting them to an initialized value ##
@@ -40,7 +59,7 @@ export CONKY_RUNCHECK=false
 export POLYBAR_RUNCHECK=false
 export SXHKD_RUNCHECK=false
 export HELP_RUNCHECK=false
-# echo "herbstluftwm-start|debug: GETOPT P1.1 completed."
+echo "${L3} GETOPT P1.1 completed."
 
 # --| GETOPT PHASE 2.0 |-------------------------------------------------------
 ## Process the options
@@ -55,9 +74,9 @@ while true; do # while this statement returns 1, execute...
       sleep 1
     done
     ## start conky configs...##
-    echo "herbstluftwm-start|info: conky initiating..." # output "message" to this log
+    echo "${L2} conky initiating..." # output "message" to this log
     "${HERBSTLUFTWM_CONKY}" &
-    echo "herbstluftwm-start|info: conky initiated."
+    echo "${L2} conky initiated."
     CONKY_RUNCHECK=true # set GETOPT variable for CONKY to TRUE so that this loop ends
     shift
     ;;
@@ -65,7 +84,7 @@ while true; do # while this statement returns 1, execute...
     ## start polybar config... ##
     # my herbstluftwm polybar already has killall and wait
     "${HERBSTLUFTWM_POLYBAR}" &
-    echo "herbstluftwm-start|info: polybar initiating..."
+    echo "${L2} polybar initiating..."
     POLYBAR_RUNCHECK=true
     shift
     ;;
@@ -81,12 +100,12 @@ while true; do # while this statement returns 1, execute...
     while pgrep -u "${UID}" -x sxhkd >/dev/null; do
       sleep 1
     done
-    echo "herbstluftwm-start|info: sxhkd initiating..."
-    sleep 1
+    echo "${L2} sxhkd initiating..."
+    sleep 1 # >/dev/null
     ## start SXHKD config...##
-    sxhkd -c "${HOME}/.config/herbstluftwm/sxhkdrc" "${KEYBINDMANAGER}"
-    dunstify "sxhkd" "reloading config ~/.config/herbstluftwm/sxhkdrc"
-    echo "herbstluftwm-start|info: starting sxhkd using ${HOME}/.config/herbstluftwm/sxhkdrc"
+    sxhkd -c "${HOME}/.config/herbstluftwm/sxhkdrc" &
+    dunstify "sxhkd" "reloading config ~/.config/herbstluftwm/sxhkdrc" &
+    echo "${L2} starting sxhkd using ${HOME}/.config/herbstluftwm/sxhkdrc"
     # cat "${sxhkd_fifo}" >"${KEYBINDMANAGER}" &
     # trap 'rm -f ${hlwm_sxhkd_fifo}' EXIT
     SXHKD_RUNCHECK=true # set GETOPT variable for SXHKD to TRUE so that this loop ends
@@ -94,16 +113,16 @@ while true; do # while this statement returns 1, execute...
     ;;
   -h | --help)
     HELP_RUNCHECK=true
-    echo "herbstluftwm-start|info: no help / usage written yet. :)"
+    echo "{L2} no help / usage written yet. :)"
     shift
     ;;
   --)
     shift
-    # echo "herbstluftwm-start|debug: we did it we reached the -- break of P2!"
+    echo "${L3} we did it we reached the -- break of P2!"
     break
     ;;
   *)
-    echo "herbstluftwm-start|error: Invalid argument!"
+    echo "${L0} Invalid argument!"
     exit 1
     ;;
   esac
@@ -117,4 +136,4 @@ exit
 #   exit 1                                                # non-zero exit codes indicate error and terminate script
 # fi
 
-# echo "herbstluftwm-start|debug: GETOPT P2 completed, EOF."
+# echo "${L3} GETOPT P2 completed, EOF."
