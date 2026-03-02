@@ -6,8 +6,6 @@
 -- |  stuff that i probably really shouldn't have in neovim  |
 -- +---------------------------------------------------------+
 
----@module "lazy"
-
 ---@type LazySpec
 return {
   -- --| discord presence |--------------------------------------------------------------------------------------------

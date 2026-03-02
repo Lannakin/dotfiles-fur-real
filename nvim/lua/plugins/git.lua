@@ -1,19 +1,6 @@
 -- /plugins/git.lua
 -- disabled if below line is active
 -- if true then return {} end
----@module "lazy"
-
----@alias DiffView.Views
----|'diff1_plain'
----|'diff2_horizontal'
----|'diff2_vertical'
----|'diff3_horizontal'
----|'diff3_vertical'
----|'diff3_mixed'
----|'diff4_mixed'
----|-1
-
----@alias DiffView.ListStyle 'list'|'tree'
 
 ---@type LazySpec
 return {
@@ -190,7 +177,7 @@ return {
               height = 20,
               relative = "win",
               win = vim.api.nvim_tabpage_list_wins(tab)[1],
-              win_opts = { ---@type vim.wo
+              win_opts = {
                 number = false,
                 wrap = true,
                 relativenumber = false,
@@ -215,7 +202,7 @@ return {
               height = min(24, c.height),
               col = floor(vim.o.columns * 0.5 - c.width * 0.5),
               row = floor(vim.o.lines * 0.5 - c.height * 0.5),
-              win_opts = { ---@type vim.wo
+              win_opts = {
                 number = false,
                 wrap = false,
                 relativenumber = false,
@@ -234,7 +221,7 @@ return {
               height = min(24, c.height),
               col = floor(vim.o.columns * 0.5 - c.width * 0.5),
               row = floor(vim.o.lines * 0.5 - c.height * 0.5),
-              win_opts = { ---@type vim.wo
+              win_opts = {
                 number = false,
                 wrap = false,
                 relativenumber = false,
@@ -251,7 +238,7 @@ return {
             nvim_set_option_value("list", true, { scope = "local" })
             nvim_set_option_value("colorcolumn", "120", { scope = "local" })
           end,
-          view_opened = function(view) ---@param view View
+          view_opened = function(view)
             vim.notify(("A new %s was opened on tab page %d!"):format(view.class:name(), view.tabpage))
           end,
         },

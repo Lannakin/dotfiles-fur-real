@@ -1,7 +1,7 @@
 -- plugins/buffer-layout.lua
 -- disabled if below line is active
 -- if true then return {} end
----@module "lazy"
+---@diagnostic disable: missing-fields
 
 ---@type LazySpec
 return {

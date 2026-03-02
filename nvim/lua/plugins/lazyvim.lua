@@ -2,7 +2,6 @@
 -- disabled if below line is active
 -- if true then return {} end
 -- location for overriding LazyVim default plugins and their options
----@module 'lazy'
 
 ---@type LazySpec
 return {
@@ -50,7 +49,7 @@ return {
       -- bigfile = { enabled = true },      -- deal with big files
       -- bufdelete = { enabled = true },    -- delete buffers conveneiently
       dashboard = { enabled = false },      -- declarative dashboards
-     dim = { enabled = true },              -- dim everything outside current scope
+      dim = { enabled = true },             -- dim everything outside current scope
       explorer = { enabled = false },       -- file explorer (picker)
       indent = { enabled = true },          -- indent guides and scopes
       -- input = { enabled = true },        -- better vim.ui.input
@@ -80,18 +79,25 @@ return {
     -- stylua: ignore
     opts = {
       library = { -- libraries have trigger words commented out so they stop reloading
-        { path = "${3rd}/luv/library" },
-        { path = "LazyVim" },
+        -- { path = "${3rd}/luv/library" },
         { path = "lazy.nvim" },
-        { path = "trouble.nvim" },
+        { path = "LazyVim" },
+
+        { path = "${LUALS_3RD}/luv/library" },
+        { path = "${RUNTIMEPATH}" },
+
+        { path = "auto-session" },
+        { path = "blink.cmp" },
+        { path = "bufferline.nvim" },
+        { path = "esqueleto.nvim" },
+        { path = "neo-tree.nvim" },
+        { path = "noice.nvim" },
+        { path = "nvim-platformio.lua" },
+        { path = "plenary.nvim" },
+        { path = "project.nvim" },
         { path = "render-markdown.nvim" },
         { path = "snacks.nvim" },
-        { path = "bufferline.nvim" },
-        { path = "project.nvim" },
-        { path = "blink.cmp" },
-        { path = "auto-session" },
-        { path = "noice.nvim" },
-        { path = "esqueleto.nvim" },
+        { path = "trouble.nvim" },
         -- { path = ""--[[, words = { "" } ]] },
       },
     },

@@ -22,37 +22,6 @@ return {
   --     },
   --   },
   -- },
-  -- { -- replacing persistence
-  --   -- https://github.com/Shatur/neovim-session-manager
-  --   "Shatur/neovim-session-manager",
-  --   opts = function ()
-  --     local Path = require('plenary.path')
-  --     local config = require('session_manager.config')
-  --     return {
-  --       sessions_dir = Path:new(vim.fn.stdpath('data'), 'sessions'), -- save sessions in...
-  --
-  --       session_filename_to_dir = session_filename_to_dir, -- transform filename into session directory by replacing
-  --                                                          -- symbols w/ separators and colons
-  --
-  --       dir_to_session_filename = dir_to_session_filename, -- transform session directory into a filename by replacing
-  --                                                          -- separators and colons w/ special symbols;
-  --                                                          -- should use `vim.uv.cwd()` if the passed `dir` is `nil`.
-  --
-  --       autoload_mode = { disabled },       -- define what to do when Neovim is started without arguments
-  --       autosave_last_session = true,       -- autosave last session on exit and on session switch
-  --       autosave_ignore_not_normal = true,  -- will not save a session when no buffers are opened etc
-  --       autosave_ignore_dirs = {},          -- list of directories where the session will not be autosaved
-  --       autosave_ignore_filetypes = {       -- buffers of these file types will be closed before session is saved
-  --         'gitcommit',
-  --         'gitrebase',
-  --       },
-  --       autosave_ignore_buftypes = {},      -- buffers of these types will be closed before session is saved
-  --       autosave_only_in_session = false,   -- always autosave session; true = only autosave after session is active
-  --       max_path_length = 80,               -- shorten the display path if length exceeds threshold; disabled = 0
-  --       load_include_current = false,       -- currently loaded session appears in load_session UI
-  --     }
-  --   end
-  -- },
   { -- replacing persistence as it seems unwilling to save sessions on quit, and i am unwilling to write an autocommand
     -- https://github.com/rmagatti/auto-session
     "rmagatti/auto-session",
@@ -72,10 +41,10 @@ return {
       suppressed_dirs = { "~/", "~/Downloads", "/", "~/.local/share/nvim" },
 
       -- Saving / restoring
-      enabled = true,                    -- Enables/disables auto creating, saving and restoring
-      auto_save = true,                  -- Enables/disables auto saving session on exit
-      auto_restore = false,              -- Enables/disables auto restoring session on start
-      auto_create = true,                -- Enables/disables auto creating new session files; can be a function
+      enabled = true, -- Enables/disables auto creating, saving and restoring
+      auto_save = true, -- Enables/disables auto saving session on exit
+      auto_restore = false, -- Enables/disables auto restoring session on start
+      auto_create = true, -- Enables/disables auto creating new session files; can be a function
       auto_restore_last_session = false, -- On startup, loads last saved session if session for cwd does not exist
 
       ---@type SessionLens
@@ -85,8 +54,37 @@ return {
 
         picker_opts = {
           borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-        }
+        },
       },
+    },
+  },
+  {
+    -- https://github.com/DrKJeff16/project.nvim
+    "DrKJeff16/project.nvim",
+    -- lazy = true,
+    cmd = { -- Lazy-load by commands
+      "Project",
+      "ProjectAdd",
+      "ProjectConfig",
+      "ProjectDelete",
+      "ProjectHistory",
+      "ProjectRecents",
+      "ProjectRoot",
+      "ProjectSession",
+    },
+    ---@module "project"
+    ---@type Project.Config.Options
+    opts = {
+      lsp = {
+        enabled = true,
+        use_pattern_matching = false, -- { "z", group = "fold" },
+      },
+      manual_mode = true,
+      -- show_hidden = true,  -- this also shows inside .git/
+      base_dirs = { "~/LA-repos/" },
+      patterns = { ".git", ".github", "*.sln", "build/env.sh" },
+      exclude_dirs = { "~/.local/nvim/" }, -- directories not to calculate root on
+      disable_file_picker = true,
     },
   },
 }

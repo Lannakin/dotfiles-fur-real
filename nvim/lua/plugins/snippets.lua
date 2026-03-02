@@ -15,7 +15,7 @@ return {
       -- https://github.com/saghen/blink.compat
       "saghen/blink.compat",
     },
-    version = not vim.g.lazyvim_blink_main and "*",
+    -- version = not vim.g.lazyvim_blink_main and "*",
     optional = true, -- make optional so it's only enabled if any extras need it
 
     config = function()

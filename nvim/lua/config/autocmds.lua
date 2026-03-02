@@ -21,21 +21,6 @@ autocmd({ "FileType" }, {
   end,
 })
 
--- --| format cmake on save |------------------------------------------------------------------------------------------
--- local cmake_format_group = augroup("CmakeFormat", { clear = true })
---
--- -- Create an autocommand for the BufWritePre event
--- autocmd("BufWritePre", {
---   pattern = { "*.cmake", "CMakeLists.txt" }, -- Match CMake files
---   group = cmake_format_group,
---   desc = "Auto-format CMake files before saving using cmake-format",
---   callback = function(args)
---     -- The external command is run synchronously so the buffer is updated before the write completes
---     vim.fn.system("cmake-format -i " .. vim.fn.expand "<afile>")
---     -- Check the return code and handle errors if necessary
---   end,
--- })
-
 --| Create a dir when saving a file if it doesnt exist |---------------------------------------------------------------
 -- src: https://github.com/Matt-FTW/dotfiles/blob/main/.config/nvim/lua/config/autocmds.lua
 autocmd("BufWritePre", {
@@ -66,14 +51,16 @@ autocmd("BufWritePre", {
 
 -- --| set syntax/filetype to jsonc |----------------------------------------------------------------------------------
 -- src: another google ai overview special
+--[[
 autocmd({ "BufNewFile", "BufRead" }, {
   group = augroup("JsoncSyntax", { clear = true }),
   pattern = { "*.jsonc", "*.cjson", "*.cjsn", "*.json" },
   callback = function()
-    vim.opt.filetype = "jsonc"
+  vim.opt.filetype = "jsonc"
   end,
   desc = "Set filetype to jsonc for certain types of json files",
-})
+  })
+--]]
 
 -- --| Automatically open Trouble Quickfix |---------------------------------------------------------------------------
 autocmd("QuickFixCmdPost", {

@@ -1,6 +1,8 @@
 -- /plugins/render-markdown.lua
 -- disabled if below line is active
 -- if true then return {} end
+
+---@type LazySpec
 return {
   {
     -- https://github.com/MeanderingProgrammer/render-markdown.nvim

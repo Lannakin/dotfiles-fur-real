@@ -3,6 +3,16 @@
 -- if true then return {} end
 
 local key_opts = { silent = true }
+vim.g.pioConfig = {
+  lsp = 'clangd',           -- value: clangd | ccls 
+  menu_key = '<leader>\\',  -- replace this menu key  to your convenience
+  debug = false,             -- enable debug messages
+  clangd_source = 'ccls',    -- value: ccls | compiledb, For detailed explation check :help platformio-clangd_source
+}
+
+local pok, platformio = pcall(require, 'platformio')
+if pok then platformio.setup(vim.g.pioConfig) end
+
 
 ---@type LazySpec
 return {
@@ -29,17 +39,15 @@ return {
       -- Upload with manual reset for UNO R4 WiFi
       -- { "<Leader>ar", ":InoUploadReset<CR>",  desc ="Upload arduino code with manual reset", { silent = true },
     },
-    --[[
-    config = function()
-      -- Load Arduino plugin for .ino files
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "arduino",
-        callback = function()
-          require "Arduino-Nvim"
-        end,
-      })
-    end,
-    --]]
+    -- config = function()
+    --   -- Load Arduino plugin for .ino files
+    --   vim.api.nvim_create_autocmd("FileType", {
+    --     pattern = "arduino",
+    --     callback = function()
+    --       require "Arduino-Nvim"
+    --     end,
+    --   })
+    -- end,
   },
   {
     "folke/which-key.nvim",
@@ -62,43 +70,7 @@ return {
       { "folke/which-key.nvim" },
       { "nvim-treesitter/nvim-treesitter" },
     },
-    -- optional: cond used to enable/disable platformio
-    -- based on existance of platformio.ini file and .pio folder in cwd.
-    -- You can enable platformio plugin, using :Pioinit command
-    cond = function()
-      -- local platformioRootDir = vim.fs.root(vim.fn.getcwd(), { 'platformio.ini' }) -- cwd and parents
-      local platformioRootDir = (vim.fn.filereadable "platformio.ini" == 1) and vim.fn.getcwd() or nil
-      if platformioRootDir then
-        -- if platformio.ini file exist in cwd, enable plugin to install plugin (if not istalled) and load it.
-        vim.g.platformioRootDir = platformioRootDir
-      elseif (vim.uv).fs_stat(vim.fn.stdpath "data" .. "/lazy/nvim-platformio.lua") == nil then
-        -- if nvim-platformio not installed, enable plugin to install it first time
-        vim.g.platformioRootDir = vim.fn.getcwd()
-      else -- if nvim-platformio.lua installed but disabled, create Pioinit command
-        vim.api.nvim_create_user_command("Pioinit", function() --available only if no platformio.ini and .pio in cwd
-          vim.api.nvim_create_autocmd("User", {
-            pattern = { "LazyRestore", "LazyLoad" },
-            once = true,
-            callback = function(args)
-              if args.match == "LazyRestore" then
-                require("lazy").load { plugins = { "nvim-platformio.lua" } }
-              elseif args.match == "LazyLoad" then
-                local pio_install_status = require("platformio.utils").pio_install_check()
-                if not pio_install_status then
-                  return
-                end
-                vim.notify("PlatformIO loaded", vim.log.levels.INFO, { title = "PlatformIO" })
-                require("platformio").setup(vim.g.pioConfig)
-                vim.cmd "Pioinit"
-              end
-            end,
-          })
-          vim.g.platformioRootDir = vim.fn.getcwd()
-          require("lazy").restore { plguins = { "nvim-platformio.lua" }, show = false }
-        end, {})
-      end
-      return vim.g.platformioRootDir ~= nil
-    end,
+    opts = {},
   },
   -- --| toggleterm |--------------------------------------------------------------------------------------------------
   {

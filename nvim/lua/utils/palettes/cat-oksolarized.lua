@@ -5,11 +5,11 @@
 -- --| cat_oksolarized |-----------------------------------------------------------------------------------------------
 
 --- create palette tables for cat_oksolarized
----@class cat_oksolarized
+
 local cat_oksolarized = {}
 
 --- default settings: dark palette
----@class defaults
+---@type table
 local defaults = {
   palette_mode = "dark",
 }
@@ -42,6 +42,7 @@ end
 -- --| cat_oksolarized: main |-----------------------------------------------------------------------------------------
 
 --- cat_oksolarized: base palette colors to be used by dark and light palette_mode
+---@type table
 cat_oksolarized.main = {
 
   bg0 = "#002B38",

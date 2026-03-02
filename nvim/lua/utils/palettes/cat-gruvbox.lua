@@ -1,3 +1,7 @@
+---@module "gruvbox"
+---@author "LiterallySomeCat"
+---@license "MIT"
+
 -- /utils/palettes/cat-gruvbox.lua
 -- disabled if below line is active
 -- if true then return {} end
@@ -8,13 +12,14 @@
 
 -- --| cat_gruvbox |---------------------------------------------------------------------------------------------------
 
+
 --- create palette tables for cat_gruvbox color theme
----@class cat_gruvbox
 local cat_gruvbox = {}
 
 -- src: https://github.com/Tsuzat/NeoSolarized.nvim/blob/master/lua/NeoSolarized/config.lua
+
 --- default settings: dark palette
----@class defaults
+---@type table
 local defaults = {
   palette_mode = "dark",
 }
@@ -29,6 +34,7 @@ cat_gruvbox.options = nil
 ---@return string|table
 function cat_gruvbox.init(options)
 
+  ---@cast options string|table
   cat_gruvbox.options = vim.tbl_deep_extend("force", {}, defaults, options or {})
   cat_gruvbox.options.palette_mode = "dark"
 
@@ -47,6 +53,7 @@ end
 -- --| cat_gruvbox: main |---------------------------------------------------------------------------------------------
 
 --- cat_gruvbox: base palette colors to be used by dark and light palette_mode
+---@type table
 cat_gruvbox.main = {
   dark0      = "#282828",
   dark0_hard = "#1d2021",

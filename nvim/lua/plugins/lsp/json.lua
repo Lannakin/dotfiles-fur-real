@@ -1,6 +1,6 @@
 -- ./plugins/lsp/json.lua
 -- disabled if below line is active
-if true then return {} end
+-- if true then return {} end
 -- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/jsonls.lua
 
 return {
@@ -8,7 +8,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
       if type(opts.ensure_installed) == "table" then
-        vim.list_extend(opts.ensure_installed, { "json", "json5", "jsonc" })
+        vim.list_extend(opts.ensure_installed, { "json", "json5" })
       end
     end,
   },

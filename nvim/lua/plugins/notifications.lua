@@ -1,8 +1,8 @@
 -- /plugins/notifications.lua
 -- disabled if below line is active
 if true then return {} end
----@module "lazy"
--- shows notifications less obnoxiously in bottom right corner
+---@diagnostic disable: missing-fields, unnecessary-if
+
 
 ---@type LazySpec
 return {

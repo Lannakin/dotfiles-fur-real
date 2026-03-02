@@ -1,7 +1,6 @@
 -- /plugins/coding.lua
 -- disabled if below line is active
 -- if true then return {} end
----@module 'lazy'
 
 -- [ v for mini.surround v ] --
 -- vim.keymap.set({ "n", "x" }, "s", "<Nop>")

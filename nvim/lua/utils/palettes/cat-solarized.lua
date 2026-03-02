@@ -5,12 +5,13 @@
 -- --| cat_solarized |-------------------------------------------------------------------------------------------------
 
 --- create palette tables for cat_solarized color theme
----@class cat_solarized
+
 local cat_solarized = {}
 
 -- src: https://github.com/Tsuzat/NeoSolarized.nvim/blob/master/lua/NeoSolarized/config.lua
+
 --- default settings: dark palette
----@class defaults
+---@type table
 local defaults = {
   palette_mode = "dark",
 }
@@ -42,6 +43,7 @@ end
 -- --| cat_solarized: main |-------------------------------------------------------------------------------------------
 
 --- cat_solarized: base palette colors to be used by dark and light palette_mode
+---@type table
 cat_solarized.main = {
 
   bg0 = "#002B36",

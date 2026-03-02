@@ -1,8 +1,8 @@
 -- /plugins/utils.lua
+-- src: https://github.com/MeteorNvim/MeteorNvim/blob/main/lua/plugins/config/color-picker.lua
 -- disabled if below line is active
 if true then return {} end
----@module 'lazy'
--- src: https://github.com/MeteorNvim/MeteorNvim/blob/main/lua/plugins/config/color-picker.lua
+---@diagnostic disable: unnecessary-if
 
 ---@type LazySpec
 return {

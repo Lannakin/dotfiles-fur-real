@@ -29,7 +29,7 @@ require("lazy").setup {
     { import = "plugins.lazyvim" },
     { import = "plugins" },
     { import = "plugins.lsp" },         -- load LSP-related plugins
-    { import = "plugins.lsp.lang" },    -- load LSPs
+    -- { import = "plugins.lsp.lang" },    -- load LSPs
   },
   defaults = {
     lazy = false,

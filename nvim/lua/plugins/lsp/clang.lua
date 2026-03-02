@@ -5,7 +5,23 @@
 
 -- local util = require ("util")
 
+local function switch_source_header(client, bufnr)
+  local method_name = "textDocument/switchSourceHeader"
+  local params = vim.lsp.util.make_text_document_params(bufnr)
+  client:request(method_name, params, function(err, result)
+    if err then
+      error(tostring(err))
+    end
+    if not result then
+      vim.notify "corresponding file cannot be determined"
+      return
+    end
+    vim.cmd.edit(vim.uri_to_fname(result))
+  end, bufnr)
+end
+
 return {
+  -- --| c-lang syntax |-----------------------------------------------------------------------------------------------
   { -- Add `c` and `cpp` to treesitter
     --https://github.com/nvim-treesitter/nvim-treesitter
     "nvim-treesitter/nvim-treesitter",
@@ -29,26 +45,6 @@ return {
       symbol_info = { border = "single" },
       inlay_hints = { inline = false },
       ast = {
-        --[[
-        -- unicode
-        role_icons = {
-            type = "🄣",
-            declaration = "🄓",
-            expression = "🄔",
-            statement = ";",
-            specifier = "🄢",
-            ["template argument"] = "🆃",
-        },
-        kind_icons = {
-            Compound = "🄲",
-            Recovery = "🅁",
-            TranslationUnit = "🅄",
-            PackExpansion = "🄿",
-            TemplateTypeParm = "🅃",
-            TemplateTemplateParm = "🅃",
-            TemplateParamObject = "🅃",
-        },
-        --]]
         -- Microsoft codicons
         role_icons = {
           type = "",
@@ -70,7 +66,7 @@ return {
       },
     },
   },
-  -- --| clangd |------------------------------------------------------------------------------------------------------
+  -- --| c-lang lspconfig |--------------------------------------------------------------------------------------------
   { -- Add clangd and set up lspconfig
     -- https://github.com/neovim/nvim-lspconfig
     "neovim/nvim-lspconfig",
@@ -105,7 +101,7 @@ return {
             "--function-arg-placeholders",
             "--fallback-style=llvm",
           },
-          filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+          filetypes = { "c", "cpp", "arduino" },
           init_options = {
             usePlaceholders = true,
             completeUnimported = true,
@@ -120,13 +116,19 @@ return {
             buildDirectory = "build",
           },
         },
-        --[[
-        neocmake = {
-          cmd = { "neocmakelsp", "stdio" },
-          filetypes = { "cmake" },
-          root_markers = { ".git", "build", "cmake" },
+        ccls = {
+          cmd = { "ccls" },
+          filetypes = { "c", "cpp", "objc" },
+          root_markers = { "compile_commands.json", ".ccls", ".git" },
+          offset_encoding = "utf-32",
+          -- ccls does not support sending a null root directory
+          workspace_required = true,
+          on_attach = function(client, bufnr)
+            vim.api.nvim_buf_create_user_command(bufnr, "LspCclsSwitchSourceHeader", function()
+              switch_source_header(client, bufnr)
+            end, { desc = "Switch between source/header" })
+          end,
         },
-        --]]
       },
       setup = {
         clangd = function(_, opts)
@@ -141,6 +143,7 @@ return {
       },
     },
   },
+  -- --| c-lang formatting |-------------------------------------------------------------------------------------------
   {
     -- https://github.com/stevearc/conform.nvim
     "stevearc/conform.nvim",
@@ -151,43 +154,12 @@ return {
         cpp = { "clang-format" },
         objc = { "clang-format" },
         objcpp = { "clang-format" },
-        cmake = { "cmake_format" --[[, "-i", "--line-ending=unix", "-c", "$HOME/templates/cmake-format.yaml"]] },
-        cmake_lists = { "cmake_format"--[[, "-i", "--line-ending=unix", "-c", "$HOME/templates/cmake-format.yaml"]] },
+      },
+      formatters = {
+        ["clang-format"] = {
+          args = { "-style=file:/home/lannakin/templates/arduino/.clang-format" },
+        },
       },
     },
   },
-  {
-    -- https://github.com/Civitasv/cmake-tools.nvim
-    "Civitasv/cmake-tools.nvim",
-    lazy = true,
-    -- init = function()
-    --   local loaded = false
-    --   local function check()
-    --     local cwd = vim.uv.cwd()
-    --     if vim.fn.filereadable(cwd .. "/CMakeLists.txt") == 1 then
-    --       require("lazy").load { plugins = { "cmake-tools.nvim" } }
-    --       loaded = true
-    --     end
-    --   end
-    --   check()
-    --   vim.api.nvim_create_autocmd("DirChanged", {
-    --     callback = function()
-    --       if not loaded then
-    --         check()
-    --       end
-    --     end,
-    --   })
-    -- end,
-    opts = {},
-  },
-  -- {
-  --   -- https://github.com/mfussenegger/nvim-lint
-  --   "mfussenegger/nvim-lint",
-  --   optional = true,
-  --   opts = {
-  --     linters_by_ft = {
-  --       cmake = { "cmake_lint" },
-  --     },
-  --   },
-  -- },
 }

@@ -2,11 +2,17 @@
 -- disabled if below line is active
 -- if true then return {} end
 
-local util = require "lspconfig.util"
 -- local DEFAULT_FQBN = "rp2040:rp2040:rpipicow"
 local DEFAULT_FQBN = "rp2040:rp2040:wiznet_5500_evb_pico"
 
 return {
+  { -- Add arduino to treesitter
+    -- https://github.com/nvim-treesitter/nvim-treesitter
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = { "arduino" },
+    },
+  },
   { -- Add tools to mason
     -- https://github.com/mason-org/mason.nvim
     "mason-org/mason.nvim",
@@ -17,7 +23,7 @@ return {
       })
     end,
   },
-  { -- Add arduino_language_server and setup lspconfig
+  { -- Add arduino_language_server and set up lspconfig
     -- https://github.com/neovim/nvim-lspconfig
     "neovim/nvim-lspconfig",
     enabled = true,
@@ -25,8 +31,8 @@ return {
     opts = function()
       local dynamic_arduino_fqbn = {
         -- ["${LA-repos}"] = "arduino:avr:nano",
-        ["${ARDUINO_PROJECTS}/rpi-pico-w/"] = "rp2040:rp2040:rpipicow",
-        ["${ARDUINO_PROJECTS}/w5500-evb-pico/"] = "wiznet_5500_evb_pico",
+        -- ["${ARDUINO_PROJECTS}/rpi-pico-w/"] = "rp2040:rp2040:rpipicow",
+        -- ["${ARDUINO_PROJECTS}/w5500-evb-pico/"] = "wiznet_5500_evb_pico",
         -- boards that are available:
         -- STMicroelectronics:stm32:GenF1
         -- STMicroelectronics:stm32:GenF4
@@ -49,11 +55,11 @@ return {
         -- https://github.com/arduino/arduino-language-server
         arduino_language_server = {
           filetypes = { "arduino", "c", "cpp", "objc", "objcpp" },
-          --[[
           root_dir = function(bufnr, on_dir)
             local fname = vim.api.nvim_buf_get_name(bufnr)
-              on_dir(util.root_pattern "*.ino"(fname))
+            on_dir(require("lspconfig.util").root_pattern "*.ino"(fname))
           end,
+          --[[
           on_new_config = function(config, root_dir) -- Add it here as part of the server config
             local fqbn = dynamic_arduino_fqbn[root_dir]
             if not fqbn then
@@ -76,7 +82,7 @@ return {
           cmd = { -- You might want to keep a default cmd here too
             "arduino-language-server",
             "-clangd",
-            "/usr/bin/clang",
+            "~/.local/bin/arduino-language-server",
             "-cli",
             "/usr/bin/arduino-cli",
             "-cli-config",
@@ -84,19 +90,19 @@ return {
             "-fqbn",
             DEFAULT_FQBN,
           },
-          capabilities = {
-            vim.lsp.protocol.make_client_capabilities(),
-            textDocument = {
-              -- ---@diagnostic disable-next-line: assign-type-mismatch
-              semanticTokens = vim.NIL,
-            },
-            workspace = {
-              -- ---@diagnostic disable-next-line: assign-type-mismatch
-              semanticTokens = vim.NIL,
-            },
-          },
+          -- capabilities = {
+          --   vim.lsp.protocol.make_client_capabilities(),
+          --   textDocument = {
+          --     -- ---@diagnostic disable-next-line: assign-type-mismatch
+          --     semanticTokens = vim.NIL,
+          --   },
+          --   workspace = {
+          --     -- ---@diagnostic disable-next-line: assign-type-mismatch
+          --     semanticTokens = vim.NIL,
+          --   },
+          -- },
         },
-        clangd = {},
+        -- clangd = {},
       },
     },
     -- end,

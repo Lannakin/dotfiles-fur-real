@@ -1,16 +1,14 @@
 -- /plugins/lsp/python.lua
 -- disabled if below line is active
-if true then return {} end
+-- if true then return {} end
 
 return {
-  },
   --[[
   { -- Add python to treesitter
     -- https://github.com/nvim-treesitter/nvim-treesitter
     "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      util.list_insert_unique(opts.ensure_installed, { "lang_name" })
-    end,
+    opts = ensure_installed = { "lang_name" }
+  },
   --]]
   --[[  { -- Add tools to mason
     -- https://github.com/mason-org/mason.nvim
@@ -48,6 +46,7 @@ return {
     "kiyoon/python-import.nvim",
     -- build = "pipx install . --force",
     build = "uv tool install . --force --reinstall",
+    enabled = false,
     keys = {
       {
         "<M-CR>",
@@ -139,9 +138,9 @@ return {
       ---Return an empty table to stop the lookup. This is useful when you want to add to wherever you need to.
       ---@type fun(winnr: integer, word: string, ts_node: TSNode?): string[]?
       custom_function = function(winnr, word, ts_node)
-        -- if vim.endswith(word, "_DIR") then
-        --   return { "from my_module import " .. word }
-        -- end
+        if vim.endswith(word, "_DIR") then
+          return { "from my_module import " .. word }
+        end
       end,
     },
   },

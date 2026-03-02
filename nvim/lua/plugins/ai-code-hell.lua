@@ -1,12 +1,13 @@
 -- ./plugins/ai-code-hell.lua
 -- disabled if below line is active
-if true then return {} end
+-- if true then return {} end
 -- src: https://github.com/Gentleman-Programming/Gentleman.Dots/blob/main/GentlemanNvim/nvim/lua/plugins/claude-code.lua
 
 ---@type LazySpec
 return {
   {
     "coder/claudecode.nvim",
+    enabled = false,
     dependencies = { "folke/snacks.nvim" },
     opts = {
       terminal = {
@@ -39,34 +40,72 @@ return {
     },
   },
   {
-    "copilotlsp-nvim/copilot-lsp",
-    init = function()
-      vim.g.copilot_nes_debounce = 500
-      vim.lsp.enable "copilot_ls"
-      vim.keymap.set("n", "<tab>", function()
-        local bufnr = vim.api.nvim_get_current_buf()
-        local state = vim.b[bufnr].nes_state
-        if state then
-          -- Try to jump to the start of the suggestion edit.
-          -- If already at the start, then apply the pending suggestion and jump to the end of the edit.
-          local _ = require("copilot-lsp.nes").walk_cursor_start_edit()
-            or (require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit())
-          return nil
-        else
-          -- Resolving the terminal's inability to distinguish between `TAB` and `<C-i>` in normal mode
-          return "<C-i>"
-        end
-      end, { desc = "Accept Copilot NES suggestion", expr = true })
-    end,
+    -- https://github.com/zbirenbaum/copilot.lua
+    "zbirenbaum/copilot.lua",
+    opts = { telemetry = { telemetryLevel = "off" } },
+    enabled = false,
   },
   {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        -- LazyVim Extra disabled it for copilot.lua
+        copilot = {
+          enabled = true,
+          settings = { telemetry = { telemetryLevel = "off" } },
+        },
+      },
+    },
+  },
+  {
+    "mason-org/mason.nvim",
+    -- https://github.com/copilotlsp-nvim/copilot-lsp
+    opts = { ensure_installed = { "copilot-language-server" } },
+  },
+  {
+    -- https://github.com/Saghen/blink.cmp
+    "saghen/blink.cmp",
+    optional = true,
+    dependencies = { "fang2hou/blink-copilot" },
+    opts = {
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer", "copilot" },
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-copilot",
+            score_offset = 100,
+            async = true,
+          },
+        },
+      },
+    },
+  },
+  {
+    -- https://github.com/fang2hou/blink-copilot
+    "fang2hou/blink-copilot",
+    -- stylua: ignore 
+    opts = {
+      max_completions = 3,
+      max_attempts = 4,
+      kind_name = "Copilot",
+      kind_icon = " ",
+      kind_hl = false,
+      debounce = 200,
+      auto_refresh = {
+        backward = true,
+        forward = true,
+      },
+    },
+  },
+  {
+    -- https://github.com/TabbyML/vim-tabby
     "TabbyML/vim-tabby",
     lazy = false,
-    dependencies = {
-      "neovim/nvim-lspconfig",
-    },
+    enabled = false,
+    dependencies = { "neovim/nvim-lspconfig" },
     init = function()
-      vim.g.tabby_agent_start_command = {"npx", "tabby-agent", "--stdio"}
+      vim.g.tabby_agent_start_command = { "npx", "tabby-agent", "--stdio" }
       vim.g.tabby_inline_completion_trigger = "auto"
     end,
   },
