@@ -16,7 +16,7 @@ vim.g.markdown_fenced_languages = {
 }
 
 -- --| VIM LOCAL - MARKDOWN OPTIONS |----------------------------------------------------------------------------------
-opt.colorcolumn = "80"
+opt.colorcolumn = "81"
 opt.list = false
 opt.relativenumber = false
 opt.suffixesadd:prepend ".md"

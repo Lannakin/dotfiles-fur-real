@@ -58,7 +58,7 @@ return {
         -- emmylua_ls = { enabled = false },
         -- stylua = { enabled = false },
 
-        jsonls = { enabled = true },
+        -- jsonls = { enabled = true },
 
         markdown_oxide = {
           enabled = true,

@@ -4,15 +4,16 @@
 
 local key_opts = { silent = true }
 vim.g.pioConfig = {
-  lsp = 'clangd',           -- value: clangd | ccls 
-  menu_key = '<leader>\\',  -- replace this menu key  to your convenience
-  debug = false,             -- enable debug messages
-  clangd_source = 'ccls',    -- value: ccls | compiledb, For detailed explation check :help platformio-clangd_source
+  lsp = "clangd", -- value: clangd | ccls
+  menu_key = "<leader>\\", -- replace this menu key  to your convenience
+  debug = false, -- enable debug messages
+  clangd_source = "ccls", -- value: ccls | compiledb, For detailed explation check :help platformio-clangd_source
 }
 
-local pok, platformio = pcall(require, 'platformio')
-if pok then platformio.setup(vim.g.pioConfig) end
-
+local pok, platformio = pcall(require, "platformio")
+if pok then
+  platformio.setup(vim.g.pioConfig)
+end
 
 ---@type LazySpec
 return {
@@ -20,6 +21,7 @@ return {
   {
     -- https://github.com/yuukiflow/Arduino-Nvim
     "yuukiflow/Arduino-Nvim",
+    -- lazy = false,
     dependencies = {
       "nvim-telescope/telescope.nvim",
       "neovim/nvim-lspconfig",
@@ -39,15 +41,15 @@ return {
       -- Upload with manual reset for UNO R4 WiFi
       -- { "<Leader>ar", ":InoUploadReset<CR>",  desc ="Upload arduino code with manual reset", { silent = true },
     },
-    -- config = function()
-    --   -- Load Arduino plugin for .ino files
-    --   vim.api.nvim_create_autocmd("FileType", {
-    --     pattern = "arduino",
-    --     callback = function()
-    --       require "Arduino-Nvim"
-    --     end,
-    --   })
-    -- end,
+    config = function()
+      -- Load Arduino plugin for .ino files
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "arduino" },
+        callback = function()
+          require "Arduino-Nvim"
+        end,
+      })
+    end,
   },
   {
     "folke/which-key.nvim",
@@ -71,6 +73,15 @@ return {
       { "nvim-treesitter/nvim-treesitter" },
     },
     opts = {},
+  },
+  -- --| stm32 lsp support |-------------------------------------------------------------------------------------------
+  {
+    "alex-schulster/stm_lsp_nvim",
+    config = function()
+      require("stm_lsp_nvim").setup {
+        -- Custom configuration, or leave empty for default config
+      }
+    end,
   },
   -- --| toggleterm |--------------------------------------------------------------------------------------------------
   {

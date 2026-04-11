@@ -16,6 +16,7 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        ---@type lazyvim.lsp.Config
         jsonls = {
           cmd = { "vscode-json-language-server", "--stdio" },
           filetypes = { "json", "jsonc" },

@@ -14,34 +14,7 @@ return {
     -- stylua: ignore
     dependencies = {
       { "nvim-lua/plenary.nvim" },
-      {
-        -- https://github.com/DrKJeff16/project.nvim
-        "DrKJeff16/project.nvim",
-        -- -- lazy = true,
-        -- cmd = { -- Lazy-load by commands
-        --   "Project",
-        --   "ProjectAdd",
-        --   "ProjectConfig",
-        --   "ProjectDelete",
-        --   "ProjectHistory",
-        --   "ProjectRecents",
-        --   "ProjectRoot",
-        --   "ProjectSession",
-        -- },
-        -- ---@module "project"
-        -- ---@type Project.Config.Options
-        -- opts = {
-        --   allow_patterns_for_lsp = false,{ "z", group = "fold" },
-        --   manual_mode = true,
-        --   use_lsp = true,
-        --   -- show_hidden = true,  -- this also shows inside .git/
-        --   base_dirs = { "~/LA-repos/" },
-        --   patterns = { ".git", ".github", "*.sln", "build/env.sh" },
-        --   exclude_dirs = { "~/.local/nvim/" }, -- directories not to calculate root on
-        --   -- telescope = { prefer_file_browser = true },
-        --   disable_file_picker = true,
-        -- },
-      },
+      { "DrKJeff16/project.nvim" },                     -- https://github.com/DrKJeff16/project.nvim
       { "andrew-george/telescope-themes" },             -- https://github.com/andrew-george/telescope-themes
       { "nyarthan/telescope-code-actions.nvim" },       -- https://github.com/nyarthan/telescope-code-actions.nvim
       { "nvim-telescope/telescope-file-browser.nvim" }, -- https://github.com/nvim-telescope/telescope-file-browser.nvim
@@ -56,6 +29,7 @@ return {
       telescope.load_extension "themes"
       telescope.load_extension "file_browser"
       telescope.load_extension "code_actions"
+      telescope.load_extension "find_template"
       return {
         extensions = {
           projects = {

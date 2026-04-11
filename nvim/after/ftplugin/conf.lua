@@ -17,4 +17,4 @@ opt.list = true
 opt.spell = false
 
 opt.textwidth = 80
-opt.colorcolumn = "80"
+opt.colorcolumn = "81"

@@ -133,7 +133,6 @@ return {
     "stevearc/quicker.nvim",
     ft = "qf",
     ---@module "quicker"
-    ---@type quicker.SetupOptions
     opts = {
       buflisted = false,
       number = false,
@@ -188,7 +187,7 @@ return {
         max_width = 80,
         max_height = 40,
       },
-      image = { ---@class snacks.image.Config{
+      image = {
         img_dirs = { "img", "images", "assets", "static", "public", "media", "attachments" },
         wo = {
           wrap = false,
@@ -201,14 +200,16 @@ return {
           spell = false,
           statuscolumn = "",
         },
-        ---@class snacks.image.convert.Config
+
         convert = {
           notify = false, -- show a notification on error
-          ---@type snacks.image.args
-          ---@type table<string,snacks.image.args>
           magick = {
             default = { "{src}[0]", "-scale", "1920x1080>" }, -- default for raster images
           },
+          mermaid = function()
+            local theme = vim.o.background == "light" and "neutral" or "dark"
+            return { "-i", "{src}", "-o", "{file}", "-b", "transparent", "-t", theme, "-s", "{scale}" }
+          end,
         },
       },
     },

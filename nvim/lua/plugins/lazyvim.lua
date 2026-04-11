@@ -6,7 +6,7 @@
 ---@type LazySpec
 return {
   -- --| replacements / overrides |------------------------------------------------------------------------------------
-  { -- FIXME: wtf is requiring mini.icons
+  {
     "nvim-mini/mini.icons",
     -- enabled = false
     dependencies = { "DaikyXendo/nvim-material-icon", opts = {} },

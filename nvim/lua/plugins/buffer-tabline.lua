@@ -6,6 +6,7 @@ local bufferline = require "bufferline"
 
 local palette = require("utils.palettes.cat-solarized").main
 
+-- stylua: ignore
 local colors = {
   base04  = palette.base04,
   base03  = palette.base03,
@@ -28,30 +29,6 @@ local colors = {
 
 }
 
--- theme color variables that I have yet to migrate to my /utils/palettes system
---[[
-local solarized_colors = {
-  base04  = "#002731",
-  base03  = "#002b36",
-  base02  = "#073642",
-  base01  = "#586E75",
-  base00  = "#657B83",
-  base0   = "#839496",
-  base1   = "#93A1A1",
-  base2   = "#EEE8D5",
-  base3   = "#FDF6E3",
-  base4   = "#FBF3DB",
-  blue    = "#268BD2",
-  cyan    = "#2AA198",
-  orange  = "#CB4B16",
-  red     = "#DC322F",
-  violet  = "#6C71C4",
-  yellow  = "#B58900",
-  green   = "#859900",
-  magenta = "#D33682",
-}
---]]
--- stylua: ignore
 
 -- icons cheatsheets:
 -- https://fontawesome.com/cheatsheet

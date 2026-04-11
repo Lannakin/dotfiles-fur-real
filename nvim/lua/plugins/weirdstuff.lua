@@ -25,7 +25,7 @@ return {
       neovim_image_text   = "a real arch linux text editor, btw", -- Text displayed when hovered over the Neovim image
       show_time           = true,                                 -- Show the timer
 
-      blacklist           = {},                   -- list of strings or patterns that disable Rich Presence when matched
+      blacklist           = { "dropbar_preview" },                   -- list of strings or patterns that disable Rich Presence when matched
       blacklist_repos     = {},                   -- blacklist that applies to git remote repo URLs instead
       file_assets         = {},                   -- Custom file asset definitions (see `lua/presence/file_assets.lua`)
 
@@ -48,10 +48,10 @@ return {
       maxkeys = 5,
     },
   },
-  --[[
   { -- browse github for repos tagged neovim-plugin
     -- https://github.com/alex-popov-tech/store.nvim
     "alex-popov-tech/store.nvim",
+    enabled = true,
     dependencies = { "OXY2DEV/markview.nvim" },
     cmd = "Store",
     -- stylua: ignore
@@ -67,13 +67,13 @@ return {
       },
 
       keybindings = {
-      help = { "?" },                        -- Show help
-      close = { "q", "<esc>", "<c-c>" },     -- Close modal
-      filter = { "f" },                      -- Open filter input
-      refresh = { "r" },                     -- Refresh data
-      open = { "<cr>", "o" },                -- Open selected repository
-      switch_focus = { "<tab>", "<s-tab>" }, -- Switch focus between panes
-      sort = { "s" },                        -- Sort repositories
+        help = { "?" },                        -- Show help
+        close = { "q", "<esc>", "<c-c>" },     -- Close modal
+        filter = { "f" },                      -- Open filter input
+        refresh = { "r" },                     -- Refresh data
+        open = { "<cr>", "o" },                -- Open selected repository
+        switch_focus = { "<tab>", "<s-tab>" }, -- Switch focus between panes
+        sort = { "s" },                        -- Sort repositories
       },
 
       -- Repository display options
@@ -84,5 +84,4 @@ return {
       logging = "off",                   -- Levels: off, error, warn, log, debug
     },
   },
-  --]]
 }

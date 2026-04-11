@@ -6,7 +6,7 @@
 -- |  Custom Command Keymaps for Which-Key Integration  |
 -- +----------------------------------------------------+
 
-local fanyutils = require "utils.fanyutils"
+-- local fanyutils = require "utils.fanyutils"
 local plenary_utils = require "utils.plenary-utils"
 local diag = require "utils.jellydn_diagnostics"
 

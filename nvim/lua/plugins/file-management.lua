@@ -11,6 +11,7 @@ return {
       -- "nvim-lua/plenary.nvim",
       -- "MunifTanjim/nui.nvim",
       { "DaikyXendo/nvim-material-icon", opts = {} },
+      { "saifulapm/neotree-file-nesting-config" },
     },
     lazy = true, -- neo-tree will lazily load itself
     ---@module 'neo-tree'
@@ -18,13 +19,26 @@ return {
     opts = {
       clipboard = { sync = "universal" },
       -- close_if_last_window = true,
+      hide_root_node = true,
+      retain_hidden_root_indent = true,
 
       -- stylua: ignore
       filesystem = {
         filtered_items = {
           visible = true,         -- Makes "hide" mean "dimmed out" instead of completely hidden
           hide_dotfiles = false,  -- Set to false to show dotfiles (hidden files)
-          hide_gitignored = true, -- You can adjust this based on your preference
+          show_hidden_count = false,
+          never_show = {
+            ".DS_Store",
+            "dropbar",
+          },
+        },
+      },
+      default_component_configs = {
+        indent = {
+          with_expanders = true,
+          expander_collapsed = "",
+          expander_expanded = "",
         },
       },
       popup_border_style = "",
@@ -34,8 +48,16 @@ return {
         auto_expand_width = false, -- Prevent auto-expanding
       },
       event_handlers = {
-        -- save layout before opening neotree
-        {
+        { -- preview selected source
+          event = "after_render",
+          handler = function(state)
+            if not require("neo-tree.sources.common.preview").is_active() then
+              state.config = { use_float = true }
+              state.commands.toggle_preview(state)
+            end
+          end,
+        },
+        { -- save layout before opening neotree
           event = "neo_tree_window_before_open",
           handler = function()
             -- vim.cmd("set noequalalways")
@@ -49,8 +71,7 @@ return {
             vim._neotree_layout = layout
           end,
         },
-        -- restore layout after closing neotree
-        {
+        { -- restore layout after closing neotree
           event = "neo_tree_window_after_close",
           handler = function()
             if vim._neotree_layout then
@@ -65,6 +86,11 @@ return {
         },
       },
     },
+    config = function(_, opts)
+      -- Adding rules from plugin
+      opts.nesting_rules = require("neotree-file-nesting-config").nesting_rules
+      require("neo-tree").setup(opts)
+    end,
   },
   {
     -- orig: https://github.com/antosha417/nvim-lsp-file-operations

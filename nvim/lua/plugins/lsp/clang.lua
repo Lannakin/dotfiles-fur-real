@@ -116,6 +116,7 @@ return {
             buildDirectory = "build",
           },
         },
+        --[[
         ccls = {
           cmd = { "ccls" },
           filetypes = { "c", "cpp", "objc" },
@@ -129,6 +130,7 @@ return {
             end, { desc = "Switch between source/header" })
           end,
         },
+        --]]
       },
       setup = {
         clangd = function(_, opts)
@@ -157,7 +159,7 @@ return {
       },
       formatters = {
         ["clang-format"] = {
-          args = { "-style=file:/home/lannakin/templates/arduino/.clang-format" },
+          args = { "-style=file:/home/lannakin/LA-repos/dotfiles/system/lsc-environment/.clang-format" },
         },
       },
     },

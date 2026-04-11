@@ -43,7 +43,7 @@ return {
     -- https://github.com/zbirenbaum/copilot.lua
     "zbirenbaum/copilot.lua",
     opts = { telemetry = { telemetryLevel = "off" } },
-    enabled = false,
+    enabled = true,
   },
   {
     "neovim/nvim-lspconfig",

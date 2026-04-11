@@ -7,6 +7,10 @@
 vim.o.timeoutlen = 3000 -- increase timeout b/c slow
 -- [ ^ for mini.surround ^ ] --
 
+vim.keymap.set("n", "<Leader>t", function()
+  vim.fn.feedkeys ":Template "
+end, { remap = true })
+
 ---@type LazySpec
 return {
   {
@@ -74,64 +78,22 @@ return {
   },
   -- --| templates |---------------------------------------------------------------------------------------------------
   {
-    -- https://github.com/cvigilv/esqueleto.nvim
-    "cvigilv/esqueleto.nvim",
-    dependencies = { "dressing.nvim" },
-    -- event = { "BufNewFile" },
-    -- ---@type Esqueleto.Config
-    --[[ USAGE:
-    --    mkdir <filename>
-    --    ln -s $(pwd)/<template-filetype-dir>/<desired-template-filename> $(pwd)/<filename>
-    --    ???????
-    --]]
-    opts = {
-      directories = { vim.fn.stdpath "config" .. "/templates" }, -- template directory
-      patterns = {
-        -- file names
-        "LICENSE",
-        -- filetypes
-        "c",
-        "cpp",
-        -- "python",
-        "bash",
-        -- "yaml"
-      },
-      --[[
-      wildcards = {
-        lookup = { -- wild-cards look-up table
-          -- for reference
-          -- --| file operations |----------------------------------------------------------------------------------
-          "filename"
-            return vim.fn.expand "%:t:r"
-          "fileabspath"
-            return vim.fn.expand "%:p"
-          "filerelpath"
-            return vim.fn.expand "%:p:~"
-          "fileext"
-            return vim.fn.expand "%:e"
-          "filetype"
-            return vim.bo.filetype
+    "Skicken/template.nvim",
+    -- "nvimdev/template.nvim",
+    cmd = { "Template", "TemProject" },
+    -- opts = function()
+    --   -- opts = {
+    --   local template = require "template"
+    --   template.register("{{_sh_date_}}", function()
+    --     return os.date( "%y-%m-%d" )
+    --   end)
 
-          -- --| date |----------------------------------------------------------------------------------------------
-          "date"
-            return os.date("%Y%m%d", os.time())
-          "year"
-            return os.date("%Y", os.time())
-          "month"
-            return os.date("%m", os.time())
-          "day"
-            return os.date("%d", os.time())
-          "time"
-          return os.date("%T", os.time())
-        },
-      },
-      advanced = {
-        ignored = {},
-        ignore_os_files = true,
-        ignore_patterns = { "^/tmp", ".bak$" },
-      },
-      --]]
-      -- },
+    -- return {
+    opts = {
+      temp_dir = "~/templates", -- template directory
+      author = "LiterallySomeCat",
+      email = "",
     },
+    -- end,
   },
 }

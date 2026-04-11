@@ -11,4 +11,4 @@ opt.smarttab = true
 opt.tabstop = 2
 
 opt.textwidth = 72
-opt.colorcolumn = "72"
+opt.colorcolumn = "73"

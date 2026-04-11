@@ -25,7 +25,8 @@ return {
   { -- replacing persistence as it seems unwilling to save sessions on quit, and i am unwilling to write an autocommand
     -- https://github.com/rmagatti/auto-session
     "rmagatti/auto-session",
-    lazy = true,
+    -- lazy = false,
+    cmd = { "AutoSession" },
     keys = {
       -- Will use Telescope if installed or a vim.ui.select picker otherwise
       { "<leader>wr", "<cmd>AutoSession search<CR>", desc = "Session search" },
@@ -36,16 +37,17 @@ return {
     -- enables autocomplete for opts
     ---@module "auto-session"
     ---@type AutoSession.Config
+    -- stylua: ignore
     opts = {
       bypass_save_filetypes = { "alpha", "dashboard", "snacks_dashboard" }, -- or whatever dashboard you use
-      suppressed_dirs = { "~/", "~/Downloads", "/", "~/.local/share/nvim" },
+      suppressed_dirs = { "/", "~/", "~/Downloads", "/", "~/.local/share/nvim" },
 
       -- Saving / restoring
-      enabled = true, -- Enables/disables auto creating, saving and restoring
-      auto_save = true, -- Enables/disables auto saving session on exit
-      auto_restore = false, -- Enables/disables auto restoring session on start
-      auto_create = true, -- Enables/disables auto creating new session files; can be a function
-      auto_restore_last_session = false, -- On startup, loads last saved session if session for cwd does not exist
+      enabled = true,                     -- Enables/disables auto creating, saving and restoring
+      auto_save = true,                   -- Enables/disables auto saving session on exit
+      auto_restore = false,               -- Enables/disables auto restoring session on start
+      auto_create = true,                 -- Enables/disables auto creating new session files; can be a function
+      auto_restore_last_session = false,  -- On startup, loads last saved session if session for cwd does not exist
 
       ---@type SessionLens
       session_lens = {
@@ -61,7 +63,6 @@ return {
   {
     -- https://github.com/DrKJeff16/project.nvim
     "DrKJeff16/project.nvim",
-    -- lazy = true,
     cmd = { -- Lazy-load by commands
       "Project",
       "ProjectAdd",
@@ -72,6 +73,7 @@ return {
       "ProjectRoot",
       "ProjectSession",
     },
+
     ---@module "project"
     ---@type Project.Config.Options
     opts = {

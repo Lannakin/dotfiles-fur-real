@@ -12,7 +12,7 @@ opt.cmdheight = 0
 opt.laststatus = 0
 opt.termguicolors = true
 
-opt_local.colorcolumn = "120"
+opt_local.colorcolumn = "121"
 opt_local.spell = false
 
 vim.keymap.set("n", "q", "<cmd>close<cr>", { desc = "man ft: q to exit manpages" })

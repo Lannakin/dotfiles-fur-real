@@ -49,18 +49,15 @@ autocmd("BufWritePre", {
   desc = "Expand tabs to spaces before saving",
 })
 
--- --| set syntax/filetype to jsonc |----------------------------------------------------------------------------------
--- src: another google ai overview special
---[[
+-- --| set filetype to vim |-------------------------------------------------------------------------------------------
 autocmd({ "BufNewFile", "BufRead" }, {
-  group = augroup("JsoncSyntax", { clear = true }),
-  pattern = { "*.jsonc", "*.cjson", "*.cjsn", "*.json" },
+  group = augroup("VimSyntax", { clear = true }),
+  pattern = { "vimpcrc" },
   callback = function()
-  vim.opt.filetype = "jsonc"
+    vim.opt.filetype = "vim"
   end,
-  desc = "Set filetype to jsonc for certain types of json files",
-  })
---]]
+  desc = "Set filetype to vim for certain types of config files",
+})
 
 -- --| Automatically open Trouble Quickfix |---------------------------------------------------------------------------
 autocmd("QuickFixCmdPost", {
@@ -105,8 +102,8 @@ autocmd("Filetype", {
     -- get filetype settings
     local target_ccolumn = ft_ccolumn[vim.o.filetype] or default_ccolumn
     if target_ccolumn == "" then
-      return
-    end                                        -- exit early if no column
+      return          -- exit early if no column
+    end
     vim.o.colorcolumn = target_ccolumn -- else set column
   end,
 })

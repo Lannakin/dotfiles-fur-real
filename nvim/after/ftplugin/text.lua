@@ -13,6 +13,6 @@ opt.tabstop = 2
 opt.commentstring = ">%s"
 
 opt.textwidth = 80
-opt.colorcolumn = "80"
+opt.colorcolumn = "81"
 
 opt.list = true
