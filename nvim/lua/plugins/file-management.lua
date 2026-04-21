@@ -30,7 +30,7 @@ return {
           show_hidden_count = false,
           never_show = {
             ".DS_Store",
-            "dropbar",
+            "*dropbar*",
           },
         },
       },
@@ -48,15 +48,15 @@ return {
         auto_expand_width = false, -- Prevent auto-expanding
       },
       event_handlers = {
-        { -- preview selected source
-          event = "after_render",
-          handler = function(state)
-            if not require("neo-tree.sources.common.preview").is_active() then
-              state.config = { use_float = true }
-              state.commands.toggle_preview(state)
-            end
-          end,
-        },
+        -- { -- preview selected source
+        --   event = "after_render",
+        --   handler = function(state)
+        --     if not require("neo-tree.sources.common.preview").is_active() then
+        --       state.config = { use_float = true }
+        --       state.commands.toggle_preview(state)
+        --     end
+        --   end,
+        -- },
         { -- save layout before opening neotree
           event = "neo_tree_window_before_open",
           handler = function()

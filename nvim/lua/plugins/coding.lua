@@ -77,6 +77,7 @@ return {
     opts = {},
   },
   -- --| templates |---------------------------------------------------------------------------------------------------
+  --[[ OK FUCK YOU I'LL JUST USE BASH SCRIPTS
   {
     "Skicken/template.nvim",
     -- "nvimdev/template.nvim",
@@ -96,4 +97,5 @@ return {
     },
     -- end,
   },
+  --]]
 }

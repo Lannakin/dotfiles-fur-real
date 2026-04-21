@@ -13,7 +13,10 @@ local unmap = vim.keymap.del
 
 -- --| unmap existing default neovim keymaps |-------------------------------------------------------------------------
 -- [ various ] --
-unmap("n", "<leader>fn")      -- file operations: new file
+unmap({ "n", "x" }, "p" )     -- remove text??????
+-- unmap({ "n", "x" }, "S" )     -- remove text??????
+-- unmap({ "n", "x" }, "R" )     -- remove text??????
+unmap("n", "<leader>fn" )     -- file operations: new file
 -- unmap( "n", "dd" ) -- delete
 -- [ movement ] --
 unmap({ "n", "i" }, "<C-F>" ) -- scroll forward

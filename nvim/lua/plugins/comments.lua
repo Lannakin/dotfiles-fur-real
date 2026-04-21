@@ -51,7 +51,7 @@ return {
     opts = function()
       local wk = require "which-key"
       local key_opts = { noremap = true, silent = true }
-      local current_textwidth = vim.opt_local.textwidth:get()
+      local current_textwidth = vim.api.nvim_get_option_value('textwidth', { buf = 0 }) -- vim.opt_local.textwidth:get()
 
       -- Use textwidth if set, otherwise default to 80
       if current_textwidth == 0 then

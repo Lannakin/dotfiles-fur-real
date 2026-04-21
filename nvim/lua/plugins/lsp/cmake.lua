@@ -22,23 +22,24 @@ return {
     opts = {
       servers = {
         --[[
-          cmake = {
-          cmd = { "cmake-language-server" },
-          filetypes = { "cmake" },
-          root_markers = { "CMakePresets.json", "CTestConfig.cmake", ".git", "build", "cmake" },
-          init_options = {
-            buildDirectory = "build",
-          },
-        },
-        --]]
         neocmake = {
           cmd = { "neocmakelsp", "stdio" },
           filetypes = { "cmake" },
           root_markers = { "CMakePresets.json", "CTestConfig.cmake", ".git", "build", "cmake" },
         },
+        --]]
+      cmake = {
+        cmd = { "cmake" },
+        filetypes = { "cmake" },
+        root_markers = { "CMakePresets.json", "CTestConfig.cmake", ".git", "build", "cmake" },
+        init_options = {
+          buildDirectory = "build",
+        },
+      },
       },
     },
   },
+  --[[
   {
     -- https://github.com/stevearc/conform.nvim
     "stevearc/conform.nvim",
@@ -50,10 +51,12 @@ return {
       formatters = {
         cmake_format = {
           append_args = { "-i", "-c", "/home/lannakin/templates/cmakeformat.yaml", "--line-ending=unix" },
-        }
-      }
+        },
+      },
     },
   },
+  --]]
+  --[[
   {
     -- https://github.com/Civitasv/cmake-tools.nvim
     "Civitasv/cmake-tools.nvim",
@@ -78,6 +81,8 @@ return {
     end,
     opts = {},
   },
+  --]]
+  --[[
   {
     -- https://github.com/mfussenegger/nvim-lint
     "mfussenegger/nvim-lint",
@@ -87,12 +92,28 @@ return {
       linters_by_ft = {
         cmake = { "cmake_lint" },
       },
-    linters = {
+      linters = {
         cmake_lint = {
           args = { "--config=$HOME/templates/cmakelintrc" },
         },
       },
     },
   },
+  --]]
+  {
+    -- https://github.com/nvimtools/none-ls.nvim
+    "nvimtools/none-ls.nvim",
+    optional = true,
+    opts = function(_, opts)
+      local none_ls = require "null-ls"
+      opts.sources = vim.list_extend(opts.sources or {}, {
+        none_ls.builtins.diagnostics.cmake_lint.with {
+          extra_args = { "--config", "$HOME/templates/cmakeformat.yaml" },
+        },
+        none_ls.builtins.formatting.cmake_format.with {
+          extra_args = { "-i", "-c", "$HOME/templates/cmakeformat.yaml", "--line-ending=unix" },
+        },
+      })
+    end,
+  },
 }
-

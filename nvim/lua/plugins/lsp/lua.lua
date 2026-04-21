@@ -12,11 +12,10 @@ return {
           enabled = false,
           settings = {
             Lua = {
+              codeLens = { enable = true },
               diagnostics = {
                 enable = true,
-                unusedLocalExclude = {
-                  "_*",
-                },
+                unusedLocalExclude = { "_*" },
                 globals = { "vim" },
               },
               completion = {
@@ -35,14 +34,10 @@ return {
                 paramType = true,
                 semicolon = "SameLine",
               },
-              runtime = {
-                version = "LuaJIT",
-              },
+              runtime = { version = "LuaJIT" },
               workspace = {
                 checkThirdParty = true,
-                library = {
-                  vim.env.VIMRUNTIME,
-                },
+                library = { vim.env.VIMRUNTIME },
               },
             },
           },

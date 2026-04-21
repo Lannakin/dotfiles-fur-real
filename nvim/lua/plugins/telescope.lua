@@ -29,7 +29,7 @@ return {
       telescope.load_extension "themes"
       telescope.load_extension "file_browser"
       telescope.load_extension "code_actions"
-      telescope.load_extension "find_template"
+      -- telescope.load_extension "find_template"
       return {
         extensions = {
           projects = {

@@ -89,7 +89,7 @@ return {
         { path = "auto-session" },
         { path = "blink.cmp" },
         { path = "bufferline.nvim" },
-        { path = "esqueleto.nvim" },
+        { path = "indent-blankline.nvim" },
         { path = "neo-tree.nvim" },
         { path = "noice.nvim" },
         { path = "nvim-platformio.lua" },

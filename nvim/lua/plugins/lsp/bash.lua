@@ -9,16 +9,18 @@ local function fmt(diagnostic)
   return diagnostic.message
 end
 
-vim.diagnostic.config({
+vim.diagnostic.config {
   virtual_text = {
-    source = true, # "always",
+    source = true,
+    #"always",
     format = fmt,
   },
   float = {
-    source = true, # "always",
+    source = true,
+    #"always",
     format = fmt,
   },
-})
+}
 
 ---@type vim.lsp.Config
 return {
@@ -48,16 +50,13 @@ return {
     dependencies = {},
     opts = {
       servers = {
-        bashls = {
-          cmd = { "bash-language-server", "start" },
-          filetypes = { "bash", "sh" },
-          root_markers = { ".git" },
-          settings = {
-            bashIde = {
-              globPattern = "*@(.sh|.inc|.bash|.command)",
-            },
-          },
+        cmd = { "bash-language-server", "start" },
+        ---@type lspconfig.settings.bashls
+        settings = {
+          bashIde = { globPattern = vim.env.GLOB_PATTERN or "*@(.sh|.inc|.bash|.command)" },
         },
+        filetypes = { "bash", "sh" },
+        root_markers = { ".git" },
       },
     },
   },
