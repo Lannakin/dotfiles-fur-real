@@ -25,9 +25,9 @@ return {
       neovim_image_text   = "a real arch linux text editor, btw", -- Text displayed when hovered over the Neovim image
       show_time           = true,                                 -- Show the timer
 
-      blacklist           = { "dropbar_preview" },                   -- list of strings or patterns that disable Rich Presence when matched
-      blacklist_repos     = {},                   -- blacklist that applies to git remote repo URLs instead
-      file_assets         = {},                   -- Custom file asset definitions (see `lua/presence/file_assets.lua`)
+      blacklist           = { "dropbar_preview*" }, -- list of strings or patterns that disable presence when matched
+      blacklist_repos     = {},                    -- blacklist that applies to git remote repo URLs instead
+      file_assets         = {},                    -- Custom file asset definitions (see :lua/presence/file_assets.lua)
 
       -- --| Rich Presence text options |------------------------------------------------------------------------------
       editing_text        = "walking across keyboard in %s",  -- string when an editable file is loaded in the buffer

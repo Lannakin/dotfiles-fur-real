@@ -10,8 +10,8 @@ vim.g.pioConfig = {
   clangd_source = "ccls", -- value: ccls | compiledb, For detailed explation check :help platformio-clangd_source
 }
 
-local pok, platformio = pcall(require, "platformio")
-if pok then
+local piopcall, platformio = pcall(require, "platformio")
+if piopcall then
   platformio.setup(vim.g.pioConfig)
 end
 

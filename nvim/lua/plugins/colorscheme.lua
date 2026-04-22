@@ -4,7 +4,7 @@
 
 ---@type LazySpec
 return {
--- --| colorschemes i probablly don't use |----------------------------------------------------------------------------
+  -- --| colorschemes i probablly don't use |----------------------------------------------------------------------------
   {
     -- https://github.com/EdenEast/nightfox.nvim
     "EdenEast/nightfox.nvim",
@@ -48,7 +48,7 @@ return {
   -- https://github.com/sainnhe/gruvbox-material
   { "sainnhe/gruvbox-material" },
 
--- --| solarized colorschemes |----------------------------------------------------------------------------------------
+  -- --| solarized colorschemes |----------------------------------------------------------------------------------------
   {
     -- https://github.com/svrana/neosolarized.nvim
     "svrana/neosolarized.nvim",
@@ -65,7 +65,7 @@ return {
     },
   },
 
--- --| ⚠️ cat colorschemes ahead ⚠️ |----------------------------------------------------------------------------------
+  -- --| ⚠️ cat colorschemes ahead ⚠️ |----------------------------------------------------------------------------------
   -- themes i've made, testing probably
   {
     -- https://github.com/Lannakin/cat-neosolarized.nvim

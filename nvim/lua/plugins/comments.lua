@@ -62,20 +62,20 @@ return {
       -- CB<position><alignment><type>[catalog_number]
       -- CB< l c r >< l c r >< aox box line > [int]
       -- aox = adaptive-width box
-      wk.add {
-        { "<Leader>b", group = "boxes" },
+      wk.add ({
+        { "<leader>b", group = "boxes" },
         -- boxes --
-        { "<Leader>bbc",  "<Cmd>CBlcbox2<CR>",  desc = "Box title, centered", key_opts },
-        { "<Leader>bbll", "<Cmd>CBllbox2<CR>",  desc = "Box title, left-aligned", key_opts },
-        { "<Leader>bbca", "<Cmd>CBlcbox10<CR>", desc = "ASCII box title, centered", key_opts },
-        { "<Leader>bbla", "<Cmd>CBllbox10<CR>", desc = "ASCII box title, left-aligned", key_opts },
+        { "<leader>bbc",  "<Cmd>CBlcbox2<CR>",  desc = "Box title, centered", key_opts },
+        { "<leader>bbll", "<Cmd>CBllbox2<CR>",  desc = "Box title, left-aligned", key_opts },
+        { "<leader>bbca", "<Cmd>CBlcbox10<CR>", desc = "ASCII box title, centered", key_opts },
+        { "<leader>bbla", "<Cmd>CBllbox10<CR>", desc = "ASCII box title, left-aligned", key_opts },
         -- lines --
-        { "<Leader>bl",    "<Cmd>CBline<CR>",      desc = "Simple line", key_opts },
-        { "<Leader>bll",   "<Cmd>CBllline<CR>",    desc = "Line title, left-aligned", key_opts },
-        { "<Leader>bla",   "<Cmd>CBllline15<CR>", desc = "ASCII line title, left-aligned", key_opts },
+        { "<leader>bl",    "<Cmd>CBline<CR>",      desc = "Simple line", key_opts },
+        { "<leader>bll",   "<Cmd>CBllline<CR>",    desc = "Line title, left-aligned", key_opts },
+        { "<leader>bla",   "<Cmd>CBllline15<CR>", desc = "ASCII line title, left-aligned", key_opts },
         -- marks (also boxes) --
-        { "<Leader>bmr",   "<Cmd>CBllbox14<CR>",   desc = "Marked comment, right", key_opts },
-      }
+        { "<leader>bmr",   "<Cmd>CBllbox14<CR>",   desc = "Marked comment, right", key_opts },
+      })
 
       return {
         -- comment_style:

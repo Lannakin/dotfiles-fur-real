@@ -18,7 +18,6 @@ return {
       { "andrew-george/telescope-themes" },             -- https://github.com/andrew-george/telescope-themes
       { "nyarthan/telescope-code-actions.nvim" },       -- https://github.com/nyarthan/telescope-code-actions.nvim
       { "nvim-telescope/telescope-file-browser.nvim" }, -- https://github.com/nvim-telescope/telescope-file-browser.nvim
-      -- { "hasansujon786/telescope-ui-select.nvim" },    -- https://github.com/hasansujon786/telescope-ui-select.nvim
     },
 
     -- config = function() -- global settings

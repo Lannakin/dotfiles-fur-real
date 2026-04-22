@@ -26,14 +26,7 @@ local colors = {
   yellow  = palette.yellow,
   green   = palette.green,
   magenta = palette.magenta,
-
 }
-
-
--- icons cheatsheets:
--- https://fontawesome.com/cheatsheet
--- https://fontawesome.com/v3/cheatsheet/
--- https://fontawesome.com/v4/cheatsheet/
 
 ---@type LazySpec
 return {
@@ -49,6 +42,7 @@ return {
         options = {
           style_preset = bufferline.style_preset.minimal,
 
+          -- https://fontawesome.com/cheatsheet
           themeable = true,
           numbers = "none", -- "buffer_id", "ordinal", "both"
           separator_style = { "", "" }, --   "", ""         
@@ -94,9 +88,9 @@ return {
           hover = { enabled = false },
         },
 
-        -- +-----------------------------+
-        -- |   BUFFERLINE THEME COLORS   |
-        -- +-----------------------------+
+        --                       +---------------------------------------------------------+
+        --                       |                 BUFFERLINE THEME COLORS                 |
+        --                       +---------------------------------------------------------+
         -- stylua: ignore
         highlights = {
           -- sp = special; color of the indicator in indicator_style

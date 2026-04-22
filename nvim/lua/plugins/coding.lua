@@ -7,10 +7,6 @@
 vim.o.timeoutlen = 3000 -- increase timeout b/c slow
 -- [ ^ for mini.surround ^ ] --
 
-vim.keymap.set("n", "<Leader>t", function()
-  vim.fn.feedkeys ":Template "
-end, { remap = true })
-
 ---@type LazySpec
 return {
   {
@@ -76,26 +72,4 @@ return {
     "windwp/nvim-ts-autotag",
     opts = {},
   },
-  -- --| templates |---------------------------------------------------------------------------------------------------
-  --[[ OK FUCK YOU I'LL JUST USE BASH SCRIPTS
-  {
-    "Skicken/template.nvim",
-    -- "nvimdev/template.nvim",
-    cmd = { "Template", "TemProject" },
-    -- opts = function()
-    --   -- opts = {
-    --   local template = require "template"
-    --   template.register("{{_sh_date_}}", function()
-    --     return os.date( "%y-%m-%d" )
-    --   end)
-
-    -- return {
-    opts = {
-      temp_dir = "~/templates", -- template directory
-      author = "LiterallySomeCat",
-      email = "",
-    },
-    -- end,
-  },
-  --]]
 }

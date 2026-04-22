@@ -81,7 +81,7 @@ return {
     },
   },
   {
-    --https://github.com/cshuaimin/ssr.nvim
+    -- https://github.com/cshuaimin/ssr.nvim
     "cshuaimin/ssr.nvim",
     opts = {
       min_width = 50,

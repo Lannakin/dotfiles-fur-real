@@ -5,5 +5,8 @@
 
 ---@type LazyPluginSpec
 return {
-  "tjdevries/colorbuddy.nvim",
+  { -- https://github.com/tjdevries/colorbuddy.nvim
+    "tjdevries/colorbuddy.nvim",
+    opts = {}, -- probably not needed
+  },
 }
