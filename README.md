@@ -9,4 +9,4 @@ very deranged, and i am pleased that you've noticed.
 
 ## NEOVIM -- LAZYVIM
 
-![wow it really DOES burn your eyes](https://github.com/Lannakin/dotfiles-fur-real/blob/main/real_herbstluftwm_preview.png)
+![yay neovim also sears retinas!](https://github.com/Lannakin/dotfiles-fur-real/blob/LazyVim-nvim/gitimages/screenshotnvim-also.png?raw=true)
