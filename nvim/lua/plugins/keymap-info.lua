@@ -63,7 +63,7 @@ return {
           { "<leader>B", group = "buffer" },
           { "<leader>d", group = "debug" },
           { "<leader>x", group = "diagnostics/quickfix" },
-          { "<leader>f", group = "file/find" },
+          -- { "<leader>F", group = "find" },
           { "<leader>g", group = "git" },
           { "<leader>l", group = "lsp" },
           { "<leader>P", group = "profiler" },
@@ -78,6 +78,9 @@ return {
         },
       }
     end,
+    --[[
+    --]]
+    ---@diagnostic disable: missing-fields
     config = function(_, opts)
       require("which-key").setup(opts)
     end,

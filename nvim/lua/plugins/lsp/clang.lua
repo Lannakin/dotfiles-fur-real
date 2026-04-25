@@ -124,6 +124,7 @@ return {
     opts = {
       servers = {
         clangd = {
+          enabled = false,
           capabilities = {
             textDocument = {
               completion = {

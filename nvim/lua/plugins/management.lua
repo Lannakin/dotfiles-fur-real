@@ -75,7 +75,6 @@ return {
     },
 
     ---@module "project"
-    ---@type Project.Config.Options
     opts = {
       lsp = {
         enabled = true,

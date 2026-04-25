@@ -40,6 +40,7 @@ return {
           cmd = { -- You might want to keep a default cmd here too
             "arduino-language-server",
             "-clangd",
+            "ccls",
             "~/.local/bin/arduino-language-server",
             "-cli",
             "/usr/bin/arduino-cli",
@@ -50,6 +51,7 @@ return {
           },
         },
         -- clangd = {},
+        -- ccls = {},
       },
     },
   },

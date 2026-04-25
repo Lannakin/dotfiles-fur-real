@@ -13,20 +13,60 @@ return {
     cmd = { "SudaRead", "SudaWrite" },
   },
   -- --| neovim behavior |---------------------------------------------------------------------------------------------
-  {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    ---@type Flash.Config
-    opts = {},
-    -- stylua: ignore
-    keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-    },
+  { -- fuzzy incremental search to jump
+    -- https://github.com/rlane/pounce.nvim
+    "rlane/pounce.nvim",
+    enabled = false,
+    --[[
+    local map = vim.keymap.set
+    map("n", "s", function() require'pounce'.pounce { } end)
+    map("n", "S", function() require'pounce'.pounce { do_repeat = true } end)
+    map("x", "s", function() require'pounce'.pounce { } end)
+    map("o", "gs", function() require'pounce'.pounce { } end)
+    map("n", "S", function() require'pounce'.pounce { input = {reg="/"} } end)
+    --]]
+    --[[
+    pounce commands:
+      <cmd>PounceReg /<cr> " Pounce with last search pattern
+      <cmd>PounceReg 0<cr> " Pounce with last yank
+      <cmd>PounceReg \"<cr> " Pounce with last d/c/y
+      <cmd>PounceReg .<cr> " Pounce with last inserted text
+      \"zy<cmd>PounceReg z<cr> " From visual mode: Pounce using the selection as the input
+      <cmd>PounceExpand <cword><cr> " Pounce with the current word
+      <cmd>PounceExpand %<cr> " Pounce with the current filename
+    --]]
   },
+  -- {
+  --   -- https://github.com/folke/flash.nvim
+  --   "folke/flash.nvim",
+  --   event = "VeryLazy",
+  --   enabled = false,
+  --   --[[
+  --   --]]
+  --   opts = {
+  --     modes = {
+  --       jump_labels = true,
+  --       label = { exclude = --[["hjkliardc"]] "" },
+  --       char = { enabled = false },
+  --       -- remap via keys = { [";"] = "L", [","] = H }
+  --       keys = {
+  --       -- "f",
+  --       -- "F",
+  --       "t",
+  --       "T",
+  --       ";", -- next
+  --       ",", -- previous
+  --       },
+  --     },
+  --   },
+  --   --[[
+  --   config = function()
+  --     return {
+  --       char = { enabled = false },
+  --     }
+  --   end
+  --   --]]
+  -- },
   -- --| ui edits: function |------------------------------------------------------------------------------------------
   { -- IDE-like navigation top bar
     -- https://github.com/Bekaboo/dropbar.nvim

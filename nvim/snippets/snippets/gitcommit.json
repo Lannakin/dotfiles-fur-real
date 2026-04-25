@@ -58,5 +58,40 @@
   "on behalf of": {
     "prefix": "on",
     "body": ["On-behalf-of: ${1:org} <${2:email}>", "$0"]
+  },
+  "t;dr commit": {
+    "prefix": "tl;dr",
+    "body": [
+      "tl;dr: 50 character summary ending here ....... ->",
+      "",
+      "=======================================================================",
+      "added:",
+      "  path/to/dir/",
+      "      file.lua - explanation",
+      "",
+      "-----------------------------------------------------------------------",
+      "removed:",
+      "  path/to/dir/",
+      "      file.lua - explanation",
+      "      file.lua - consolidated into other_file.lua",
+      "",
+      "-----------------------------------------------------------------------",
+      "modified:",
+      "  path/to/dir/",
+      "      file.lua - explanation",
+      "",
+      "-----------------------------------------------------------------------",
+      "moved:",
+      "  path/to/dir/file.lua",
+      "      -> path/to/other_dir/file.lua",
+      "",
+      "-----------------------------------------------------------------------",
+      "renamed:",
+      "  path/to/dir/file.lua",
+      "      -> path/to/dir/other_file.lua",
+      "",
+      "#######################################################################"
+    ],
+    "description": "unconventional git commit structure i shouldn't use"
   }
 }

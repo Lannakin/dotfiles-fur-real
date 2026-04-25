@@ -13,14 +13,16 @@ local unmap = vim.keymap.del
 
 -- --| unmap existing default neovim keymaps |-------------------------------------------------------------------------
 -- [ various ] --
-unmap({ "n", "x" }, "p" )     -- remove text??????
--- unmap({ "n", "x" }, "S" )     -- remove text??????
--- unmap({ "n", "x" }, "R" )     -- remove text??????
-unmap("n", "<leader>fn" )     -- file operations: new file
--- unmap( "n", "dd" ) -- delete
+unmap({ "n", "x" }, "p")     -- remove text??????
+-- unmap({ "n", "x" }, "S")     -- remove text??????
+-- unmap({ "n", "x" }, "R")     -- remove text??????
+unmap("n", "<leader>fn")     -- file operations: new file
+-- unmap("n", "n")
+-- unmap({ "n" }, "f") -- next item in Search
+-- unmap("n", "dd") -- delete
 -- [ movement ] --
-unmap({ "n", "i" }, "<C-F>" ) -- scroll forward
-unmap({ "n", "x" }, "k" )     -- move up one line
+unmap({ "n", "i" }, "<C-F>") -- scroll forward
+unmap({ "n", "x" }, "k")     -- move up one line
 
 -- --| unmap existing lazyvim default kemaps |-------------------------------------------------------------------------
 -- [ various ] --
@@ -38,6 +40,28 @@ unmap("n", "<leader>bb") -- switch to other buffer
 unmap("n", "<leader>bd") -- delete buffer
 unmap("n", "<leader>bo") -- delete other buffers
 unmap("n", "<leader>bD") -- delete buffer and window
+-- [ find ] --
+unmap("n", "<leader>ff") -- find file in Root dir
+unmap("n", "<leader>fF") -- find file in cwd
+unmap("n", "<leader>fg") -- find file in git
+unmap("n", "<leader>fr") -- find recent file
+unmap("n", "<leader>fR") -- find revent file in root
+unmap("n", "<leader>fc") -- find config file
+-- [ open terminal ] --
+unmap("n", "<leader>ft") -- open terminal in root dir
+unmap("n", "<leader>fT") -- open terminal in cwd
+-- unmap({ "n", "x" }, "") -- 
+
+-- --| unmap using <Nop> |---------------------------------------------------------------------------------------------
+-- [ commands ] --
+map({ "n", "x", "o" }, "f", "<Nop>") -- search char next
+map({ "n", "x", "o" }, "F", "<Nop>") -- search char previous
+map({ "n", "x", "o" }, "s", "<Nop>") -- substitution next
+map({ "n", "x", "o" }, "S", "<Nop>") -- substitution previous
+map("n", "cc", "<Nop>", { silent = true }) -- change line
+map("n", "Cc", "<Nop>", { silent = true }) -- delete line?
+map("n", "CC", "<Nop>", { silent = true }) -- delete line after cursor
+-- map({ "n", "x", "o" }, "", "<Nop>") -- 
 
 -- +---------------------------------------------------------+
 -- |                     file operations                     |

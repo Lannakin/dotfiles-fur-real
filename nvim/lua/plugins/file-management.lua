@@ -74,6 +74,7 @@ return {
         { -- restore layout after closing neotree
           event = "neo_tree_window_after_close",
           handler = function()
+            ---@diagnostic disable: unnecessary-if
             if vim._neotree_layout then
               for win, dims in pairs(vim._neotree_layout) do
                 if vim.api.nvim_win_is_valid(win) then

@@ -1,6 +1,6 @@
 -- ./plugins/ai-code-hell.lua
 -- disabled if below line is active
--- if true then return {} end
+if true then return {} end
 -- src: https://github.com/Gentleman-Programming/Gentleman.Dots/blob/main/GentlemanNvim/nvim/lua/plugins/claude-code.lua
 
 ---@type LazySpec

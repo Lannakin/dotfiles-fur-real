@@ -2,17 +2,15 @@
 -- disabled if below line is active
 -- if true then return {} end
 
--- +----------------------------------------------------+
--- |  Custom Command Keymaps for Which-Key Integration  |
--- +----------------------------------------------------+
+--                           +---------------------------------------------------------+
+--                           |    Custom Command Keymaps for Which-Key Integration     |
+--                           +---------------------------------------------------------+
 
 -- local fanyutils = require "utils.fanyutils"
 local plenary_utils = require "utils.plenary-utils"
 local diag = require "utils.jellydn_diagnostics"
 
 local opts = { noremap = true, silent = true }
-
--- local unmap = vim.keymap.del
 
 ---@type LazySpec
 return {
@@ -25,7 +23,7 @@ return {
       spec = {
         {
           mode = { "n" },
-          -- --| jellydn: toggle diagnostics level |---------------------------------------------------------------------
+          -- --| jellydn: toggle diagnostics level |-------------------------------------------------------------------
           -- src: jellydn github
           { "<leader>u", group = "diagnostics" },
           -- stylua: ignore start
@@ -58,27 +56,33 @@ return {
         },
         -- stylya: ignore
         {
-          -- --| File Operations |---------------------------------------------------------------------------------------
+          -- --| File Operations |-------------------------------------------------------------------------------------
           mode = { "n", "v" },
           { "<leader>f", group = "files" },
-          -- --| fanyutils: file path copying |--------------------------------------------------------------------------
+          -- --| fanyutils: file path copying |------------------------------------------------------------------------
           -- src: https://github.com/fanlumaster/lazyvim-archlinux/blob/master/lua/fany/fanykeymaps.lua
 
           -- [ copy relative file path ] --
           { "<leader>fp", function() plenary_utils.copy_relative_path() end, desc = "Copy file relative path" },
           -- [ copy current file name ] --
-          -- FIXME: opens a new buffer and copies nothing?
+          -- FIXME: moves cursor and copies nothing?
           { "<leader>fn", function() plenary_utils.copy_file_name() end, desc = "Copy current file name" },
           -- [ copy absolute path ] --
           { "<leader>fP", function() plenary_utils.copy_absolute_path() end, desc = "Copy absolute path" },
         },
         {
-          -- --| Neotree |-----------------------------------------------------------------------------------------------
+          -- --| Neotree |---------------------------------------------------------------------------------------------
           mode = "n",
           -- [ leader ] --
           { "<leader>d", group = "directory" },
           { "<leader>dg", "<CMD>:Neotree float git_status<CR>", desc = "Toggle git status with Neotree" },
-          { "<leader>ds", "<CMD>:Neotree right document_symbols<CR>", desc = "Toggle toggle document symbols with Neotree" },
+          { "<leader>ds", "<CMD>:Neotree right document_symbols<CR>", desc = "Toggle document symbols with Neotree" },
+        },
+        {
+          -- --| find files |------------------------------------------------------------------------------------------
+          mode = "n",
+          { "<leader>F", group = "Find" },
+          -- { "<leader>F", "", desc = "" },
         },
       },
     },

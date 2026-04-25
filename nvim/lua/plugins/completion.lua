@@ -12,17 +12,23 @@
 
 ---@type LazySpec
 return {
-  {
-    -- https://github.com/Saghen/blink.compat
-    "saghen/blink.compat",
-    lazy = true,
-    opts = { debug = true },
+  { -- required for blink plugins
+    -- https://github.com/saghen/blink.lib
+    "saghen/blink.lib",
+    dependencies = {},
   },
   { -- use blink.cmp for command-line completion
     -- https://github.com/Saghen/blink.cmp
     "saghen/blink.cmp",
     enabled = true,
     dependencies = {
+      {
+        -- https://github.com/Saghen/blink.compat
+        "saghen/blink.compat",
+        enabled = true,
+        lazy = true,
+        opts = { debug = true },
+      },
       { "rafamadriz/friendly-snippets" },
       { "moyiz/blink-emoji.nvim" },
       { "Kaiser-Yang/blink-cmp-dictionary" },
@@ -65,7 +71,14 @@ return {
         },
       },
       sources = { -- add lazydev to blink.cmp completion providers
-        default = { "buffer", "cmdline", --[["digraphs",]] "lazydev", "lsp", "path", "snippets" }, -- do not put luasnip here
+        default = {
+          "buffer",
+          "cmdline", --[["digraphs",]]
+          "lazydev",
+          "lsp",
+          "path",
+          "snippets",
+        }, -- do not put luasnip here
         providers = {
           -- buffers = {},
           -- cmdline = {},
@@ -85,6 +98,7 @@ return {
           -- lsp = {},
           -- path = {},
           snippets = { enabled = true },
+          -- --| coc.nvim settings block |-----------------------------------------------------------------------------
           --[[
           -- stylua: ignore start
           buffer = { enabled = false },   -- +---------------------------------------------------------+
@@ -93,18 +107,10 @@ return {
           path = { enabled = false },     -- |                                                         |
           snippets = { enabled = false }, -- +---------------------------------------------------------+
           -- stylua: ignore end
-          cmdline = {
-            module = "blink.cmp.sources.cmdline",
-          },
+          cmdline = { module = "blink.cmp.sources.cmdline" },
           --]]
         },
       },
     },
   },
-  -- { -- good luck ever using this in tandem with blink.cmp or with the cmdline
-  --   -- https://github.com/neoclide/coc.nvim
-  --   "neoclide/coc.nvim",
-  --   branch = "master",
-  --   build = "npm ci",
-  -- },
 }

@@ -9,7 +9,7 @@ return {
     "folke/ts-comments.nvim",
     opts = {},
     event = "VeryLazy",
-    enabled = vim.fn.has("nvim-0.10.0") == 1,
+    enabled = vim.fn.has "nvim-0.10.0" == 1,
   },
   { -- comments out lines
     -- https://github.com/nvim-mini/mini.comment
@@ -34,13 +34,12 @@ return {
     -- cmd = { "TodoTrouble", "TodoTelescope" },
     -- event = { "BufReadPost", "BufWritePost", "BufNewFile" },
     opts = {},
-    keys =
-      {
-        { "<leader>xt", "<cmd>Trouble todo toggle<cr>", desc = "[T]odo" },
-        { "<leader>xT", "<cmd>Trouble todo toggle filter = {tag = {TODO,FIX,FIXME}}<cr>", desc = "[T]odo/Fix/Fixme" },
-        { "<leader>St", "<cmd>todo Telescope<cr>", desc = "Todo" },
-        { "<leader>ST", "<cmd>todo Telescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
-      }
+    keys = {
+      { "<leader>xt", "<cmd>Trouble todo toggle<cr>", desc = "[T]odo" },
+      { "<leader>xT", "<cmd>Trouble todo toggle filter = {tag = {TODO,FIX,FIXME}}<cr>", desc = "[T]odo/Fix/Fixme" },
+      { "<leader>St", "<cmd>todo Telescope<cr>", desc = "Todo" },
+      { "<leader>ST", "<cmd>todo Telescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
+    },
     -- end,
   },
   -- --| comment boxes |-----------------------------------------------------------------------------------------------
@@ -49,33 +48,11 @@ return {
     "Nitestack/comment-box.nvim",
     dependencies = "folke/ts-comments.nvim", -- wonder if needed
     opts = function()
-      local wk = require "which-key"
-      local key_opts = { noremap = true, silent = true }
-      local current_textwidth = vim.api.nvim_get_option_value('textwidth', { buf = 0 }) -- vim.opt_local.textwidth:get()
-
       -- Use textwidth if set, otherwise default to 80
+      local current_textwidth = vim.api.nvim_get_option_value("textwidth", { buf = 0 })
       if current_textwidth == 0 then
         current_textwidth = 80
       end
-
-      -- Commands:
-      -- CB<position><alignment><type>[catalog_number]
-      -- CB< l c r >< l c r >< aox box line > [int]
-      -- aox = adaptive-width box
-      wk.add ({
-        { "<leader>b", group = "boxes" },
-        -- boxes --
-        { "<leader>bbc",  "<Cmd>CBlcbox2<CR>",  desc = "Box title, centered", key_opts },
-        { "<leader>bbll", "<Cmd>CBllbox2<CR>",  desc = "Box title, left-aligned", key_opts },
-        { "<leader>bbca", "<Cmd>CBlcbox10<CR>", desc = "ASCII box title, centered", key_opts },
-        { "<leader>bbla", "<Cmd>CBllbox10<CR>", desc = "ASCII box title, left-aligned", key_opts },
-        -- lines --
-        { "<leader>bl",    "<Cmd>CBline<CR>",      desc = "Simple line", key_opts },
-        { "<leader>bll",   "<Cmd>CBllline<CR>",    desc = "Line title, left-aligned", key_opts },
-        { "<leader>bla",   "<Cmd>CBllline15<CR>", desc = "ASCII line title, left-aligned", key_opts },
-        -- marks (also boxes) --
-        { "<leader>bmr",   "<Cmd>CBllbox14<CR>",   desc = "Marked comment, right", key_opts },
-      })
 
       return {
         -- comment_style:
@@ -107,10 +84,36 @@ return {
         },
         outer_blank_lines_above = false, -- insert a blank line above the box
         outer_blank_lines_below = false, -- insert a blank line below the box
-        inner_blank_lines = false,       -- insert a blank line above and below the text
-        line_blank_line_above = false,   -- insert a blank line above the line
-        line_blank_line_below = false,   -- insert a blank line below the line
+        inner_blank_lines = false, -- insert a blank line above and below the text
+        line_blank_line_above = false, -- insert a blank line above the line
+        line_blank_line_below = false, -- insert a blank line below the line
       }
+    end,
+
+    config = function(_, opts)
+      require("comment-box").setup(opts)
+
+      local wk = require "which-key"
+      -- Commands:
+      -- CB<position><alignment><type>[catalog_number]
+      -- CB< l c r >< l c r >< aox box line > [int]
+      -- aox = adaptive-width box
+      -- stylua: ignore
+      ---@diagnostic disable: assign-type-mismatch
+      wk.add({
+        { "<leader>b", group = "boxes" },
+        -- boxes --
+        { "<leader>bbc",  "<Cmd>CBlcbox2<CR>",   desc = "Box title, centered" },
+        { "<leader>bbll", "<Cmd>CBllbox2<CR>",   desc = "Box title, left-aligned" },
+        { "<leader>bbca", "<Cmd>CBlcbox10<CR>",  desc = "ASCII box title, centered" },
+        { "<leader>bbla", "<Cmd>CBllbox10<CR>",  desc = "ASCII box title, left-aligned" },
+        -- lines --
+        { "<leader>bl",   "<Cmd>CBline<CR>",     desc = "Simple line" },
+        { "<leader>bll",  "<Cmd>CBllline<CR>",   desc = "Line title, left-aligned" },
+        { "<leader>bla",  "<Cmd>CBllline15<CR>", desc = "ASCII line title, left-aligned" },
+        -- marks (also boxes) --
+        { "<leader>bmr",  "<Cmd>CBllbox14<CR>",  desc = "Marked comment, right" },
+      })
     end,
   },
 }

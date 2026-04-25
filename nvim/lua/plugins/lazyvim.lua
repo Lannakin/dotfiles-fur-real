@@ -90,7 +90,7 @@ return {
         { path = "blink.cmp" },
         { path = "bufferline.nvim" },
         { path = "diffview.nvim" },
-        { path = "flash,nvim" },
+        -- { path = "flash,nvim" },
         { path = "indent-blankline.nvim" },
         { path = "LuaSnip" },
         { path = "neo-tree.nvim" },

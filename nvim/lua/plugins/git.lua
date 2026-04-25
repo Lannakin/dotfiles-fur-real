@@ -149,24 +149,24 @@ return {
         signs = { fold_closed = "", fold_open = "", done = "✓" },
         view = {
           default = {
-            layout = "diff2_horizontal", ---@type DiffView.Views
+            layout = "diff2_horizontal",
             winbar_info = true,
           },
           merge_tool = {
-            layout = "diff3_horizontal", ---@type DiffView.Views
+            layout = "diff3_horizontal", --@type DiffView.Views
             disable_diagnostics = true,
             winbar_info = true,
           },
           file_history = {
-            layout = "diff2_horizontal", ---@type DiffView.Views
+            layout = "diff2_horizontal", --@type DiffView.Views
             winbar_info = true,
           },
         },
         file_panel = {
-          listing_style = "list",        ---@type DiffView.ListStyle
+          listing_style = "list",        --@type DiffView.ListStyle
           tree_options = {
             flatten_dirs = true,
-            folder_statuses = "always",  ---@type 'never'|'only_folded'|'always'
+            folder_statuses = "always",  --@type 'never'|'only_folded'|'always'
           },
           win_config = function()
             local tab = vim.api.nvim_get_current_tabpage()

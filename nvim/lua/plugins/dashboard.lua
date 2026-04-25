@@ -37,10 +37,12 @@ return {
         dashboard.button("l", "󰒲 " .. " Lazy",            "<cmd> Lazy <cr>"),
         dashboard.button("q", " " .. " Quit",            "<cmd> qa <cr>"),
       }
+      --[[
       for _, button in ipairs(dashboard.section.buttons.val) do
         button.opts.hl = "AlphaButtons"
         button.opts.hl_shortcut = "AlphaShortcut"
       end
+      --]]
       dashboard.section.header.opts.hl = "AlphaHeader"
       dashboard.section.buttons.opts.hl = "AlphaButtons"
       dashboard.section.footer.opts.hl = "AlphaFooter"
@@ -49,6 +51,7 @@ return {
     end,
     config = function(_, dashboard)
       -- close Lazy and re-open when the dashboard is ready
+      require("alpha").setup(dashboard.opts)
       if vim.o.filetype == "lazy" then
         vim.cmd.close()
         vim.api.nvim_create_autocmd("User", {
@@ -60,7 +63,6 @@ return {
         })
       end
 
-      require("alpha").setup(dashboard.opts)
 
       vim.api.nvim_create_autocmd("User", {
         once = true,

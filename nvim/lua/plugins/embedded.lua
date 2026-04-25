@@ -3,17 +3,6 @@
 -- if true then return {} end
 
 local key_opts = { silent = true }
-vim.g.pioConfig = {
-  lsp = "clangd", -- value: clangd | ccls
-  menu_key = "<leader>\\", -- replace this menu key  to your convenience
-  debug = false, -- enable debug messages
-  clangd_source = "ccls", -- value: ccls | compiledb, For detailed explation check :help platformio-clangd_source
-}
-
-local piopcall, platformio = pcall(require, "platformio")
-if piopcall then
-  platformio.setup(vim.g.pioConfig)
-end
 
 ---@type LazySpec
 return {
@@ -72,7 +61,14 @@ return {
       { "folke/which-key.nvim" },
       { "nvim-treesitter/nvim-treesitter" },
     },
-    opts = {},
+    opts = function()
+      vim.g.pioConfig = {
+        lsp = "clangd",          -- value: clangd | ccls
+        menu_key = "<leader>\\", -- replace this menu key  to your convenience
+        debug = false,           -- enable debug messages
+        clangd_source = "ccls",  -- value: ccls | compiledb, For detailed explation check :help platformio-clangd_source
+      }
+    end
   },
   -- --| stm32 lsp support |-------------------------------------------------------------------------------------------
   {
