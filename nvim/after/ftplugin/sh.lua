@@ -11,7 +11,7 @@ autocmd({ "BufNewFile", "BufRead" }, {
   group = augroup("ShellSyntax", { clear = true }),
   pattern = { "PKGBUILD" },
   callback = function()
-  vim.opt.filetype = "sh"
+    vim.bo.filetype = "sh"
   end,
   desc = "Set filetype to sh for certain types of config files",
 })

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/EmmyLuaLs/emmylua-analyzer-rust/refs/heads/main/crates/emmylua_code_analysis/resources/schema.json",
+  "runtime": {
+    "version": "LuaJIT"
+  },
+  "diagnostics" : {
+    "disable" : [
+      "unnecessary-if"
+    ],
+    "enables": [ ]
+  },
+  "strict": {
+    "typeCall": true,
+    "arrayIndex": true
+  },
+  "codeAction": {
+    "insertSpace": true
+  },
+  "workspace": {
+    "workspaceRoots": [
+      "./.git",
+      "nvim",
+      "lua"
+    ],
+    "library": [
+      "$LLS_Addons/luvit",
+      "${3rd}/luv/library",
+      "usr/lib/lua/5.4/lua/luv.so",
+      "$HOME/.config/nvim",
+      "$HOME/.local/share/nvim/lazy",
+      "$VIMRUNTIME"
+    ],
+    "ignoreDir": [ ]
+  }
+}

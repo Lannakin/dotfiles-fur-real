@@ -11,7 +11,9 @@ return {
   -- --| discord presence |--------------------------------------------------------------------------------------------
   {
     -- https://github.com/jiriks74/presence.nvim
-    "jiriks74/presence.nvim",
+    -- "jiriks74/presence.nvim",
+    -- https://github.com/nick22985/presence.nvim
+    "nick22985/presence.nvim",
     event = "UIEnter",
     -- stylua: ignore
     opts = {
@@ -30,20 +32,22 @@ return {
       file_assets         = {},                    -- Custom file asset definitions (see :lua/presence/file_assets.lua)
 
       -- --| Rich Presence text options |------------------------------------------------------------------------------
-      editing_text        = "walking across keyboard in %s",  -- string when an editable file is loaded in the buffer
-      file_explorer_text  = "stalking %s",                    -- string when browsing file explorer
-      git_commit_text     = "committing ruinous changes",     -- string when committing changes in git
-      line_number_text    = "line %s out of %s",              -- string for enable_line_number=true
-      plugin_manager_text = "managing plugins",               -- string when managing plugins
-      reading_text        = "reading %s",                     -- string when read-only or unmodifiable file
-      workspace_text      = "completely ruining %s",          -- string when in a git repository
+      editing_text        = "walking across keyboard in %s",    -- string when an editable file is loaded in the buffer
+      file_explorer_text  = "stalking %s",                      -- string when browsing file explorer
+      git_commit_text     = "committing ruinous changes to %s", -- string when committing changes in git
+      line_number_text    = "line %s out of %s",                -- string for enable_line_number=true
+      plugin_manager_text = "managing plugins",                 -- string when managing plugins
+      reading_text        = "reading %s",                       -- string when read-only or unmodifiable file
+      workspace_text      = "completely ruining %s",            -- string when in a git repository
     },
   },
   {
     -- https://github.com/nvzone/showkeys
     "nvzone/showkeys",
     cmd = "ShowkeysToggle",
+    enabled = false,
     opts = {
+      winhl = "FloatBorder:Comment,Normal:Normal",
       timeout = 1,
       maxkeys = 5,
     },

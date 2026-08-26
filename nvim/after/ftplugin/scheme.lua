@@ -24,5 +24,5 @@ opt.tabstop = 2
 opt.textwidth = 80
 
 opt.spell = true
-opt.spelllang = { "en" }
+opt.spelllang = "en"
 

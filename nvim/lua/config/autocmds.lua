@@ -82,7 +82,7 @@ usercmd("DiffOrig", function()
   map("n", "q", "<cmd>close<cr>", { buffer = scratch_buffer, silent = true })
 end, { desc = "Diff current buffer not .git" })
 
--- --| automatically set color |---------------------------------------------------------------
+-- --| automatically set colorcolumn |---------------------------------------------------------------------------------
 -- src: https://github.com/hollowillow/nvim/blob/main/lua/minimal/autocmds.lua
 -- ccolumn position by filetype
 local ft_ccolumn = {

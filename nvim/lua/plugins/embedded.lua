@@ -10,7 +10,7 @@ return {
   {
     -- https://github.com/yuukiflow/Arduino-Nvim
     "yuukiflow/Arduino-Nvim",
-    -- lazy = false,
+    lazy = false,
     dependencies = {
       "nvim-telescope/telescope.nvim",
       "neovim/nvim-lspconfig",
@@ -33,7 +33,7 @@ return {
     config = function()
       -- Load Arduino plugin for .ino files
       vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "arduino" },
+        pattern = { "arduino", "ino" },
         callback = function()
           require "Arduino-Nvim"
         end,
@@ -53,6 +53,7 @@ return {
   { -- platformio wrapper for nvim
     -- https://github.com/anurag3301/nvim-platformio.lua
     "anurag3301/nvim-platformio.lua",
+    enabled = false,
     dependencies = {
       { "akinsho/toggleterm.nvim" },
       { "nvim-telescope/telescope.nvim" },

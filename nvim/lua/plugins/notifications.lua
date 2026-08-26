@@ -1,41 +1,27 @@
 -- /plugins/notifications.lua
 -- disabled if below line is active
-if true then return {} end
+if true then
+  return {}
+end
 ---@diagnostic disable: missing-fields, unnecessary-if
-
 
 ---@type LazySpec
 return {
-  {
-     -- https://github.com/folke/noice.nvim
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    dependencies = {
-    -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-    "MunifTanjim/nui.nvim",
-    },
-    opts = {
-      ---@type NoiceConfig
-      notify = {
-        enabled = true,
-        view = "mini",
-      },
-      messages = {
-        enabled = true,
-        view = "mini",          -- default view for messages
-        view_error = "mini",    -- view for errors
-        view_warn = "mini",     -- view for warnings
-      },
-    },
-  },
-    -- --| appearance |--------------------------------------------------------------------------------------------------
+  -- --| appearance |--------------------------------------------------------------------------------------------------
   {
     -- https://github.com/folke/noice.nvim
     "folke/noice.nvim",
     enabled = true,
+    event = "VeryLazy",
+    dependencies = { "MunifTanjim/nui.nvim" },
     ---@type NoiceConfig
     opts = {
-      ---@type NoiceFormatOptions
+      routes = {
+        { -- silence noisy presence.nvim error
+          filter = { find = "[presence.nvim] Failed to get repository name" },
+          opts = { skip = true },
+        },
+      },
       format = {
         notify = { spinner = "dots" },
         lsp_progress = {
@@ -64,11 +50,10 @@ return {
       },
       messages = {
         enabled = true,
-        view = "mini", -- default view for messages
-        view_error = "mini", -- view for errors
-        view_warn = "mini", -- view for warnings
+        view = "mini",
+        view_error = "mini",
+        view_warn = "mini",
       },
-      ---@type NoiceConfigViews
       views = {
         cmdline = { border = { style = "single" } },
         cmdline_input = { border = { style = "single" } },
@@ -80,14 +65,4 @@ return {
       },
     },
   },
-  --[[
-  {
-    -- https://github.com/rcarriga/nvim-notify
-    "rcarriga/nvim-notify",
-    opts = {
-      render = "wrapped-compact",
-      top_down = false,
-    },
-  },
-  --]]
 }

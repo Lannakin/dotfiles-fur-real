@@ -62,7 +62,7 @@
   "t;dr commit": {
     "prefix": "tl;dr",
     "body": [
-      "tl;dr: 50 character summary ending here ....... ->",
+      "tl;dr: 100 character summary ending here ....................................................... ->",
       "",
       "=======================================================================",
       "added:",

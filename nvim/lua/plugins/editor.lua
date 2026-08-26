@@ -81,7 +81,7 @@ return {
     "monkoose/matchparen.nvim",
     opts = {
       enabled = true,
-      debounce_time = 60,
+      -- debounce_time = 60,
     },
   },
   -- --| ui edits: appearance |----------------------------------------------------------------------------------------

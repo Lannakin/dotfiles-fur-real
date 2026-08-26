@@ -5,6 +5,7 @@ if true then return {} end
 
 ---@type LazySpec
 return {
+  --[[
   {
     "coder/claudecode.nvim",
     enabled = false,
@@ -39,29 +40,37 @@ return {
       -- { "<leader>av", "<cmd>ClaudeCodeVerbose<cr>", desc = "Verbose logging" },
     },
   },
+  --]]
+  --[[
   {
     -- https://github.com/zbirenbaum/copilot.lua
     "zbirenbaum/copilot.lua",
     opts = { telemetry = { telemetryLevel = "off" } },
     enabled = true,
   },
+  --]]
+  --[[
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
         -- LazyVim Extra disabled it for copilot.lua
         copilot = {
-          enabled = true,
+          enabled = false,
           settings = { telemetry = { telemetryLevel = "off" } },
         },
       },
     },
   },
+  --]]
+  --[[
   {
     "mason-org/mason.nvim",
     -- https://github.com/copilotlsp-nvim/copilot-lsp
     opts = { ensure_installed = { "copilot-language-server" } },
   },
+  --]]
+  --[[
   {
     -- https://github.com/Saghen/blink.cmp
     "saghen/blink.cmp",
@@ -81,6 +90,8 @@ return {
       },
     },
   },
+  --]]
+  --[[
   {
     -- https://github.com/fang2hou/blink-copilot
     "fang2hou/blink-copilot",
@@ -98,6 +109,7 @@ return {
       },
     },
   },
+  --]]
   {
     -- https://github.com/TabbyML/vim-tabby
     "TabbyML/vim-tabby",

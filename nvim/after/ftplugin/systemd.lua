@@ -1,4 +1,4 @@
--- /after/ftplugin/conf.lua
+-- /after/ftplugin/systemd.lua
 -- disabled if below line is active
 -- if true then return {} end
 
@@ -11,14 +11,8 @@ opt.smarttab = true
 opt.softtabstop = 2
 opt.tabstop = 4
 
-opt.commentstring = "#%s"
-opt.iskeyword:append "_"
-opt.list = true
+opt.commentstring = ";%s"
 opt.spell = false
 
 opt.textwidth = 80
 opt.colorcolumn = "81"
-
--- vim.filetype.add {
---   pattern = { [".*%.conf"] = { "conf", { priority = 100 } } },
--- }

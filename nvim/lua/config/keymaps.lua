@@ -13,16 +13,16 @@ local unmap = vim.keymap.del
 
 -- --| unmap existing default neovim keymaps |-------------------------------------------------------------------------
 -- [ various ] --
-unmap({ "n", "x" }, "p")     -- remove text??????
+-- unmap({ "n", "x" }, "p")     -- remove text?????? -- fake
 -- unmap({ "n", "x" }, "S")     -- remove text??????
 -- unmap({ "n", "x" }, "R")     -- remove text??????
-unmap("n", "<leader>fn")     -- file operations: new file
+unmap("n", "<leader>fn")     -- file operations: new file -- x
 -- unmap("n", "n")
 -- unmap({ "n" }, "f") -- next item in Search
 -- unmap("n", "dd") -- delete
 -- [ movement ] --
-unmap({ "n", "i" }, "<C-F>") -- scroll forward
-unmap({ "n", "x" }, "k")     -- move up one line
+unmap({ "n", "i" }, "<C-F>") -- scroll forward -- x
+unmap({ "n", "x" }, "k")     -- move up one line -- x
 
 -- --| unmap existing lazyvim default kemaps |-------------------------------------------------------------------------
 -- [ various ] --

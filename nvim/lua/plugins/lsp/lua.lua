@@ -43,6 +43,7 @@ return {
           },
         },
         emmylua_ls = {
+        -- emmylua = {
           -- capabilities = require("capabilities").make_capabilities(),
           enabled = true,
           cmd = { "emmylua_ls" },
@@ -53,7 +54,9 @@ return {
             ".luacheckrc",
             ".git",
           },
-          workspace_required = true,
+          codeLens = { enable = true },
+          hint = { enable = true },
+          workspace_required = false,
           settings = {
             runtime = {
               version = "LuaJIT",
@@ -65,21 +68,24 @@ return {
               },
             },
             workspace = {
+              --[[
               library = {
                 "$LLS_Addons/luvit",
                 "${3rd}/luv/library",
                 "usr/lib/lua/5.4/lua/luv.so",
                 "$HOME/.local/share/nvim/lazy",
-                "$HOME/.local/share/nvim/lazy/bufferline.nvim", -- for some reason, emmylua_ls can't find any plugins
-                "$HOME/.local/share/nvim/lazy/neogen",          -- unless I explicitly tell it where they are
-                "$HOME/.local/share/nvim/lazy/lazydev.nvim",
-                "$HOME/.local/share/nvim/lazy/luvit-meta",
-                "$HOME/.local/share/nvim/lazy/dashboard-nvim",
-                "$HOME/.local/share/nvim/lazy/solarized-osaka.nvim",
-                "$HOME/.local/share/nvim/lazy/which-key.nvim",
-                "$HOME/LA-repos/cat-neosolarized.nvim",
-                "/usr/share/nvim/runtime",
-                vim.api.nvim_get_runtime_file("lua/*.lua", true),
+                vim.env.VIMRUNTIME,
+                -- For LSP Settings Type Annotations: https://github.com/neovim/nvim-lspconfig#lsp-settings-type-annotations
+                vim.api.nvim_get_runtime_file("lua/lspconfig", false)[1],
+                -- "/usr/share/nvim/runtime",
+                -- vim.fn.expand("$VIMRUNTIME"),
+                -- vim.fn.expand("$XDG_CONFIG_HOME") .. "/nvim/lua",
+                -- vim.api.nvim_get_runtime_file("lua/*.lua", true),
+                },
+              --]]
+              library = { 
+                vim.api.nvim_get_runtime_file("", true),
+                "$HOME/.local/share/nvim/lazy/?.lua",
               },
             },
           },

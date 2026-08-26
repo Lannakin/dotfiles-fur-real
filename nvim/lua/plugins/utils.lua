@@ -39,9 +39,10 @@ return {
       function RgbHslCmykInput.from_rgb(RGB)
         local HSL = convert.rgb2hsl(RGB)
         local CMYK = convert.rgb2cmyk(RGB)
+        -- FIXME: unpack values when nil handling
         local R, G, B = unpack(RGB)
         local H, S, L = unpack(HSL)
-        local C, M, Y, K = unpack(CMYK)
+        local C, M, Y, K = table.unpack(CMYK)
         return { R, G, B, H, S, L, C, M, Y, K }
       end
 
