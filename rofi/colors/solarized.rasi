@@ -1,16 +1,11 @@
-/**
- *
- * Author : Aditya Shakya (adi1090x)
- * Github : @adi1090x
- *
- * Colors
- **/
+/* ./rofi/colors/solarized.rasi
+ */
 
 * {
-    background:     #002B36FF;
-    background-alt: #073642FF;
-    foreground:     #EEE8D5FF;
-    selected:       #268BD2FF;
-    active:         #CB4B16FF;
-    urgent:         #DC322FFF;
+    background:     #002B36;
+    background-alt: #073642;
+    foreground:     #EEE8D5;
+    selected:       #268BD2;
+    active:         #CB4B16;
+    urgent:         #DC322F;
 }

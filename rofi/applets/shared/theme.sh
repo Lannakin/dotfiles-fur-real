@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 ## Current Theme
 
-export type="${HOME}/.config/rofi/applets/type-2"
-export style='style-1.rasi'
+export ROFI_TYPE="${XDG_CONFIG_HOME}"/rofi/applets/type-2
+export ROFI_STYLE="style-1.rasi"

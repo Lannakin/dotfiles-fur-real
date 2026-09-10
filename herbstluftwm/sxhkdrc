@@ -1,13 +1,15 @@
 #  sxhkdrc
 #
 # valid modifier names:
-#super, hyper, meta, alt, control, ctrl, shift, mode_switch, lock, mod1, mod2, mod3, mod4, mod5, any.
+# super, hyper, meta, alt, control, ctrl, shift,
+# mode_switch, lock, mod1, mod2, mod3, mod4, mod5, any.
 #
 # --| SXHKD CTL |--------------------------------------------------------------
 
 # make sxhkd reload its configuration files:
 # just kidding, this seems not to work with herbstluftwm running
-super + Escape
+# or maybe there's a fat delay
+ctrl + Escape
     pkill -USR1 -x sxhkd; notify-send 'sxhkd' 'Reloaded config'
 
 # --| AUDIO |------------------------------------------------------------------
@@ -29,8 +31,12 @@ XF86AudioNext
 
 # --| APPLICATIONS |-----------------------------------------------------------
 
+# screenshot selector
+alt + shift + s
+    "${XDG_CONFIG_HOME}/herbstluftwm/scripts/screenshot.sh"
+
 # window selector
-super + m
+super + w
     rofi -show windowcd -modi windowcd,window
 
 # terminal emulator
@@ -39,10 +45,12 @@ ctrl + t
 
 # program launcher; must specify as _L b/c support
 Super_L; @Super_L
-   "${XDG_CONFIG_HOME}/rofi/launchers/type-1/launcher.sh"
+   "${XDG_CONFIG_HOME}"/rofi/launchers/type-1/launcher.sh
 
+super + a
+    "${XDG_CONFIG_HOME}"/rofi/applets/bin/apps.sh"
 super + shift + s
-   "${XDG_CONFIG_HOME}/herbstluftwm/scripts/screenshot.sh"
+   "${XDG_CONFIG_HOME}"/herbstluftwm/scripts/screenshot.sh
 
 # screensaver
 ctrl + shift + r
@@ -50,10 +58,10 @@ ctrl + shift + r
 
 # --| HERBSTLUFTWM |-----------------------------------------------------------
 
-# toggle dual head on focused monitor
-alt + shift + o
-    "${XDG_CONFIG_HOME}/herbstluftwm/scripts/toggledualhead.sh"
-
 # launch neovim in kitty
 F12
     kitty -e nvim
+
+# launch layouts + startup programs
+alt + F12
+    "${XDG_CONFIG_HOME}/herbstluftwm/scripts/herbstluftwm-after.sh"

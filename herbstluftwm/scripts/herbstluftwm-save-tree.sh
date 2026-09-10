@@ -20,10 +20,10 @@
 
 # --| GLOBAL VARIABLES |-------------------------------------------------------
 # source container for more global variables
-source "${XDG_CONFIG_HOME}/herbstluftwm/herbstluftwm-env"
+source "${XDG_CONFIG_HOME}"/herbstluftwm/herbstluftwm-env
 
 # Set the directory variable
-DIR="${HOME}/.config/herbstluftwm/layouts"
+DIR="${XDG_CONFIG_HOME}"/.config/herbstluftwm/layouts
 
 # --| LOGGING VARIABLES |------------------------------------------------------
 # warning: lazy AF

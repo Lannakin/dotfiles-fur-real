@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-#
-#via https://wiki.archlinux.org/title/Dunst#Using_dunstify_as_volume/brightness_level_indicator
+# ./herbstluftwm/polybar/scripts/dunst-volume-display.sh
+# via https://wiki.archlinux.org/title/Dunst#Using_dunstify_as_volume/brightness_level_indicator
 # changeVolume
 
 # Arbitrary but unique message tag

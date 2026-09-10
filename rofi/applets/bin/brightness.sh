@@ -6,8 +6,8 @@
 ## Applets : Brightness
 
 # Import Current Theme
-source "${HOME}/.config/rofi/applets/shared/theme.bash"
-theme="${type}"/"${style}"
+source "${XDG_CONFIG_HOME}"/rofi/applets/shared/theme.sh
+ROFI_THEME="${ROFI_TYPE}/${ROFI_STYLE}"
 
 # Brightness Info
 backlight="$(printf "%.0f\n" "$(light -G)")"
@@ -27,19 +27,19 @@ fi
 prompt="${backlight}%"
 mesg="Device: ${card}, Level: $level"
 
-if [[ "$theme" == *'type-1'* ]]; then
+if [[ "${ROFI_THEME}" == *'type-1'* ]]; then
   list_col='1'
   list_row='4'
   win_width='400px'
-elif [[ "$theme" == *'type-3'* ]]; then
+elif [[ "${ROFI_THEME}" == *'type-3'* ]]; then
   list_col='1'
   list_row='4'
   win_width='120px'
-elif [[ "$theme" == *'type-5'* ]]; then
+elif [[ "${ROFI_THEME}" == *'type-5'* ]]; then
   list_col='1'
   list_row='4'
   win_width='425px'
-elif [[ ( "$theme" == *'type-2'* ) || ( "$theme" == *'type-4'* ) ]]; then
+elif [[ ( "${ROFI_THEME}" == *'type-2'* ) || ( "${ROFI_THEME}" == *'type-4'* ) ]]; then
   list_col='4'
   list_row='1'
   win_width='550px'

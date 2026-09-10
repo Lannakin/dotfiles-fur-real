@@ -54,8 +54,9 @@
 
 # --| GLOBAL VARIABLES |-------------------------------------------------------
 # source env variables for herbstluftwm-env
-# source "${HOME}/.xprofile"
-# source "${XDG_CONFIG_HOME}/herbstluftwm/herbstluftwm-env"
+source "${HOME}"/.xprofile
+source "${HOME}"/.bashrc
+source "${XDG_CONFIG_HOME}/herbstluftwm/herbstluftwm-env"
 
 # define containing directory for this theme
 DIR="${XDG_CONFIG_HOME}/herbstluftwm/polybar/"
@@ -74,12 +75,13 @@ echo "${TIMESTAMP} herbstluftwm-polybar|debug: \$HOME is $HOME"
 # polybar-msg cmd quit
 # Terminate already running bar instances
 killall -q polybar  # note: check ipc
-echo "${TIMESTAMP} herbstluftwm-polybar|info: SIGKILL ALL sent."
 
 #wait for all POLYBAR processes to terminate
 while pgrep -u "${UID}" -x polybar >/dev/null;
   do sleep 1;
 done
+
+echo "${TIMESTAMP} herbstluftwm-polybar|info: SIGKILL ALL sent."
 
 # --| launch the bars... |-----------------------------------------------------
 echo "${TIMESTAMP} herbstluftwm-polybar|info: initiating..."

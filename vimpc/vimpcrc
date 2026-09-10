@@ -1,5 +1,7 @@
 echo Parsing config file
 
+" Set the colors to use for components
+" valid:
 " hi <prop> <bg> <fg>
 hi tab default yellow
 hi status default green
@@ -10,12 +12,13 @@ hi error default red
 hi progress default cyan
 hi dir default default
 
-" default tab
+" Set default window tab to launch to
 set window lists
 
 " Set the windows to show at startup
-" valid: browse console directory help library lists outputs playlist songinfo windows
-set windows help,library,lists,playlist
+" valid:
+" browse console directory help library lists outputs playlist songinfo
+set windows help,library,lists,playlist,songinfo
 
 set stoponquit
 

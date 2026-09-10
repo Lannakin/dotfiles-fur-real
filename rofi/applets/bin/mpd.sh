@@ -6,8 +6,8 @@
 ## Applets : MPD (music)
 
 # Import Current Theme
-source "$HOME"/.config/rofi/applets/shared/theme.bash
-theme="$type/$style"
+source "${XDG_CONFIG_HOME}"/rofi/applets/shared/theme.bash
+ROFI_THEME="${ROFI_TYPE}/${ROFI_STYLE}"
 
 # Theme Elements
 status="`mpc status`"
@@ -19,10 +19,10 @@ else
   mesg="`mpc -f "%title%" current` :: `mpc status | grep "#" | awk '{print $3}'`"
 fi
 
-if [[ ( "$theme" == *'type-1'* ) || ( "$theme" == *'type-3'* ) || ( "$theme" == *'type-5'* ) ]]; then
+if [[ ( "${ROFI_THEME}" == *'type-1'* ) || ( "${ROFI_THEME}" == *'type-3'* ) || ( "${ROFI_THEME}" == *'type-5'* ) ]]; then
   list_col='1'
   list_row='6'
-elif [[ ( "$theme" == *'type-2'* ) || ( "$theme" == *'type-4'* ) ]]; then
+elif [[ ( "${ROFI_THEME}" == *'type-2'* ) || ( "${ROFI_THEME}" == *'type-4'* ) ]]; then
   list_col='6'
   list_row='1'
 fi

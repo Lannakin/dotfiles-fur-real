@@ -5,33 +5,36 @@
 #
 # SCRIPT NAME: autostart
 # AUTHOR: Literally Some Cat        <https://github.com/Lannakin>
-# VERSION DATE: 2025-12-01
-# VERSION: X.Y.Z            <https://semver.org/>
+# VERSION DATE: 2026-09-10
+# VERSION: 2.2.1                    <https://semver.org/>
 # ORIGINAL AUTHOR: Thorsten Wißmann <https://github.com/herbstluftwm>
 # LICENSE: Simplified BSD License
-#          <https://github.com/herbstluftwm/herbstluftwm?tab=License-1-ov-file>
+#          <https://github.com/herbstluftwm/herbstluftwm?tab=License0-ov-file>
 #
 # DESCRIPTION:
 # Herbstluftwm runs this script when launching initially as well as upon being
 # commanded to reload.
 #
-# NOTE:
-#   - Any important considerations or dependencies.
-#   - Known issues or limitations.
-#
 # REVISION HISTORY:
-# prior edits at:
+# full edits at:
 # <https://github.com/herbstluftwm/herbstluftwm/commits/master/share/autostart>
 #
-# YYYY-MM-DD  VERSION   AUTHOR              DESCRIPTION OF CHANGES
-# yyyy-mm-dd  0.0.1     Literally Some Cat  PATCH version description.
-# yyyy-mm-dd  0.1.0     Literally Some Cat  MINOR version description.
-# yyyy-mm-dd  1.0.0     Literally Some Cat  MAJOR version description.
+# VERSION:  MM. [MAJOR].[MINOR].[PATCH]
 #
+# YYYY-MM-DD  VERSION   AUTHOR              DESCRIPTION OF CHANGES
 # 2025-09-14  0.0.0     Literally Some Cat  Initial creation
 # 2025-09-15  0.1.0     Literally Some Cat  Edited logging, linted,
 # 2025-12-01  1.1.0     Literally Some Cat  Added header, major logging format
 #                                           edits
+# 2026-08-21  1.2.0     Literally Some Cat  Corrected paths to use XDG envvars.
+# 2026-08-21  1.2.1     Literally Some Cat  Corrected debug output.
+# 2026-09-01  2.0.0     Literally Some Cat  Moved app autostart to functions.
+# 2026-09-02  2.1.0     Literally Some Cat  Moved picom to systemd kinda.
+# 2026-09-09  2.2.0     Literally Some Cat  Added tags for certain apps.
+# 2026-09-10  2.2.1     Literally Some Cat  Reverted many changes from 2.0.0
+#                                           due to inconsistent detection of
+#                                           lockfile.  Reverted weird file-wide
+#                                           increment of many numbers by 1.
 #
 ###############################################################################
 #                                                                             #
@@ -51,14 +54,22 @@
 #        |                     GLOBALS SECTION                      |
 #        +----------------------------------------------------------+
 
+# --| GLOBAL VARIABLES |-------------------------------------------------------
+# HLWM_DIR="$(dirname -- "$1")"
+# shellcheck disable=SC2154
+HLWM_DIR="${XDG_CONFIG_HOME}/herbstluftwm"
+HLWM_SCRIPTS_DIR="${XDG_CONFIG_HOME}/herbstluftwm/scripts"
+# specify which desktop environment is in use
+# shellcheck disable=SC2035
+XDG_SESSION_DESKTOP="herbstluftwm"
+
 # --| SOURCE |-----------------------------------------------------------------
 # source container for more global variables
 source "${HOME}/scripts/get-script-dir"
-source "${XDG_CONFIG_HOME}/herbstluftwm/herbstluftwm-env"
-
-# --| GLOBAL VARIABLES |-------------------------------------------------------
-HLWM_AUTOSTART_DIR="$(dirname -- "$0")"
-# HWLM_DIR=$(get_script_dir)
+source "${HOME}/.bashrc"
+source "${HOME}/.xprofile"
+source "${HLWM_DIR}"/herbstluftwm-env
+source "${XDG_CONFIG_HOME}"/lsc-environment/bash-run-commands
 
 # --| LOGGING VARIABLES |------------------------------------------------------
 # warning: lazy AF
@@ -72,10 +83,9 @@ L2="${TIMESTAMP} ${SCRIPTNAME}|info:"
 # L0="${TIMESTAMP} ${SCRIPTNAME}|error:"
 
 # send the entirety of autostart's execution to the log
-exec 1>"${HERBSTLUFTWMLOG}" 3>&1
+exec 1>"${HERBSTLUFTWMLOG}" 2>&1
 echo "---  herbstluftwm: running autostart script ---"
 echo "${L2} LOGFILE is ${HERBSTLUFTWMLOG}"
-echo "${L3} XDG_CONFIG_HOME is $XDG_CONFIG_HOME"
 
 # print sourced variables
 echo "${L3} HERBSTLUFTWMLOG is ${HERBSTLUFTWMLOG}"
@@ -84,8 +94,7 @@ echo "${L3} STATUSBARLOG is ${STATUSBARLOG}"
 echo "${L3} XRANDRLOG is ${XRANDRLOG}"
 echo "${L3} KEYBINDMANAGERLOG is ${KEYBINDMANAGERLOG}"
 echo "${L3} STATUSBARHEIGHT is ${STATUSBARHEIGHT}"
-echo "${L3} HLWM_AUTOSTART_DIR is ${HLWM_AUTOSTART_DIR}"
-# echo "${L3} SOURCE_DIR IS ${SOURCE_DIR}"
+# echo "${L3} HLWM_AUTOSTART_DIR is ${HLWM_AUTOSTART_DIR}"
 
 #        +----------------------------------------------------------+
 #        |                     STARTUP SECTION                      |
@@ -96,6 +105,8 @@ hc() {
 }
 
 hc emit_hook reload
+export XDG_SESSION_DESKTOP=herbstluftwm
+# hc setenv XDG_SESSION_DESKTOP=herbstluftwm
 
 #        +----------------------------------------------------------+
 #        |                     KEYBINDS SECTION                     |
@@ -124,8 +135,8 @@ Mod=Mod1 # Use alt as the main modifier
 # --| MOUSE BINDS |------------------------------------------------------------
 hc mouseunbind --all # remove all existing keybindings
 
-hc mousebind "${Mod}"-Button1 move   # use mouse to move a client or frame
-hc mousebind "${Mod}"-Button3 resize # resize frame as well
+hc mousebind "${Mod}"-Shift-Button1 move  # use mouse to move a client or frame
+hc mousebind "${Mod}"-Button3 resize      # resize frame as well
 
 # --| WINDOW MANAGEMENT |-------------------------------------------------------
 hc keybind "${Mod}"-Shift-q quit   # quit hlswm
@@ -168,16 +179,16 @@ hc keybind "${Mod}"-Control-Down resize down +"${resizestep}"
 hc keybind "${Mod}"-Control-Right resize right +"${resizestep}"
 
 # --| LAYOUT |-----------------------------------------------------------------
-hc keybind "${Mod}"-f floating toggle   # per focused FRAME
+# hc keybind "${Mod}"-f floating toggle   # per focused FRAME
 hc keybind "${Mod}"-l fullscreen toggle # per focused
 hc keybind "${Mod}"-t pseudotile toggle # per focused
 hc keybind "${Mod}"-r remove            # removes frame, merges contents with neighboring; per focused# per focused CLIENT
 
-hc keybind "${Mod}"-Shift-f set_attr clients.focus.floating toggle  # toggle floating on focused CLIENT
+hc keybind "${Mod}"-f set_attr clients.focus.floating toggle        # toggle floating on focused CLIENT
 hc keybind "${Mod}"-Shift-d set_attr clients.focus.decorated toggle # toggle decorations on focused CLIENT
 
 # toggle between grid and max tab layout
-hc keybind "${Mod}"-Ctrl-m spawn "${XDG_CONFIG_HOME}/herbstluftwm/scripts/maximize.sh"
+hc keybind "${Mod}"-Ctrl-m spawn "${HLWM_SCRIPTS_DIR}"/maximize.sh
 
 # --| MINIMIZING |-------------------------------------------------------------
 hc keybind "${Mod}"-Shift-m set_attr clients.focus.minimized true # minimizes focused window
@@ -188,7 +199,7 @@ hc keybind "${Mod}"-Shift-f set_attr clients.focus.floating toggle  # toggle flo
 hc keybind "${Mod}"-Shift-d set_attr clients.focus.decorated toggle # toggle decorations on focused CLIENT
 
 # toggle between grid and max tab layout
-hc keybind "${Mod}"-Ctrl-m spawn "${XDG_CONFIG_HOME}/herbstluftwm/scripts/maximize.sh"
+hc keybind "${Mod}"-Ctrl-Shift-m spawn "${HLWM_SCRIPTS_DIR}"/maximize.sh
 
 # --| MINIMIZING |-------------------------------------------------------------
 hc keybind "${Mod}"-Shift-m set_attr clients.focus.minimized true # minimizes focused window
@@ -205,18 +216,17 @@ hc keybind "${Mod}"-Ctrl-Shift-m substitute FOCUS "tags.focus.name" \
 echo "${L3} set layout keybinds"
 
 # --| LAYOUT SAVE & RECALL |---------------------------------------------------
-# hc keybind "${Mod}"-Control-k        spawn $HOME/.config/herbstluftwm/scripts/save-layout.sh
-# hc keybind "${Mod}"-Control-comma    spawn $HOME/.config/herbstluftwm/scripts/recall-layout.sh
+# hc keybind "${Mod}"-Control-k        spawn "${HLWM_SCRIPTS_DIR}"/save-layout.sh
+# hc keybind "${Mod}"-Control-comma    spawn "${HLWM_SCRIPTS_DIR}"/recall-layout.sh
 
-###   LAYOUT SAVE & RECALL VIA DMENU   ###
-# NOTE: BAR APPEARS AT TOP OF SCREEN
-hc keybind "${Mod}"-Control-k spawn "${XDG_CONFIG_HOME}/herbstluftwm/scripts/herbstluftwm-save-tree.sh" save
-hc keybind "${Mod}"-Control-comma spawn "${XDG_CONFIG_HOME}/herbstluftwm/scripts/herbstluftwm-save-tree.sh" load
+# --| LAYOUT SAVE & RECALL VIA DMENU |-----------------------------------------
+hc keybind "${Mod}"-Control-k spawn "${HLWM_SCRIPTS_DIR}"/herbstluftwm-save-tree.sh save
+hc keybind "${Mod}"-Control-comma spawn "${HLWM_SCRIPTS_DIR}"/herbstluftwm-save-tree.sh load
 echo "${L3} set layout save & recall via dmenu keybinds"
 
 # --| SCREENSHOT SELECTION |---------------------------------------------------
-hc keybind "${Mod}"-Shift-s spawn "${XDG_CONFIG_HOME}/herbstluftwm/scripts/screenshot.sh"
-echo "${L3} set screenshot selection keybind"
+# hc keybind "${Mod}"-Shift-s spawn "${HLWM_SCRIPTS_DIR}"/screenshot.sh
+# echo "${L3} set screenshot selection keybind"
 
 #        +----------------------------------------------------------+
 #        |                       TAGS SECTION                       |
@@ -225,7 +235,7 @@ echo "${L3} set screenshot selection keybind"
 # --| monitor-agnostic tag lists |---------------------------------------------
 
 tag_names=({0..3})
-tag_keys=({1..3} 0)
+tag_keys=({1..4} 0)
 
 hc silent rename default "${tag_names[0]}" || true
 for i in "${!tag_names[@]}"; do
@@ -243,81 +253,27 @@ hc keybind "${Mod}"-period use_index +1 --skip-visible
 hc keybind "${Mod}"-comma use_index -1 --skip-visible
 echo "${L3} set cycle tags keybinds"
 
-# --| per-monitor tag lists |--------------------------------------------------
-
-# # NOTE: consider naming these tags something cooler like "HMI-1" or "VUI-1" etc
-
-# # define tag names
-# monitor1_tags=(1) # tag names for monitor 1
-# monitor2_tags=(2) # tag names for monitor 2
-# monitor3_tags=(3) # tag names for monitor 3
-# auxilliary_tags=({4..8}) # tag names for all other monitors
+# # --| per-programm tags |------------------------------------------------------
+# # these are intended to be used to set per-tag rules in the RULES SECTION
 #
-# # define tag keybinds
-# tag_keys=({1..9} 0) # possible keys for use for tags
+# # tag for vimpc
+# hc add tag_vimpc
 #
-# # rename "default" tag to "monitor1_tags"; || return 1 if prior returns non-zero value
-# hc rename default "${monitor1_tags[0]}" || true
-# # for each tag pointed to by each monitor variable defined by above [@=all arguments]
-# for tag in "${monitor1_tags[@]}" "${monitor2_tags[@]}" "${monitor3_tags[@]}" "${auxilliary_tags[@]}"; do
-#   hc try silent add "${tag}"
-# done
+# # kicad
+# hc add tag_kicad
 #
-# for i in "${!tag_keys[@]}"; do
-#   key="${tag_keys[${i}]}"
-#   # the keybinding works as follows: the or executes the commands separated by
-#   # CASE and stops executing them after the first of those succeeds.
-#   # the first command is: check that we are on monitor 3 and can switch to tag "${monitor1_tags[$i]}"
-#   # if only one of these two steps fail, try the second one (and so one).
-#   # The setup for two monitors is as follows:
-#   hc keybind "${Mod}-${key}" \
-#     or \
-#     CASE and . compare monitors.focus.index = 0 . use "${monitor1_tags[${i}]}" \
-#     CASE and . compare monitors.focus.index = 1 . use "${monitor2_tags[${i}]}" \
-#     CASE and . compare monitors.focus.index = 2 . use "${monitor3_tags[${i}]}" \
-#     CASE use "${auxilliary_tags[${i}]}"
-#   hc keybind "${Mod}-Shift-${key}" \
-#     or \
-#     CASE and . compare monitors.focus.index = 0 . move "${monitor1_tags[${i}]}" \
-#     CASE and . compare monitors.focus.index = 1 . move "${monitor2_tags[${i}]}" \
-#     CASE and . compare monitors.focus.index = 2 . move "${monitor3_tags[${i}]}" \
-#     CASE move "${auxilliary_tags[${i}]}"
-# done
+# # vesktop
+# hc add tag_vesktop
 #
-# # cycle through tags: define cycle
-# # add additional information in order to cycle only through a monitor's tags
-# # and not through all tags
-# define-tag-cycle() {
-#   local n=$#
-#   local tags=("$@")
-#   for i in "${!tags[@]}"; do
-#     local t="${tags[${i}]}"
-#     hc chain , new_attr string tags.by-name."${t}".my_previous_tag \
-#       , set_attr tags.by-name."${t}".my_previous_tag "${tags[$(((i - 1 + n) % n))]}" \
-#       , new_attr string tags.by-name."${t}".my_next_tag \
-#       , set_attr tags.by-name."${t}".my_next_tag "${tags[$(((i + 1) % n))]}"
-#   done
-# }
+# # galculator
+# hc add tag_galculator
 #
-# define-tag-cycle "${monitor1_tags[@]}"
-# define-tag-cycle "${monitor2_tags[@]}"
-# define-tag-cycle "${monitor3_tags[@]}"
-# define-tag-cycle "${auxilliary_tags[@]}"
-#
-# # cycle through tags: assign keybinds
-# # check whether the current tag as a custom "next tag" configured
-# # if yes, jump to that one, otherwise fall back to ordinary use_index +1
-# hc keybind "${Mod}"-period or , substitute NEXT tags.focus.my_next_tag use NEXT \
-#   , use_index +1 --skip-visible
-# hc keybind "${Mod}"-comma or , substitute PREV tags.focus.my_previous_tag use PREV \
-#   , use_index +1 --skip-visible
-
 #        +----------------------------------------------------------+
 #        |                      THEME SECTION                       |
 #        +----------------------------------------------------------+
 
-# #002B36 #586E75 #839496 #EEE8D5 #B58900 #DC322F #6C71C4 #2AA198 #B8D8D6
-# #073642 #657B83 #93A1A1 #FDF6E3 #CB4B16 #D33682 #268bC2 #859900 #C5E7E5
+# #002B36 #586E75 #839496 #EEE8D5 #B58900 #DC322F #6C71C4 #2AA198
+# #073642 #657B83 #93A1A1 #FDF6E3 #CB4B16 #D33682 #268bC2 #859900
 
 hc set verbose false
 hc set wmname herbstluftwm
@@ -393,6 +349,14 @@ hc rule fixedsize floating=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
+# TODO: set per-tag rules
+
+# rule [[--]FLAG|[--]LABEL|[--]CONDITION|[--]CONSEQUENCE …]
+#
+# hc rule title~'[Gg]alculator' tag=tag_galculator
+# vimpc is like kitty - vimpc or something
+#
+
 hc rule title='Font Forge' floating=on
 hc rule title='Font Information.*' floating=on
 hc rule title='Spectacle' floating=on
@@ -406,14 +370,6 @@ hc rule class=Keybindings floating=on
 hc rule class=Music floating=on
 hc rule class=Sysinfo floating=on
 hc rule class~'[Gg]pick' floating=on
-
-# hc rule instance=sys tag=1
-# hc rule instance=work tag=2
-# hc rule instance=com tag=3 floating=on
-# hc rule instance=tj tag=3
-# hc rule instance=komala tag=5
-# hc rule instance=home tag=6
-# hc rule instance=tj-laptop tag=6
 
 hc set tree_style '╾│ ├└╼─┐'
 
@@ -450,37 +406,75 @@ hc set swap_monitors_to_get_tag 0
 #        |              EXTERNAL APP AUTOSTART SECTION              |
 #        +----------------------------------------------------------+
 
-# "${XDG_CONFIG_HOME}/herbstluftwm/scripts/herbstluftwm-start.sh" --sxhkd &
-# echo "${L2} starting sxhkd using herbstluftwm-start.sh --sxhkd"
-# murder SXHKD processes
-pkill -x sxhkd
-# wait for all SXHKD processes to terminate
-while pgrep -u "${UID}" -x sxhkd >/dev/null; do
-  sleep 1
-done
-echo "${L2} sxhkd initiating..."
-sleep 1
-#start SXHKD config...
-sxhkd -c "${HOME}/.config/herbstluftwm/sxhkdrc" &
-dunstify "sxhkd" "reloading config ~/.config/herbstluftwm/sxhkdrc" &
-echo "${L2} starting sxhkd using ${HOME}/.config/herbstluftwm/sxhkdrc"
+systemctl --user start herbstluftwm-session.target
 
-dunstctl reload "${XDG_CONFIG_HOME}/herbstluftwm/dunstrc" &>"${NOTIFICATIONDAEMONLOG}" &
-echo "${L2} reloading dunst using ${XDG_CONFIG_HOME}/herbstluftwm/dunstrc"
+# --| CLEAN HOME |-------------------------------------------------------------
+# echo "${L3} PATH is $PATH"
+"clean-up-home-dir" &
+echo "${L2} running clean-up-home-dir; fuck you, miscreants"
 
-"${HOME}/.config/herbstluftwm/scripts/herbstluftwm-start.sh" --polybar &>"${STATUSBARLOG}" &
+# variable for flag file to mark herbstluftwm as initiated this session
+INIT_FLAG_FILE="/tmp/window-manager-init.lck"
+HLWM_INITIALIZED=0
+
+# echo "${L3} HLWM_INITIALIZED=$HLWM_INITIALIZED"
+
+if [[ -e "${INIT_FLAG_FILE}" ]]; then
+  HLWM_INITIALIZED=1
+  echo "${L2} initialization flag file located at ${INIT_FLAG_FILE}."
+else
+  HLWM_INITIALIZED=0
+  echo "${L2} no initialization flag file located at ${INIT_FLAG_FILE}."
+fi
+
+# --| DISPLAY CONFIGURATION |--------------------------------------------------
+echo "${L2} setting up monitor layouts"
+xrandr --dpi 109.68/DisplayPort-0 --dpi 122.38/DisplayPort-1 --dpi 96/DisplayPort-2 >"${XRANDRLOG}" &
+xrandr --output DisplayPort-0 --mode 2560x1440 --rate 75 &
+xrandr --output DisplayPort-1 --mode 3440x1440 --rate 144 --primary &
+xrandr --output DisplayPort-2 --mode 2560x1440 --rate 75 &
+
+# window layouts
+if [[ $HLWM_INITIALIZED = 0 ]]; then
+  "${HLWM_SCRIPTS_DIR}"/herbstluftwm-after.sh
+fi
+# --| DESKTOP ENVIRONMENT |----------------------------------------------------
+"${HLWM_SCRIPTS_DIR}"/herbstluftwm-start.sh --polybar &>"${STATUSBARLOG}" &
 echo "${L2} starting polybar using herbstluftwm-start.sh --polybar"
 
-xwallpaper --zoom "${HOME}/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png" &
-echo "${L2} setting xwallpaper  --zoom \"${HOME}/.local/share/wallpapers/LA-wallpapers/1_d10_p2_average.png\""
+# compositor
+# picom &
+systemctl --user start picom
+echo "${L2} starting picom compositor"
 
-xrandr --dpi 122.38/DisplayPort-0 --dpi 109.68/DisplayPort-1 --dpi 96/DisplayPort-2 >"${XRANDRLOG}" &
-
-"${XDG_CONFIG_HOME}/herbstluftwm/scripts/herbstluftwm-start.sh" --conky
+# status display
+"${HLWM_SCRIPTS_DIR}"/herbstluftwm-start.sh --conky &
 echo "${L2} starting conky using herbstluftwm-start.sh --conky"
 
-# need to prevent this from going into the herbstluftwm log
-input-remapper-control --config-dir "${XDG_CONFIG_HOME}"/input-remapper-2/ --command autoload &>/dev/null
+# notification daemon
+dunstctl reload "${XDG_CONFIG_HOME}"/herbstluftwm/dunstrc &>"${NOTIFICATIONDAEMONLOG}" &
+echo "${L2} starting dunst using ${XDG_CONFIG_HOME}/herbstluftwm/dunstrc"
+
+# xscreensaver
+xscreensaver --no-splash --log /dev/null &
+# /usr/lib/polkit-gnome/polkit-gnome-authentication-agent0 &
+echo "${L2} starting xscreensaver"
+
+# --| INTERFACE DESIGN CONTROL |-----------------------------------------------
+"${HLWM_SCRIPTS_DIR}"/herbstluftwm-start.sh --sxhkd &
+echo "${L2} starting sxhkd using herbstluftwm-start.sh --sxhkd"
+
+input-remapper-control --config-dir "${XDG_CONFIG_HOME}"/input-remapper-1/ --command autoload &>/dev/null
 echo "${L2} setting input-remapper-control --config-dir ${XDG_CONFIG_HOME}/input-remapper-2/ --command autoload"
+
+# sleep 2
+
+# create flag file to make herbstluftwm as having initiated
+if [[ $HLWM_INITIALIZED = 0 ]]; then
+  echo "${L2} initialization flag file detected at $INIT_FLAG_FILE"
+else
+  touch "${INIT_FLAG_FILE}"
+  echo "${L2} initialization flag file created at $INIT_FLAG_FILE"
+fi
 
 echo "---  herbstluftwm: end of autostart file ---"

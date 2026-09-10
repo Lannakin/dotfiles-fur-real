@@ -5,26 +5,24 @@
 # source "${XDG_CONFIG_HOME}/herbstluftwm/herbstluftwm-env"
 
 # --| source xprofile |--------------------------------------------------------
-source "${HOME}/.xprofile"
+source "${HOME}"/.xprofile
+source "${HOME}"/.bashrc
 
 # --| LOG FILES |--------------------------------------------------------------
-HERBSTLUFTWMENVLOG="${HOME}/LOGS/desktop-env/herbstluftwm-env.log"
+# shellcheck disable=SC2154 
+LOG_DESKTOPENV_DIR="${HOME}"/logs/desktop-env
+HERBSTLUFTWMENVLOG="${LOG_DESKTOPENV_DIR}"/herbstluftwm-env.log
 
-export CONKYLOG="${HOME}/LOGS/desktop-env/herbstluftwm-conky.log"
-export HERBSTLUFTWMLOG="${HOME}/LOGS/desktop-env/herbstluftwm.log"
-export KEYBINDMANAGERLOG="${HOME}/LOGS/desktop-env/herbstluftwm-sxhkd.log"
-export NOTIFICATIONDAEMONLOG="${HOME}/LOGS/desktop-env/herbstluftwm-dunst.log"
-export STATUSBARLOG="${HOME}/LOGS/desktop-env/herbstluftwm-polybar.log"
-export XRANDRLOG="${HOME}/LOGS/desktop-env/herbstluftwm-xrandr.log"
+export CONKYLOG="${LOG_DESKTOPENV_DIR}"/herbstluftwm-conky.log
+export HERBSTLUFTWMLOG="${LOG_DESKTOPENV_DIR}"/herbstluftwm.log
+export HERBSTCLIENTLOG="${LOG_DESKTOPENV_DIR}"/herbstclient.log
+export KEYBINDMANAGERLOG="${LOG_DESKTOPENV_DIR}"/herbstluftwm-sxhkd.log
+export NOTIFICATIONDAEMONLOG="${LOG_DESKTOPENV_DIR}"/herbstluftwm-dunst.log
+export STATUSBARLOG="${LOG_DESKTOPENV_DIR}"/herbstluftwm-polybar.log
+export XRANDRLOG="${LOG_DESKTOPENV_DIR}"/herbstluftwm-xrandr.log
 
 # --| GLOBAL VARIABLES |-------------------------------------------------------
 export STATUSBARHEIGHT=20
-
-# split to avoid masking return values
-SCREENSHOTDATE="$(date +"%Y-%m-%d_%Hh%Mm%Ss")"
-# SCREENSHOTDIR="${XDG_PICTURES_DIR}"/herbstluftwm_screenshots/screenshot
-# export SCREENSHOTOUTPUT="${SCREENSHOTDIR}""${SCREENSHOTDATE}".png
-export SCREENSHOTOUTPUT="${HOME}/pictures/herbstluftwm_screenshots/screenshot_""${SCREENSHOTDATE}.png"
 
 # --| LOGGING VARIABLES |------------------------------------------------------
 # warning: lazy AF
@@ -41,8 +39,9 @@ L3="${TIMESTAMP} ${SCRIPTNAME}|debug:"
 touch "${HERBSTLUFTWMENVLOG}"
 
 {
-  # echo "${L3} HOME is $HOME."
-  # echo "${L3} XDG_CONFIG_HOME is $XDG_CONFIG_HOME."
+  echo "${L3} HOME is $HOME."
+  # shellcheck disable=SC2154
+  echo "${L3} XDG_CONFIG_HOME is $XDG_CONFIG_HOME."
   echo "${L3} HERBSTLUFTWMENVLOG is $HERBSTLUFTWMENVLOG."
   echo "${L3} LOGFILE path is $LOGFILE."
 
@@ -60,6 +59,7 @@ touch "${HERBSTLUFTWMENVLOG}"
 
 # --| CREATE LOG FILES |-------------------------------------------------------
 touch "${HERBSTLUFTWMLOG}"
+touch "${HERBSTCLIENTLOG}"
 touch "${NOTIFICATIONDAEMONLOG}"
 touch "${STATUSBARLOG}"
 touch "${XRANDRLOG}"

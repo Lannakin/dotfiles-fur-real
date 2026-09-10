@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# $HOME/.config/herbstluftwm/conky/solarized-asciibars.sh
+# ./herbstluftwm/conky/solarized-asciibars.sh
 #
 # ASCII Bar Generator for Conky
 # Creates │ character progress bars for system monitoring

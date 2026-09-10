@@ -4,18 +4,18 @@
 # |          HERBSTLUFTWM APPLICATIONS START SCRIPT          |
 # +----------------------------------------------------------+
 
-source "${HOME}/.xprofile"
-source "${XDG_CONFIG_HOME}/herbstluftwm/herbstluftwm-env"
+source "${HOME}"/.xprofile
+source "${XDG_CONFIG_HOME}"/herbstluftwm/herbstluftwm-env
 
 # --| GLOBAL VARIABLES |-------------------------------------------------------
 ## specify shortcut variables in a more conveniently compact location ##
-HERBSTLUFTWM="${XDG_CONFIG_HOME}/herbstluftwm" # base directory for the Window Manager
-HERBSTLUFTWM_POLYBAR="${HERBSTLUFTWM}/polybar/herbstluftwm-polybar.sh"
-HERBSTLUFTWM_CONKY="${HERBSTLUFTWM}/conky/herbstluftwm-conky.sh"
-# KEYBINDMANAGER="${HOME}/LOGS/desktop-env/herbstluftwm-sxhkd.log"
+HERBSTLUFTWM="${XDG_CONFIG_HOME}"/herbstluftwm # base directory for the Window Manager
+HERBSTLUFTWM_POLYBAR="${HERBSTLUFTWM}"/polybar/herbstluftwm-polybar.sh
+HERBSTLUFTWM_CONKY="${HERBSTLUFTWM}"/conky/herbstluftwm-conky.sh
+# KEYBINDMANAGER="${HOME}"/LOGS/desktop-env/herbstluftwm-sxhkd.log
 
 ## define path for this script to log to ##
-LOGFILE="${HOME}/LOGS/desktop-env/herbstluftwm-start.log"
+LOGFILE="${HOME}"/logs/desktop-env/herbstluftwm-start.log
 
 # --| LOGGING VARIABLES |------------------------------------------------------
 # warning: lazy AF
@@ -31,10 +31,10 @@ L0="${TIMESTAMP} ${SCRIPTNAME}|error:"
 # log all output
 exec >> "${LOGFILE}" >&2
 
-echo "${L3} LOGFILE path is ${LOGFILE}."
-echo "${L3} HOME is $HOME."
-echo "${L3} XDG_CONFIG_HOME is $XDG_CONFIG_HOME."
-echo "${L3} HERBSTLUFTWM is $HERBSTLUFTWM."
+# echo "${L3} LOGFILE path is ${LOGFILE}."
+# echo "${L3} HOME is ${HOME}."
+# echo "${L3} XDG_CONFIG_HOME is ${XDG_CONFIG_HOME}."
+# echo "${L3} HERBSTLUFTWM is ${HERBSTLUFTWM}."
 
 # --| GETOPT PHASE 0 |---------------------------------------------------------
 ## specify what GETOPT arguments are vallid; if they are not valid, terminate execution and           ##
@@ -43,7 +43,7 @@ echo "${L3} HERBSTLUFTWM is $HERBSTLUFTWM."
 # IDK: does it need to be 'filenameofscript.sh' or can it be 'nameofscript'?
 vars=$(getopt -o chps --long conky,help,polybar,sxhkd -n "herbstluftwm-start.sh" -- "$@")
 
-echo "${L3} GETOPT P0 completed."
+# echo "${L3} GETOPT P0 completed."
 
 # --| GETOPT PHASE 1.0 |--------------------------------------------------------
 ## reset (?) the positional parameters to the parsed options ##
@@ -51,7 +51,7 @@ eval set -- "${vars}"
 # eval = tells shell to run another round of shell expansions
 # set  = this is a set of parameters
 # --   = break out of this iterational loop
-echo "${L3} GETOPT P1.0 completed."
+# echo "${L3} GETOPT P1.0 completed."
 
 # --| GETOPT PHASE 1.1 |-------------------------------------------------------
 ## initialize GETOPT variables by setting them to an initialized value ##
@@ -59,7 +59,7 @@ export CONKY_RUNCHECK=false
 export POLYBAR_RUNCHECK=false
 export SXHKD_RUNCHECK=false
 export HELP_RUNCHECK=false
-echo "${L3} GETOPT P1.1 completed."
+# echo "${L3} GETOPT P1.1 completed."
 
 # --| GETOPT PHASE 2.0 |-------------------------------------------------------
 ## Process the options
@@ -103,9 +103,9 @@ while true; do # while this statement returns 1, execute...
     echo "${L2} sxhkd initiating..."
     sleep 1 # >/dev/null
     ## start SXHKD config...##
-    sxhkd -c "${HOME}/.config/herbstluftwm/sxhkdrc" &
-    dunstify "sxhkd" "reloading config ~/.config/herbstluftwm/sxhkdrc" &
-    echo "${L2} starting sxhkd using ${HOME}/.config/herbstluftwm/sxhkdrc"
+      sxhkd -c "${XDG_CONFIG_HOME}"/herbstluftwm/sxhkdrc &
+    dunstify "sxhkd" "reloading config ${XDG_CONFIG_HOME}/herbstluftwm/sxhkdrc" &
+    echo "${L2} starting sxhkd using ${XDG_CONFIG_HOME}/herbstluftwm/sxhkdrc"
     # cat "${sxhkd_fifo}" >"${KEYBINDMANAGER}" &
     # trap 'rm -f ${hlwm_sxhkd_fifo}' EXIT
     SXHKD_RUNCHECK=true # set GETOPT variable for SXHKD to TRUE so that this loop ends
@@ -113,12 +113,12 @@ while true; do # while this statement returns 1, execute...
     ;;
   -h | --help)
     HELP_RUNCHECK=true
-    echo "{L2} no help / usage written yet. :)"
+    echo "${L2} no help / usage written yet. :)"
     shift
     ;;
   --)
     shift
-    echo "${L3} we did it we reached the -- break of P2!"
+    # echo "${L3} we did it we reached the -- break of P2!"
     break
     ;;
   *)
@@ -136,4 +136,4 @@ exit
 #   exit 1                                                # non-zero exit codes indicate error and terminate script
 # fi
 
-# echo "${L3} GETOPT P2 completed, EOF."
+# # echo "${L3} GETOPT P2 completed, EOF."

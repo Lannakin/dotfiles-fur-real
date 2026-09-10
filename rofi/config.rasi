@@ -8,7 +8,19 @@
 
 configuration {
   /*---------- General setting ----------*/
-  modi: "drun,run,filebrowser,window";
+  /* available:
+   * ----------
+   * combi - combined modes
+   * drun
+   * filebrowser - a file browser
+   * keys - shows rofi keymaps
+   * recursivebrowser - shows contents of folders as well, horrible
+   * run
+   * ssh
+   * window - window-switcher
+   * windowcd - window-switcher: current display
+   * */
+  modi: "drun,run,filebrowser,windowcd,recursivebrowser";
   case-sensitive: false;
   cycle: true;
   filter: "";
